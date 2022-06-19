@@ -12,17 +12,37 @@ function StartCalification() {
   const [currentValue, setCurrentValue] = useState(0);
   const [hoverValue, setHoverValue] = useState(undefined);
   const stars = Array(5).fill(0);
-  const { moviesList, setMoviesList, getFilms } = useAppContext();
+  const { moviesList, setMoviesList, setMoviesStarts, moviesStarts } =
+    useAppContext();
 
   const handleClick = (value) => {
     setCurrentValue(value);
+    let updateList = moviesList;
     if (value === 1) {
-      setMoviesList(moviesList.filter((e) => e.vote_average <= 2));
-      console.log(moviesList.filter((e) => e.vote_average <= 2));
+      updateList = updateList.filter((item) => item.vote_average <= 2);
+      console.log(updateList);
     } else if (value === 2) {
-      setMoviesList(moviesList.filter((e) => e.vote_average <= 4 > 2));
-      console.log(moviesList.filter((e) => e.vote_average <= 4 > 2));
+      updateList = updateList.filter(
+        (item) => item.vote_average > 2 && item.vote_average < 4
+      );
+      console.log(updateList);
+    } else if (value === 3) {
+      updateList = updateList.filter(
+        (item) => item.vote_average > 4 && item.vote_average < 6
+      );
+      console.log(updateList);
+    } else if (value === 4) {
+      updateList = updateList.filter(
+        (item) => item.vote_average > 6 && item.vote_average < 8
+      );
+      console.log(updateList);
+    } else if (value === 5) {
+      updateList = updateList.filter(
+        (item) => item.vote_average > 8 && item.vote_average < 10
+      );
+      console.log(updateList);
     }
+    setMoviesStarts(updateList);
   };
 
   const handleMouseOver = (newHoverValue) => {

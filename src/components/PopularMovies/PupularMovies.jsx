@@ -1,12 +1,14 @@
 import React from "react";
 import { useAppContext } from "../contexts/AppContext";
+import StartItems from "../StartCalification/StartItems";
 import "./PopularMovies.css";
 
 const PopularMovies = () => {
-  const { moviesList } = useAppContext();
+  const { moviesList, moviesStarts } = useAppContext();
 
   return (
     <div className="text-center ">
+      <StartItems/>
       <span className="text-uppercase fs-2 font-monospace">
         Populars Movies
       </span>

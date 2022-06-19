@@ -7,7 +7,9 @@ export const useAppContext = () => useContext(AppContext);
 
 const AppContextProvider = ({ children }) => {
   const [moviesList, setMoviesList] = useState();
+  const [moviesStarts, setMoviesStarts] = useState();
   const [searchKey, setSearchKey] = useState("");
+  console.log(moviesStarts)
 
   useEffect(() => {
     getFilms();
@@ -37,6 +39,8 @@ const AppContextProvider = ({ children }) => {
         moviesList,
         setMoviesList,
         getFilms,
+        setMoviesStarts,
+        moviesStarts
       }}
     >
       {children}
