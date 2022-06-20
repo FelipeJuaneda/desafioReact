@@ -4,11 +4,11 @@
 
 2 - Copiar URL HTTPS ("https://github.com/FelipeJuaneda/desafioReact.git")
 
-3 - En la carpeta que desee, abrir terminal y teclear : git clone https://github.com/FelipeJuaneda/desafioReact.git
+3 - En la carpeta que desee, abrir terminal y teclear : `git clone https://github.com/FelipeJuaneda/desafioReact.git`
 
 4 - Moverse hasta la carpeta del repositorio con: cd desafioReact
 
-5 - Por ultimo ejecutar la aplicacion en el modo de desarrollo : ### `npm start`
+5 - Por ultimo ejecutar la aplicacion en el modo de desarrollo : `npm start`
 
 <hr>
 
