@@ -1,0 +1,27 @@
+.detailFilmCont{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #198754;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+.imgDetail{
+    width: 350px;
+}
+.overviewCalif{
+    width: 25%;
+}
+.backButton {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+}
+.titleImg{
+    width: 35%;
+}

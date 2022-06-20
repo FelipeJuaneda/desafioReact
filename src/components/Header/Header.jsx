@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useAppContext } from "../contexts/AppContext";
 import StartCalification from "../StartCalification/StartCalification";
 
@@ -9,9 +10,9 @@ const Header = () => {
     <header>
       <nav className="navbar navbar-light bg-light">
         <div className="container-fluid">
-          <a href="index.html" className="navbar-brand">
+          <Link to={"/"} className="navbar-brand">
             PelicuLed
-          </a>
+          </Link>
 
           <StartCalification />
 

@@ -9,7 +9,6 @@ const AppContextProvider = ({ children }) => {
   const [moviesList, setMoviesList] = useState();
   const [moviesStarts, setMoviesStarts] = useState();
   const [searchKey, setSearchKey] = useState("");
-  console.log(moviesStarts)
 
   useEffect(() => {
     getFilms();
@@ -40,7 +39,7 @@ const AppContextProvider = ({ children }) => {
         setMoviesList,
         getFilms,
         setMoviesStarts,
-        moviesStarts
+        moviesStarts,
       }}
     >
       {children}

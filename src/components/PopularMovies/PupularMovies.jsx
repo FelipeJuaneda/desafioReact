@@ -2,16 +2,15 @@ import React from "react";
 import { useAppContext } from "../contexts/AppContext";
 import StartItems from "../StartCalification/StartItems";
 import "./PopularMovies.css";
+import { Link } from "react-router-dom";
 
 const PopularMovies = () => {
   const { moviesList, moviesStarts } = useAppContext();
 
   return (
     <div className="text-center ">
-      <StartItems/>
-      <span className="text-uppercase fs-2 font-monospace">
-        Populars Movies
-      </span>
+      <StartItems />
+      <span className="text-uppercase fs-2 font-monospace">Popular Movies</span>
       <div className="pupularMoviesCont">
         {moviesList ? (
           moviesList.map((el) => {
@@ -24,9 +23,10 @@ const PopularMovies = () => {
                 />
                 <div className="card-body">
                   <h4 className="card-title fs-4">{el.original_title}</h4>
-                  <a href="#" className="btn btn-primary">
+
+                  <Link to={`/film/${el.id}`} className="btn btn-primary">
                     + Info
-                  </a>
+                  </Link>
                 </div>
               </div>
             );

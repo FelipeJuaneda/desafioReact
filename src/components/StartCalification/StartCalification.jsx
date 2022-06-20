@@ -20,27 +20,22 @@ function StartCalification() {
     let updateList = moviesList;
     if (value === 1) {
       updateList = updateList.filter((item) => item.vote_average <= 2);
-      console.log(updateList);
     } else if (value === 2) {
       updateList = updateList.filter(
         (item) => item.vote_average > 2 && item.vote_average < 4
       );
-      console.log(updateList);
     } else if (value === 3) {
       updateList = updateList.filter(
         (item) => item.vote_average > 4 && item.vote_average < 6
       );
-      console.log(updateList);
     } else if (value === 4) {
       updateList = updateList.filter(
         (item) => item.vote_average > 6 && item.vote_average < 8
       );
-      console.log(updateList);
     } else if (value === 5) {
       updateList = updateList.filter(
         (item) => item.vote_average > 8 && item.vote_average < 10
       );
-      console.log(updateList);
     }
     setMoviesStarts(updateList);
   };
