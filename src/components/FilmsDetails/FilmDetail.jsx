@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import "./FilmDetail.css";
 
 const FilmDetail = ({ film }) => {
-
   return (
     <div className="detailFilmCont">
       <div className="titleImg">

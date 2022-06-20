@@ -5,10 +5,11 @@ import "./PopularMovies.css";
 import { Link } from "react-router-dom";
 
 const PopularMovies = () => {
-  const { moviesList, moviesStarts } = useAppContext();
+  const { moviesList } = useAppContext();
 
   return (
     <div className="text-center ">
+      {/* aca se imprimen las peliculas filtradas por estrellas */}
       <StartItems />
       <span className="text-uppercase fs-2 font-monospace">Popular Movies</span>
       <div className="pupularMoviesCont">

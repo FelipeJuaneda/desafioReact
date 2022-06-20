@@ -11,10 +11,12 @@ function StartCalification() {
   //currentValue es el numero de estrellas seleccionadas
   const [currentValue, setCurrentValue] = useState(0);
   const [hoverValue, setHoverValue] = useState(undefined);
+  //creo un array de sinco elementos, rellenados con 0
   const stars = Array(5).fill(0);
   const { moviesList, setMoviesStarts } = useAppContext();
 
-  const handleClick = (value) => {
+  //funcion filtrador por estrella
+  const startClick = (value) => {
     setCurrentValue(value);
     let updateList = moviesList;
     if (value === 1) {
@@ -55,7 +57,7 @@ function StartCalification() {
             <FaStar
               key={index}
               size={24}
-              onClick={() => handleClick(index + 1)}
+              onClick={() => startClick(index + 1)}
               onMouseOver={() => handleMouseOver(index + 1)}
               onMouseLeave={handleMouseLeave}
               color={

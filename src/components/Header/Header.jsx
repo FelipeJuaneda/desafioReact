@@ -13,9 +13,8 @@ const Header = () => {
           <Link to={"/"} className="navbar-brand">
             PelicuLed
           </Link>
-
+          {/* componente de estrellas */}
           <StartCalification />
-
           <form onSubmit={searchMovies} className="d-flex">
             <input
               onChange={(e) => {

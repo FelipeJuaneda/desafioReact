@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useAppContext } from "../contexts/AppContext";
 import "./StartItems.css";
 const StartItems = () => {
-  const { moviesList, moviesStarts } = useAppContext();
+  const { moviesStarts } = useAppContext();
 
   return (
     <div className=" startItemsCont">
