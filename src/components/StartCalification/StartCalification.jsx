@@ -12,8 +12,7 @@ function StartCalification() {
   const [currentValue, setCurrentValue] = useState(0);
   const [hoverValue, setHoverValue] = useState(undefined);
   const stars = Array(5).fill(0);
-  const { moviesList, setMoviesList, setMoviesStarts, moviesStarts } =
-    useAppContext();
+  const { moviesList, setMoviesStarts } = useAppContext();
 
   const handleClick = (value) => {
     setCurrentValue(value);
