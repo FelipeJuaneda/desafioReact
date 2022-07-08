@@ -15,7 +15,11 @@ const StartItems = () => {
             <div key={el.id} className="card " style={{ width: "13rem" }}>
               <Link to={`/film/${el.id}`}>
                 <img
-                  src={"https://image.tmdb.org/t/p/w500/" + el.poster_path}
+                  src={
+                    el.poster_path === null
+                      ? "https://www.orbis.com.ar/wp-content/themes/barberry/images/placeholder.jpg"
+                      : "https://image.tmdb.org/t/p/w500/" + el.poster_path
+                  }
                   className="card-img-top"
                   alt="poster de peliculas populares"
                 />

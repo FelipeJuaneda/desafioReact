@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { useAppContext } from "../contexts/AppContext";
 
 const colors = {
-  orange: "#FFBA5A",
+  green: "#198754",
   grey: "#a9a9a9",
 };
 
@@ -62,7 +62,7 @@ function StartCalification() {
               onMouseLeave={handleMouseLeave}
               color={
                 (hoverValue || currentValue) > index
-                  ? colors.orange
+                  ? colors.green
                   : colors.grey
               }
               style={{

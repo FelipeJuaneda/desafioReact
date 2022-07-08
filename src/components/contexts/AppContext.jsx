@@ -13,16 +13,22 @@ const AppContextProvider = ({ children }) => {
   //seteo caracteres ingresados por el usuario desde el input de busqueda
   const [searchKey, setSearchKey] = useState("");
 
+  //paginas
+  const [pagination, setPagination] = useState(1);
+
   useEffect(() => {
     getFilms();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pagination]);
 
   //Datos obtenidos de la api
   const apiKey = "2b935647da58bcc58e034d8d53657003";
   const baseUrl = "https://api.themoviedb.org/3/";
   const getFilms = async (searchKey) => {
     const type = searchKey ? "search" : "discover";
-    await fetch(`${baseUrl}${type}/movie?api_key=${apiKey}&query=${searchKey}`)
+    await fetch(
+      `${baseUrl}${type}/movie?api_key=${apiKey}&language=es&query=${searchKey}&page=${pagination}`
+    )
       .then((response) => response.json())
       .then((data) => setMoviesList(data.results));
   };
@@ -44,6 +50,8 @@ const AppContextProvider = ({ children }) => {
         getFilms,
         setMoviesStarts,
         moviesStarts,
+        setPagination,
+        pagination,
       }}
     >
       {children}

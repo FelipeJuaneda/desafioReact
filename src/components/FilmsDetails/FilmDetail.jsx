@@ -9,7 +9,11 @@ const FilmDetail = ({ film }) => {
         <h1>{film.original_title}</h1>
         <img
           className="imgDetail"
-          src={"https://image.tmdb.org/t/p/w500/" + film.poster_path}
+          src={
+            film.poster_path === null
+              ? "https://www.orbis.com.ar/wp-content/themes/barberry/images/placeholder.jpg"
+              : "https://image.tmdb.org/t/p/w500/" + film.poster_path
+          }
           alt=" poster pelicula"
         />
       </div>

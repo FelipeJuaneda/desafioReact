@@ -4,13 +4,17 @@ import { useAppContext } from "../contexts/AppContext";
 import StartCalification from "../StartCalification/StartCalification";
 
 const Header = () => {
-  const { searchMovies, setSearchKey } = useAppContext();
+  const { searchMovies, setSearchKey, setMoviesStarts } = useAppContext();
 
   return (
     <header>
       <nav className="navbar navbar-light bg-light">
         <div className="container-fluid">
-          <Link to={"/"} className="navbar-brand">
+          <Link
+            onClick={() => window.location.reload()}
+            to={"/"}
+            className="navbar-brand"
+          >
             PelicuLed
           </Link>
           {/* componente de estrellas */}
@@ -19,6 +23,7 @@ const Header = () => {
             <input
               onChange={(e) => {
                 setSearchKey(e.target.value);
+                setMoviesStarts(undefined);
               }}
               className="form-control me-2"
               type="search"

@@ -1,7 +1,6 @@
 import AppContextProvider from "./components/contexts/AppContext";
-import Header from "./components/Header/Header";
-import PopularMovies from "./components/PopularMovies/PupularMovies";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import LayoutRouter from "./components/LayoutRouter/LayoutRouter";
 import FilmDetailCont from "./components/FilmsDetails/FilmDetailCont";
 
 function App() {
@@ -9,13 +8,11 @@ function App() {
     <AppContextProvider>
       <div className="App">
         {/* para los detalles de las peliculas se uso react-router-dom */}
-        <BrowserRouter>
-          <Header />
-          <Routes>
-            <Route path="/" element={<PopularMovies />} />
+        <Routes>
+          <Route path="/" element={<LayoutRouter />}>
             <Route path="film/:filmId" element={<FilmDetailCont />} />
-          </Routes>
-        </BrowserRouter>
+          </Route>
+        </Routes>
       </div>
     </AppContextProvider>
   );
