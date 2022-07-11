@@ -82,6 +82,7 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    paddingBottom:"10px"
   },
   stars: {
     display: "flex",

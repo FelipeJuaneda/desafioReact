@@ -22,7 +22,7 @@ const FilmDetail = ({ film }) => {
         <p>Estreno: {film.release_date}</p>
         <span>Calificacion: {film.vote_average}</span>
       </div>
-      <Link className="backButton btn btn-danger" to={"/"}>
+      <Link className="backButton btn btn-danger" to={"/popularFilms"}>
         Volver
       </Link>
     </div>

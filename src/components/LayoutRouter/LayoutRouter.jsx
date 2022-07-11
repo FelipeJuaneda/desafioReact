@@ -1,15 +1,14 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
-import Header from '../Header/Header'
-import PopularMovies from '../PopularMovies/PupularMovies'
+import React from "react";
+import { Outlet } from "react-router-dom";
+import Home from "../Home/Home";
+
 const LayoutRouter = () => {
   return (
     <div>
-        <Header />
-        <PopularMovies/>
-        <Outlet/>
+      <Home />
+      <Outlet />
     </div>
-  )
-}
+  );
+};
 
-export default LayoutRouter
+export default LayoutRouter;

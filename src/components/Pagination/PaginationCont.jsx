@@ -6,7 +6,7 @@ const PaginationCont = () => {
 
   const scroToTop = () => {
     window.scrollTo({
-      top: 0,
+      top: 630,
       behavior: "smooth",
     });
   };
