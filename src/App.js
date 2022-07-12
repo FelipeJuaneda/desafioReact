@@ -4,6 +4,7 @@ import LayoutRouter from "./components/LayoutRouter/LayoutRouter";
 import FilmDetailCont from "./components/FilmsDetails/FilmDetailCont";
 import PopularMovies from "./components/PopularMovies/PopularMovies";
 import PopularTv from "./components/PopularTv/PopularTv";
+import TvDetailCont from "./components/TvDetails/TvDetailCont";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
             <Route path="/popularFilms" element={<PopularMovies />} />
             <Route path="/popularTv" element={<PopularTv />} />
             <Route path="film/:filmId" element={<FilmDetailCont />} />
+            <Route path="tvShow/:tvId" element={<TvDetailCont />} />
           </Route>
         </Routes>
       </div>

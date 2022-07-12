@@ -10,9 +10,10 @@ const AppContextProvider = ({ children }) => {
   const [moviesList, setMoviesList] = useState();
   //estado donde guardo las series populares
   const [tvPopularList, setTvPopularList] = useState();
-  console.log(tvPopularList)
+
   //estado donde se guarda las peliculas filtradas por estrellas (se seteo en StartCalification.jsx)
-  const [moviesStarts, setMoviesStarts] = useState();
+  const [startsList, setStartsList] = useState();
+
   //seteo caracteres ingresados por el usuario desde el input de busqueda
   const [searchKey, setSearchKey] = useState("");
 
@@ -28,18 +29,22 @@ const AppContextProvider = ({ children }) => {
   //Datos obtenidos de la api
   const apiKey = "2b935647da58bcc58e034d8d53657003";
   const baseUrl = "https://api.themoviedb.org/3/";
+
   //obteniendo peliculas populares
+  const type = searchKey ? "search" : "discover";
   const getFilms = async (searchKey) => {
-    const type = searchKey ? "search" : "discover";
     await fetch(
       `${baseUrl}${type}/movie?api_key=${apiKey}&language=es&query=${searchKey}&page=${pagination}`
     )
       .then((response) => response.json())
       .then((data) => setMoviesList(data.results));
   };
+
   //obteniendo series populares
   const getPopularTv = async (searchKey) => {
-    await fetch(`${baseUrl}tv/popular?api_key=${apiKey}&language=es&page=1`)
+    await fetch(
+      `${baseUrl}${type}/tv?api_key=${apiKey}&language=es&query=${searchKey}&page=${pagination}`
+    )
       .then((response) => response.json())
       .then((data) => setTvPopularList(data.results));
   };
@@ -48,6 +53,7 @@ const AppContextProvider = ({ children }) => {
   function searchMovies(e) {
     e.preventDefault();
     getFilms(searchKey);
+    getPopularTv(searchKey);
   }
 
   return (
@@ -59,8 +65,8 @@ const AppContextProvider = ({ children }) => {
         moviesList,
         setMoviesList,
         getFilms,
-        setMoviesStarts,
-        moviesStarts,
+        setStartsList,
+        startsList,
         setPagination,
         pagination,
         tvPopularList,

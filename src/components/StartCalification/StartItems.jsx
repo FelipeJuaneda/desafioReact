@@ -1,19 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAppContext } from "../contexts/AppContext";
 import "./StartItems.css";
 const StartItems = () => {
-  const { moviesStarts } = useAppContext();
-
+  const { startsList } = useAppContext();
+  const location = useLocation();
+  const filmOrTv = location.pathname === "/popularFilms" ? "film" : "tvShow";
   return (
     <div className=" startItemsCont">
-      {moviesStarts === undefined || moviesStarts.length === 0 ? (
-        <p>No hay peliculas con esa calificacion</p>
+      {startsList === undefined || startsList.length === 0 ? (
+        <p>No hay pelicula/serie con esa calificacion</p>
       ) : (
-        moviesStarts.map((el) => {
+        startsList.map((el) => {
           return (
             <div key={el.id} className="card " style={{ width: "13rem" }}>
-              <Link to={`/film/${el.id}`}>
+              <Link to={`/${filmOrTv}/${el.id}`}>
                 <img
                   src={
                     el.poster_path === null

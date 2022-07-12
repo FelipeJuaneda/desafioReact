@@ -12,6 +12,7 @@ const FilmDetailCont = () => {
 
   //lo pongo en un useEffect para generar un re render
   useEffect(() => {
+    // eslint-disable-next-line eqeqeq
     setFilm(moviesList ? moviesList.find((m) => m.id == filmId) : null);
   }, [filmId, moviesList]);
 

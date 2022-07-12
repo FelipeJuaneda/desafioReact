@@ -5,22 +5,23 @@ import "./PopularMovies.css";
 import { Link } from "react-router-dom";
 import PaginationCont from "../Pagination/PaginationCont";
 import StartCalification from "../StartCalification/StartCalification";
+import pororoLoad from "../images/pororoLoad.gif";
 
 const PopularMovies = () => {
-  const { moviesList } = useAppContext();
-  const { searchMovies, setSearchKey, setMoviesStarts } = useAppContext();
+  const { moviesList, searchMovies, setSearchKey, setStartsList } =
+    useAppContext();
 
   return (
     <div className="text-center ">
       <div className="navbar navbar-light bg-light">
-        <div className="container-fluid justify-content-evenly pt-5 pb-5">
+        <div className="pt-5 pb-5 container-fluid justify-content-evenly">
           {/* componente de estrellas */}
           <StartCalification />
           <form onSubmit={searchMovies} className="d-flex">
             <input
               onChange={(e) => {
                 setSearchKey(e.target.value);
-                setMoviesStarts(undefined);
+                setStartsList(undefined);
               }}
               className="form-control me-2"
               type="search"
@@ -62,7 +63,7 @@ const PopularMovies = () => {
             );
           })
         ) : (
-          <p>Cargando...</p>
+          <img src={pororoLoad} alt="Pochoclo cargando" />
         )}
       </div>
 

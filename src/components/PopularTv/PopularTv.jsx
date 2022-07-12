@@ -1,21 +1,28 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAppContext } from "../contexts/AppContext";
+import PaginationCont from "../Pagination/PaginationCont";
 import StartCalification from "../StartCalification/StartCalification";
 import StartItems from "../StartCalification/StartItems";
+import pororoLoad from "../images/pororoLoad.gif";
 import "./PopularTv.css";
+
 const PopularTv = () => {
-  const { tvPopularList } = useAppContext();
+  const { tvPopularList, setSearchKey, searchMovies, setStartsList } =
+    useAppContext();
   return (
     <div className="text-center">
       <div>
         <div className="navbar navbar-light bg-light">
-          <div className="container-fluid justify-content-evenly pt-5 pb-5">
+          <div className="pt-5 pb-5 container-fluid justify-content-evenly">
             {/* componente de estrellas */}
             <StartCalification />
-            <form onSubmit={""} className="d-flex">
+            <form onSubmit={searchMovies} className="d-flex">
               <input
-                onChange={(e) => {}}
+                onChange={(e) => {
+                  setSearchKey(e.target.value);
+                  setStartsList(undefined);
+                }}
                 className="form-control me-2"
                 type="search"
                 placeholder="Buscar"
@@ -30,7 +37,9 @@ const PopularTv = () => {
         {/* aca se imprimen las peliculas filtradas por estrellas */}
         <StartItems />
       </div>
-      <span className="text-uppercase fs-2 font-monospace text-center">Popular Tv Shows</span>
+      <span className="text-center text-uppercase fs-2 font-monospace">
+        Popular Tv Shows
+      </span>
       <div className="popularTvCont">
         {tvPopularList ? (
           tvPopularList.map((el) => {
@@ -48,7 +57,7 @@ const PopularTv = () => {
                 <div className="card-body">
                   <h4 className="card-title fs-5">{el.name}</h4>
 
-                  <Link to={`/film/${el.id}`} className="btn btn-success">
+                  <Link to={`/tvShow/${el.id}`} className="btn btn-success">
                     + Info
                   </Link>
                 </div>
@@ -56,9 +65,11 @@ const PopularTv = () => {
             );
           })
         ) : (
-          <p>Cargando...</p>
+          <img src={pororoLoad} alt="Pochoclo cargando" />
         )}
       </div>
+
+      <PaginationCont />
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaStar } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
 import { useAppContext } from "../contexts/AppContext";
 
 const colors = {
@@ -8,17 +9,22 @@ const colors = {
 };
 
 function StartCalification() {
+  const { moviesList, setStartsList, tvPopularList } = useAppContext();
   //currentValue es el numero de estrellas seleccionadas
   const [currentValue, setCurrentValue] = useState(0);
   const [hoverValue, setHoverValue] = useState(undefined);
   //creo un array de sinco elementos, rellenados con 0
   const stars = Array(5).fill(0);
-  const { moviesList, setMoviesStarts } = useAppContext();
+
+  //aca se guarda la ruta donde estas parado
+  const location = useLocation();
 
   //funcion filtrador por estrella
   const startClick = (value) => {
     setCurrentValue(value);
-    let updateList = moviesList;
+    let updateList =
+      location.pathname === "/popularFilms" ? moviesList : tvPopularList;
+      
     if (value === 1) {
       updateList = updateList.filter((item) => item.vote_average <= 2);
     } else if (value === 2) {
@@ -38,7 +44,7 @@ function StartCalification() {
         (item) => item.vote_average > 8 && item.vote_average < 10
       );
     }
-    setMoviesStarts(updateList);
+    setStartsList(updateList);
   };
 
   const handleMouseOver = (newHoverValue) => {
@@ -82,7 +88,7 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    paddingBottom:"10px"
+    paddingBottom: "10px",
   },
   stars: {
     display: "flex",
