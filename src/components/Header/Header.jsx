@@ -4,13 +4,17 @@ import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import logo from "../images/iconoPororo.png";
 import { Link } from "react-router-dom";
+import { useAppContext } from "../contexts/AppContext";
 
-const navigation = [
-  { name: "Peliculas", to: "/popularFilms" },
-  { name: "Series", to: "/popularTv" },
-  { name: "Personas", to: "#" },
-];
 const Header = () => {
+  const { scrollToPopularFilmsTv } = useAppContext();
+
+  const navigation = [
+    { name: "Peliculas", to: "/popularFilms" },
+    { name: "Series", to: "/popularTv" },
+    { name: "Personas", to: "#" },
+  ];
+
   return (
     <header>
       <Popover>
@@ -21,14 +25,22 @@ const Header = () => {
           >
             <div className="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
               <div className="flex items-center justify-between w-full md:w-auto">
-                <a href="/">
-                  <span className="sr-only">Peliculed</span>
+                <span className="sr-only">Peliculed</span>
+
+                {/* LOGO */}
+                <Link
+                  to={"/popularFilms"}
+                  onClick={() => {
+                    window.location.reload(true);
+                  }}
+                >
                   <img
                     alt="Workflow"
                     className="w-auto h-8 sm:h-10"
                     src={logo}
                   />
-                </a>
+                </Link>
+
                 <div className="flex items-center -mr-2 md:hidden">
                   <Popover.Button className="inline-flex items-center justify-center p-2 text-gray-400 bg-white rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                     <span className="sr-only">Open main menu</span>
@@ -43,6 +55,7 @@ const Header = () => {
                   key={item.name}
                   to={item.to}
                   className="font-medium text-gray-500 hover:text-gray-900"
+                  onClick={() => scrollToPopularFilmsTv()}
                 >
                   {item.name}
                 </Link>
@@ -73,11 +86,7 @@ const Header = () => {
             <div className="overflow-hidden bg-white rounded-lg shadow-md ring-1 ring-black ring-opacity-5">
               <div className="flex items-center justify-between px-5 pt-4">
                 <div>
-                  <img
-                    className="w-auto h-8"
-                    src={logo}
-                    alt=""
-                  />
+                  <img className="w-auto h-8" src={logo} alt="" />
                 </div>
                 <div className="-mr-2">
                   <Popover.Button className="inline-flex items-center justify-center p-2 text-gray-400 bg-white rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">

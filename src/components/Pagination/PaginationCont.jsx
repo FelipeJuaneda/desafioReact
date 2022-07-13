@@ -2,7 +2,7 @@ import React from "react";
 import { useAppContext } from "../contexts/AppContext";
 
 const PaginationCont = () => {
-  const { setPagination, pagination, setMoviesStarts } = useAppContext();
+  const { setPagination, pagination, setStartsList } = useAppContext();
 
   const scroToTop = () => {
     window.scrollTo({
@@ -29,7 +29,7 @@ const PaginationCont = () => {
               onClick={() => {
                 setPagination(1);
                 scroToTop();
-                setMoviesStarts(undefined);
+                setStartsList(undefined);
               }}
             >
               1
@@ -41,7 +41,7 @@ const PaginationCont = () => {
               onClick={() => {
                 setPagination(2);
                 scroToTop();
-                setMoviesStarts(undefined);
+                setStartsList(undefined);
               }}
             >
               2
@@ -53,7 +53,7 @@ const PaginationCont = () => {
               onClick={() => {
                 setPagination(3);
                 scroToTop();
-                setMoviesStarts(undefined);
+                setStartsList(undefined);
               }}
             >
               3
@@ -65,7 +65,7 @@ const PaginationCont = () => {
               onClick={() => {
                 setPagination(pagination + 1);
                 scroToTop();
-                setMoviesStarts(undefined);
+                setStartsList(undefined);
               }}
             >
               Siguiente

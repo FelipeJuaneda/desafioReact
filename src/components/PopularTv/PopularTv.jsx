@@ -45,22 +45,17 @@ const PopularTv = () => {
           tvPopularList.map((el) => {
             return (
               <div key={el.id} className="card " style={{ width: "18rem" }}>
-                <img
-                  src={
-                    el.poster_path === null
-                      ? "https://www.orbis.com.ar/wp-content/themes/barberry/images/placeholder.jpg"
-                      : "https://image.tmdb.org/t/p/w500/" + el.poster_path
-                  }
-                  className="card-img-top"
-                  alt="poster de peliculas populares"
-                />
-                <div className="card-body">
-                  <h4 className="card-title fs-5">{el.name}</h4>
-
-                  <Link to={`/tvShow/${el.id}`} className="btn btn-success">
-                    + Info
-                  </Link>
-                </div>
+                <Link to={`/tvShow/${el.id}`} >
+                  <img
+                    src={
+                      el.poster_path === null
+                        ? "https://www.orbis.com.ar/wp-content/themes/barberry/images/placeholder.jpg"
+                        : "https://image.tmdb.org/t/p/w300/" + el.poster_path
+                    }
+                    className="card-img-top"
+                    alt="poster de peliculas populares"
+                  />
+                </Link>
               </div>
             );
           })

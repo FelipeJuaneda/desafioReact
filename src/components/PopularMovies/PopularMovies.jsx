@@ -43,22 +43,17 @@ const PopularMovies = () => {
           moviesList.map((el) => {
             return (
               <div key={el.id} className="card " style={{ width: "18rem" }}>
+                <Link to={`/film/${el.id}`}>
                 <img
                   src={
                     el.poster_path === null
                       ? "https://www.orbis.com.ar/wp-content/themes/barberry/images/placeholder.jpg"
-                      : "https://image.tmdb.org/t/p/w500/" + el.poster_path
+                      : "https://image.tmdb.org/t/p/w300/" + el.poster_path
                   }
                   className="card-img-top"
                   alt="poster de peliculas populares"
-                />
-                <div className="card-body">
-                  <h4 className="card-title fs-5">{el.original_title}</h4>
-
-                  <Link to={`/film/${el.id}`} className="btn btn-success">
-                    + Info
+                  />
                   </Link>
-                </div>
               </div>
             );
           })

@@ -6,14 +6,7 @@ import Header from "../Header/Header";
 import imgHome from "../images/fotoHome.jpg";
 
 export default function Home() {
-  const { setStartsList } = useAppContext();
-
-  const scrollToPopularFilmsTv = () => {
-    window.scrollTo({
-      top: 630,
-      behavior: "smooth",
-    });
-  };
+  const { setStartsList, scrollToPopularFilmsTv } = useAppContext();
 
   return (
     <div className="relative overflow-hidden bg-white">

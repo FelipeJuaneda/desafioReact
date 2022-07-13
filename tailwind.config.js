@@ -5,6 +5,9 @@ module.exports = {
     extend: {
       "verde-lindo": "#198754",
     },
+    fontFamily:{
+      "cineFontFamily": ["'Raleway', sans-serif"]
+    }
   },
   plugins: [],
 };

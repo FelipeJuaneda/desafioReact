@@ -1,29 +1,54 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import "../FilmsDetails/FilmDetail.css";
 
 const TvDetail = ({ tvShowState }) => {
+  //para guardar la navegacion y volver para atras
+  const navigate = useNavigate();
+
   return (
     <div className="detailFilmCont">
-      <div className="titleImg">
-        <h1>{tvShowState.original_title}</h1>
+      <div className="posterFilm">
         <img
-          className="imgDetail"
+          className="posterImg"
           src={
-            tvShowState.poster_path === null
-              ? "https://www.orbis.com.ar/wp-content/themes/barberry/images/placeholder.jpg"
-              : "https://image.tmdb.org/t/p/w500/" + tvShowState.poster_path
+            "https://image.tmdb.org/t/p/original/" + tvShowState.backdrop_path
           }
-          alt=" poster pelicula"
+          alt=""
         />
+        <div className="imgFilm">
+          <img
+            className="imgDetail"
+            src={
+              tvShowState.poster_path === null
+                ? "https://www.orbis.com.ar/wp-content/themes/barberry/images/placeholder.jpg"
+                : "https://image.tmdb.org/t/p/w500/" + tvShowState.poster_path
+            }
+            alt=" poster pelicula"
+          />
+        </div>
+        <div className="overviewCalif">
+          <span>{tvShowState.original_title}</span>
+
+          <p className="text-xl text-blue-50 font-cineFontFamily">
+            <span className="underline">Resumen:</span>
+            <br />
+            {tvShowState.overview}
+          </p>
+          <p className="text-blue-50 decoration-8">
+            Estreno: {tvShowState.release_date}
+          </p>
+          <span className="text-blue-50 decoration-8">
+            Calificacion: {tvShowState.vote_average}
+          </span>
+        </div>
       </div>
-      <div className="overviewCalif">
-        <p className="fs-4 text-info">{tvShowState.overview}</p>
-        <p>Estreno: {tvShowState.release_date}</p>
-        <span>Calificacion: {tvShowState.vote_average}</span>
-      </div>
-      <Link className="backButton btn btn-danger" to={"/popularTv"}>
+      <button
+        className="backButton btn btn-danger"
+        onClick={() => navigate(-1)}
+      >
         Volver
-      </Link>
+      </button>
     </div>
   );
 };
