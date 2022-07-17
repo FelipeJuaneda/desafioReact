@@ -7,6 +7,7 @@ import PopularTv from "./components/PopularTv/PopularTv";
 import TvDetailCont from "./components/TvDetails/TvDetailCont";
 import PageNotFound from "./components/PageNotFound/PageNotFound";
 import PopularPeople from "./components/PopularPeople/PopularPeople";
+import FavoriteList from "./components/FavoriteList/FavoriteList";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/popularFilms" element={<PopularMovies />} />
             <Route path="/popularTv" element={<PopularTv />} />
             <Route path="/popularPeople" element={<PopularPeople />} />
+            <Route path="/favoriteList" element={<FavoriteList />} />
             <Route path="film/:filmId" element={<FilmDetailCont />} />
             <Route path="tvShow/:tvId" element={<TvDetailCont />} />
           </Route>

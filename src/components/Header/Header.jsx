@@ -64,6 +64,13 @@ const Header = () => {
               >
                 Iniciar Sesión
               </a>
+              <Link
+                to="/favoriteList"
+                onClick={() => scroll.scrollTo(650)}
+                className="font-medium text-[#198754] hover:text-[#1d8b58e7]"
+              >
+                Mis Favoritos
+              </Link>
             </div>
           </nav>
         </div>
@@ -105,12 +112,21 @@ const Header = () => {
                   </Link>
                 ))}
               </div>
-              <a
-                href="/"
-                className="block w-full px-5 py-3 font-medium text-center text-indigo-600 bg-gray-50 hover:bg-gray-100"
-              >
-                Iniciar Sesión
-              </a>
+              <div className="flex">
+                <a
+                  href="/"
+                  className="block w-full px-5 py-3 font-medium text-center text-indigo-600 bg-gray-50 hover:bg-gray-100"
+                >
+                  Iniciar Sesión
+                </a>
+                <Link
+                  to={"/favoriteList"}
+                  onClick={() => scroll.scrollTo(680)}
+                  className="block w-full px-5 py-3 font-medium text-center text-indigo-600 bg-gray-50 hover:bg-gray-100"
+                >
+                  Mis Favoritos
+                </Link>
+              </div>
             </div>
           </Popover.Panel>
         </Transition>

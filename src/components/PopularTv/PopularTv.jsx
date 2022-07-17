@@ -18,7 +18,7 @@ const PopularTv = () => {
   const { tvPopularList, setSearchKey, searchMovies, setStartsList } =
     useAppContext();
   return (
-    <Element name="popularTvElement">
+    <Element name="popularElement">
       <div className="text-center">
         <div>
           <div className="navbar navbar-light bg-light">

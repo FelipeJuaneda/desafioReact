@@ -1,17 +1,11 @@
 import React from "react";
 import { useAppContext } from "../contexts/AppContext";
-
-import { useLocation } from "react-router-dom";
 import { scroller } from "react-scroll";
 
 const PaginationCont = () => {
   const { setPagination, pagination, setStartsList } = useAppContext();
 
-  const location = useLocation();
-  const valueElement =
-    location.pathname === "/popularFilms"
-      ? "popularMovieElement"
-      : "popularTvElement";
+  const valueElement = "popularElement";
 
   return (
     <div>

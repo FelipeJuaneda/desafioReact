@@ -20,7 +20,7 @@ const PopularMovies = () => {
     useAppContext();
 
   return (
-    <Element name="popularMovieElement" id="popularMovieElement">
+    <Element name="popularElement" id="popularMovieElement">
       <div className="text-center ">
         <div className="navbar navbar-light bg-light">
           <div className="pt-5 pb-5 container-fluid justify-content-evenly">

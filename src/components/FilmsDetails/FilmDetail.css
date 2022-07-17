@@ -17,6 +17,7 @@
   background: black;
   position: relative;
 }
+
 .posterImg {
   position: absolute;
   width: 100%;
@@ -49,7 +50,7 @@
   top: 40px;
   right: 40px;
 }
-.imgPerson{
+.imgPerson {
   width: 230px;
   height: 345px;
   object-fit: cover;
@@ -80,10 +81,9 @@
     flex-wrap: wrap;
     justify-content: start;
   }
-  .imgPerson{
+  .imgPerson {
     width: 200px;
     height: 285px;
-
   }
 }
 @media screen and (max-width: 550px) {
@@ -92,8 +92,11 @@
     right: 15px;
   }
 }
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 580px) {
   .detailFilmCont .posterFilm {
     height: 80vh;
+  }
+  .overviewCalif {
+    height: 80%;
   }
 }

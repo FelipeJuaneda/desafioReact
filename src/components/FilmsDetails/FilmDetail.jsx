@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
 import "swiper/css";
@@ -7,6 +7,8 @@ import "swiper/css/free-mode";
 import "swiper/css/pagination";
 import "./FilmDetail.css";
 import { useAppContext } from "../contexts/AppContext";
+import toast, { Toaster } from "react-hot-toast";
+import { animateScroll as scroll } from "react-scroll";
 
 const FilmDetail = ({ film, details, filmCredits }) => {
   const { addMovieToWatchlist, removeMovieToWatchList, watchlist } =
@@ -86,10 +88,46 @@ const FilmDetail = ({ film, details, filmCredits }) => {
               disabled={watchlistDisabled}
               onClick={() => {
                 addMovieToWatchlist(film);
+                toast(
+                  (t) => (
+                    <span
+                      className="flex flex-col items-center justify-center text-xs text-center text-white"
+                      style={{ background: "#198754" }}
+                    >
+                      Pelicula agregada!
+                      <br />
+                      <Link
+                        onClick={() => scroll.scrollTo(650)}
+                        to={"/favoriteList"}
+                      >
+                        Ir a favoritos
+                      </Link>
+                    </span>
+                  ),
+                  {
+                    duration: 3400,
+                    position: "top-center",
+
+                    // Styling
+                    style: {
+                      background: "#198754",
+                      letterSpacing: "2px",
+                    },
+                    // Custom Icon
+                    icon: "❤️",
+
+                    // Aria
+                    ariaProps: {
+                      role: "status",
+                      "aria-live": "polite",
+                    },
+                  }
+                );
               }}
             >
               <i className={`ri-heart-fill ${changeColorFav}`} />
             </button>
+            <Toaster />
             <button
               className="text-xl text-black rounded-full bg-slate-400 btn"
               onClick={() => removeMovieToWatchList(film.id)}

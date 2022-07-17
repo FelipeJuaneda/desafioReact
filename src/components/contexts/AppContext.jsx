@@ -116,7 +116,6 @@ const AppContextProvider = ({ children }) => {
         baseUrl,
         popularPeople,
         watchlist: state.watchlist,
-        watched: state.watched,
         addMovieToWatchlist,
         removeMovieToWatchList,
         removeAllMoviesInWatchlist,
