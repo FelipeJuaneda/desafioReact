@@ -4,15 +4,13 @@ import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import logo from "../images/iconoPororo.png";
 import { Link } from "react-router-dom";
-import { useAppContext } from "../contexts/AppContext";
+import { animateScroll as scroll } from "react-scroll";
 
 const Header = () => {
-  const { scrollToPopularFilmsTv } = useAppContext();
-
   const navigation = [
-    { name: "Peliculas", to: "/popularFilms" },
-    { name: "Series", to: "/popularTv" },
-    { name: "Personas", to: "#" },
+    { name: "Peliculas", to: "/popularFilms", scrollTo: 630 },
+    { name: "Series", to: "/popularTv", scrollTo: 630 },
+    { name: "Personas", to: "/popularPeople", scrollTo: 630 },
   ];
 
   return (
@@ -55,7 +53,7 @@ const Header = () => {
                   key={item.name}
                   to={item.to}
                   className="font-medium text-gray-500 hover:text-gray-900"
-                  onClick={() => scrollToPopularFilmsTv()}
+                  onClick={() => scroll.scrollTo(item.scrollTo)}
                 >
                   {item.name}
                 </Link>
@@ -97,13 +95,14 @@ const Header = () => {
               </div>
               <div className="px-2 pt-2 pb-3 space-y-1">
                 {navigation.map((item) => (
-                  <a
+                  <Link
                     key={item.name}
-                    href={item.href}
+                    to={item.to}
                     className="block px-3 py-2 text-base font-medium text-gray-700 rounded-md hover:text-gray-900 hover:bg-gray-50"
+                    onClick={() => scroll.scrollTo(item.scrollTo)}
                   >
                     {item.name}
-                  </a>
+                  </Link>
                 ))}
               </div>
               <a

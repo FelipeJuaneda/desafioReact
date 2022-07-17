@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import { useAppContext } from "../contexts/AppContext";
 import Header from "../Header/Header";
 import imgHome from "../images/fotoHome.jpg";
-
+import { animateScroll as scroll } from "react-scroll";
 export default function Home() {
-  const { setStartsList, scrollToPopularFilmsTv } = useAppContext();
+  const { setStartsList, setPagination } = useAppContext();
 
   return (
     <div className="relative overflow-hidden bg-white">
@@ -41,8 +41,9 @@ export default function Home() {
                   <Link
                     to={"/popularFilms"}
                     onClick={() => {
-                      scrollToPopularFilmsTv();
+                      scroll.scrollTo(630);
                       setStartsList(undefined);
+                      setPagination(1);
                     }}
                     className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-[#198754] hover:bg-[#41aa79] md:py-4 md:text-lg md:px-10"
                   >
@@ -53,8 +54,9 @@ export default function Home() {
                   <Link
                     to={"/popularTv"}
                     onClick={() => {
-                      scrollToPopularFilmsTv();
+                      scroll.scrollTo(630);
                       setStartsList(undefined);
+                      setPagination(1);
                     }}
                     className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-[#198754] bg-indigo-100 hover:bg-[#19875415] hover:text-[#1d8b58e7] md:py-4 md:text-lg md:px-10"
                   >

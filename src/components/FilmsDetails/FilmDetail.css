@@ -1,11 +1,10 @@
 .detailFilmCont {
-  position: fixed;
+  position: absolute;
   top: 0;
-  bottom: 0;
   left: 0;
   right: 0;
-  overflow-y: scroll;
-  background-color: #EEEEEE;
+  overflow-y: auto;
+  background-color: #eeeeee;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,7 +26,7 @@
   bottom: 0;
   object-fit: cover;
   height: 100%;
-  opacity: 0.6;
+  opacity: 0.3;
 }
 .imgFilm {
   position: absolute;
@@ -40,13 +39,61 @@
 }
 .overviewCalif {
   width: 64%;
-    position: absolute;
-    bottom: 0;
-    left: 318px;
+  position: absolute;
+  bottom: 0;
+  left: 318px;
 }
 
 .backButton {
   position: absolute;
   top: 40px;
   right: 40px;
+}
+.imgPerson{
+  width: 230px;
+  height: 345px;
+  object-fit: cover;
+}
+/* MEDIA QUERIES DE DETAIL FILM */
+@media screen and (max-width: 1024px) {
+  .imgFilm {
+    display: none;
+  }
+  .overviewCalif {
+    width: 100%;
+    height: 70%;
+    left: 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+  }
+  #resumenParrafo {
+    width: 100%;
+    text-align: start;
+    font-size: 14px;
+  }
+  #generosDuracion {
+    font-size: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+  }
+  .imgPerson{
+    width: 200px;
+    height: 285px;
+
+  }
+}
+@media screen and (max-width: 550px) {
+  .backButton {
+    top: 15px;
+    right: 15px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .detailFilmCont .posterFilm {
+    height: 80vh;
+  }
 }

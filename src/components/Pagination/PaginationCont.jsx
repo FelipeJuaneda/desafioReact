@@ -1,18 +1,20 @@
 import React from "react";
 import { useAppContext } from "../contexts/AppContext";
 
+import { useLocation } from "react-router-dom";
+import { scroller } from "react-scroll";
+
 const PaginationCont = () => {
   const { setPagination, pagination, setStartsList } = useAppContext();
 
-  const scroToTop = () => {
-    window.scrollTo({
-      top: 630,
-      behavior: "smooth",
-    });
-  };
+  const location = useLocation();
+  const valueElement =
+    location.pathname === "/popularFilms"
+      ? "popularMovieElement"
+      : "popularTvElement";
 
   return (
-    <div className="mt-5">
+    <div>
       <nav aria-label="Page navigation example">
         <ul className="pagination justify-content-center">
           <li className={pagination === 1 ? "page-item disabled" : "page-item"}>
@@ -28,7 +30,7 @@ const PaginationCont = () => {
               className="page-link"
               onClick={() => {
                 setPagination(1);
-                scroToTop();
+                scroller.scrollTo(valueElement);
                 setStartsList(undefined);
               }}
             >
@@ -40,7 +42,7 @@ const PaginationCont = () => {
               className="page-link"
               onClick={() => {
                 setPagination(2);
-                scroToTop();
+                scroller.scrollTo(valueElement);
                 setStartsList(undefined);
               }}
             >
@@ -52,7 +54,7 @@ const PaginationCont = () => {
               className="page-link"
               onClick={() => {
                 setPagination(3);
-                scroToTop();
+                scroller.scrollTo(valueElement);
                 setStartsList(undefined);
               }}
             >
@@ -64,7 +66,7 @@ const PaginationCont = () => {
               className="page-link"
               onClick={() => {
                 setPagination(pagination + 1);
-                scroToTop();
+                scroller.scrollTo(valueElement);
                 setStartsList(undefined);
               }}
             >
