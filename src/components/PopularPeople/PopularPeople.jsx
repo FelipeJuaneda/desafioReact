@@ -12,7 +12,7 @@ const PopularPeople = () => {
         {popularPeople
           ? popularPeople.map((e) => {
               return (
-                <div className="">
+                <div key={e.id} className="">
                   <img
                     src={
                       e.profile_path === null

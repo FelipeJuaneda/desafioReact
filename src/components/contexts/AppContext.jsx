@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
+import FavReducer from "./FavReducer";
 
 //creo el contexto
 const AppContext = createContext();
@@ -14,7 +21,7 @@ const AppContextProvider = ({ children }) => {
 
   //estado donde guardo las personas populares
   const [popularPeople, setPopularPeople] = useState();
-  console.log(popularPeople);
+
   //estado donde se guarda las peliculas filtradas por estrellas (se seteo en StartCalification.jsx)
   const [startsList, setStartsList] = useState();
 
@@ -24,12 +31,23 @@ const AppContextProvider = ({ children }) => {
   //paginas
   const [pagination, setPagination] = useState(1);
 
+  //estado donde guarda las lista de favs
+  const initialState = {
+    watchlist: localStorage.getItem("watchlist")
+      ? JSON.parse(localStorage.getItem("watchlist"))
+      : [],
+  };
+
+  //use reduce para agregar a favorito peliculas
+  const [state, dispatch] = useReducer(FavReducer, initialState);
+  console.log(state);
   useEffect(() => {
     getFilms();
     getPopularTv();
     getPopularPeople();
+    localStorage.setItem("watchlist", JSON.stringify(state.watchlist));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pagination]);
+  }, [pagination, state]);
 
   //Datos obtenidos de la api
   const apiKey = "2b935647da58bcc58e034d8d53657003";
@@ -69,6 +87,17 @@ const AppContextProvider = ({ children }) => {
     getPopularTv(searchKey);
   }
 
+  //AGREGANDO FAVORITE LIST CON USE REDUCE
+  const addMovieToWatchlist = (movie) => {
+    dispatch({ type: "ADD_MOVIE_TO_WATCHLIST", payload: movie });
+  };
+  const removeMovieToWatchList = (id) => {
+    dispatch({ type: "REMOVE_MOVIE_TO_WATCHLIST", payload: id });
+  };
+  const removeAllMoviesInWatchlist = (id) => {
+    dispatch({ type: "REMOVE_ALL_MOVIES_IN_WATCHLIST" });
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -86,6 +115,11 @@ const AppContextProvider = ({ children }) => {
         apiKey,
         baseUrl,
         popularPeople,
+        watchlist: state.watchlist,
+        watched: state.watched,
+        addMovieToWatchlist,
+        removeMovieToWatchList,
+        removeAllMoviesInWatchlist,
       }}
     >
       {children}

@@ -6,9 +6,18 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
 import "./FilmDetail.css";
+import { useAppContext } from "../contexts/AppContext";
 
 const FilmDetail = ({ film, details, filmCredits }) => {
-  console.log(filmCredits);
+  const { addMovieToWatchlist, removeMovieToWatchList, watchlist } =
+    useAppContext();
+
+  //Si la pelicula se encuentra agregada
+  const ifMovieIsIn = watchlist.find((e) => e.id === film.id);
+  //devuevle true o false depende si esta la pelicula agregada o no
+  const watchlistDisabled = ifMovieIsIn ? true : false;
+  //si la peli esta agregada devuelve text-red sino nada
+  const changeColorFav = ifMovieIsIn ? "text-red-600" : "";
   //para guardar la navegacion y volver para atras
   const navigate = useNavigate();
 
@@ -70,6 +79,36 @@ const FilmDetail = ({ film, details, filmCredits }) => {
             <span className="text-blue-50 decoration-8">
               Calificacion: {film.vote_average}
             </span>
+          </div>
+          <div className="flex gap-3 pt-3 pb-3">
+            <button
+              className="text-xl text-black rounded-full bg-slate-400 btn"
+              disabled={watchlistDisabled}
+              onClick={() => {
+                addMovieToWatchlist(film);
+              }}
+            >
+              <i className={`ri-heart-fill ${changeColorFav}`} />
+            </button>
+            <button
+              className="text-xl text-black rounded-full bg-slate-400 btn"
+              onClick={() => removeMovieToWatchList(film.id)}
+            >
+              <i className="ri-dislike-fill" />
+            </button>
+
+            {/* <button
+              className="text-gray-200"
+              onClick={() => removeMovieToWatchList(film.id)}
+            >
+              Eliminar de favoritos 
+            </button> */}
+            {/* <button
+              className="text-gray-200"
+              onClick={() => removeAllMoviesInWatchlist(film.id)}
+            >
+              eliminar a todos
+            </button> */}
           </div>
         </div>
       </div>
