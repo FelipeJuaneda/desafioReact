@@ -1,14 +1,10 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper";
-import "swiper/css";
-import "swiper/css/free-mode";
-import "swiper/css/pagination";
-import "./FilmDetail.css";
+import { SwiperSlide } from "swiper/react";
 import { useAppContext } from "../contexts/AppContext";
 import toast, { Toaster } from "react-hot-toast";
 import { animateScroll as scroll } from "react-scroll";
+import SwiperCarouselDetail from "../SwiperCarousel/SwiperCarouselDetail";
 
 const FilmDetail = ({ film, details, filmCredits }) => {
   const { addMovieToWatchlist, removeMovieToWatchList, watchlist } =
@@ -28,16 +24,16 @@ const FilmDetail = ({ film, details, filmCredits }) => {
   const minutes = details.runtime % 60;
 
   return (
-    <div className="detailFilmCont">
-      <div className="posterFilm">
+    <div className="detailFilmCont absolute top-0 left-0 right-0 overflow-y-auto bg-[#eeeeee] flex flex-col items-center gap-10 z-50">
+      <div className="relative w-full bg-black posterFilm h-128 580:h-[80vh]">
         <img
-          className="posterImg"
+          className="absolute top-0 bottom-0 left-0 right-0 object-cover w-full h-full posterImg opacity-30"
           src={"https://image.tmdb.org/t/p/original/" + film.backdrop_path}
           alt=""
         />
-        <div className="imgFilm">
+        <div className="absolute imgFilm -bottom-14 left-14 1024:hidden">
           <img
-            className="rounded imgDetail"
+            className="rounded imgDetail w-60"
             src={
               film.poster_path === null
                 ? "https://www.orbis.com.ar/wp-content/themes/barberry/images/placeholder.jpg"
@@ -46,11 +42,14 @@ const FilmDetail = ({ film, details, filmCredits }) => {
             alt=" poster pelicula"
           />
         </div>
-        <div className="overviewCalif">
+        <div className="absolute bottom-0 w-4/6 overviewCalif left-80 1024:w-full 1024:h-[70%] 1024:left-0 1024:text-center 1024:flex 1024:justify-center 1024:items-center flex-col 580:h-4/5">
           <span className="text-3xl text-white underline uppercase underline-offset-4 decoration-sky-500 hover:decoration-sky-300 font-cineFontFamily">
             {film.original_title}
           </span>
-          <div id="generosDuracion" className="flex items-baseline gap-2">
+          <div
+            id="generosDuracion"
+            className="flex items-baseline gap-2 1024:text-sm 1024:flex 1024:flex-wrap 1024:justify-start"
+          >
             {details.genres
               ? details.genres.map((e) => (
                   <p
@@ -68,7 +67,7 @@ const FilmDetail = ({ film, details, filmCredits }) => {
 
           <p
             id="resumenParrafo"
-            className="text-base text-blue-50 font-cineFontFamily"
+            className="text-base text-blue-50 font-cineFontFamily 1024:w-full 1024:text-center 1024:text-sm"
           >
             <span className="underline">Resumen:</span>
             <br />
@@ -134,19 +133,6 @@ const FilmDetail = ({ film, details, filmCredits }) => {
             >
               <i className="ri-dislike-fill" />
             </button>
-
-            {/* <button
-              className="text-gray-200"
-              onClick={() => removeMovieToWatchList(film.id)}
-            >
-              Eliminar de favoritos 
-            </button> */}
-            {/* <button
-              className="text-gray-200"
-              onClick={() => removeAllMoviesInWatchlist(film.id)}
-            >
-              eliminar a todos
-            </button> */}
           </div>
         </div>
       </div>
@@ -157,42 +143,12 @@ const FilmDetail = ({ film, details, filmCredits }) => {
           Elenco:
         </span>
         <div className="select-none">
-          <Swiper
-            grabCursor={true}
-            modules={[Pagination]}
-            className="mySwiper"
-            breakpoints={{
-              0: {
-                slidesPerView: 2,
-                spaceBetween: 10,
-              },
-              480: {
-                slidesPerView: 3.1,
-                spaceBetween: 10,
-              },
-              768: {
-                slidesPerView: 4.2,
-                spaceBetween: 10,
-              },
-              1024: {
-                slidesPerView: 4.2,
-                spaceBetween: 10,
-              },
-              1280: {
-                slidesPerView: 5.2,
-                spaceBetween: 10,
-              },
-              1440: {
-                slidesPerView: 5.5,
-                spaceBetween: 10,
-              },
-            }}
-          >
+          <SwiperCarouselDetail>
             {filmCredits
               ? filmCredits.cast.map((e) => (
                   <SwiperSlide style={{ width: "200px" }} key={e.id}>
                     <img
-                      className="rounded-lg imgPerson"
+                      className="rounded-lg imgPerson w-[230px] h-[345px] object-cover 1024:w-[200px] 1024:h-[285px]"
                       src={
                         e.profile_path === null
                           ? "https://i.ibb.co/DLSk8bk/default-image.png"
@@ -204,12 +160,12 @@ const FilmDetail = ({ film, details, filmCredits }) => {
                   </SwiperSlide>
                 ))
               : null}
-          </Swiper>
+          </SwiperCarouselDetail>
         </div>
       </div>
 
       <button
-        className="backButton btn btn-danger"
+        className="absolute backButton btn btn-danger top-10 right-10 550:top-4 550:right-4"
         onClick={() => navigate(-1)}
       >
         Volver

@@ -5,14 +5,9 @@ import PaginationCont from "../Pagination/PaginationCont";
 import StartCalification from "../StartCalification/StartCalification";
 import StartItems from "../StartCalification/StartItems";
 import pororoLoad from "../images/pororoLoad.gif";
-import "./PopularTv.css";
 import { Element } from "react-scroll";
-import { FreeMode } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/free-mode";
-import "swiper/css/pagination";
+import { SwiperSlide } from "swiper/react";
+import SwiperCarousel from "../SwiperCarousel/SwiperCarousel";
 
 const PopularTv = () => {
   const { tvPopularList, setSearchKey, searchMovies, setStartsList } =
@@ -48,39 +43,8 @@ const PopularTv = () => {
         <span className="text-center text-uppercase fs-2 font-monospace">
           Popular Tv Shows
         </span>
-        <div className="popularTvCont">
-          <Swiper
-            loop={true}
-            freeMode={true}
-            breakpoints={{
-              0: {
-                slidesPerView: 1.5,
-                spaceBetween: 10,
-              },
-              480: {
-                slidesPerView: 2.1,
-                spaceBetween: 10,
-              },
-              768: {
-                slidesPerView: 3.3,
-                spaceBetween: 10,
-              },
-              1024: {
-                slidesPerView: 4.5,
-                spaceBetween: 10,
-              },
-              1280: {
-                slidesPerView: 5.1,
-                spaceBetween: 10,
-              },
-              1440: {
-                slidesPerView: 5.5,
-                spaceBetween: 10,
-              },
-            }}
-            modules={[FreeMode]}
-            className="mySwiper"
-          >
+        <div className="flex flex-wrap items-center justify-center popularTvCont gap-7">
+          <SwiperCarousel>
             {tvPopularList ? (
               tvPopularList.map((el) => {
                 return (
@@ -108,7 +72,7 @@ const PopularTv = () => {
             ) : (
               <img src={pororoLoad} alt="Pochoclo cargando" />
             )}
-          </Swiper>
+          </SwiperCarousel>
         </div>
 
         <PaginationCont />

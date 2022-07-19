@@ -1,13 +1,12 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAppContext } from "../contexts/AppContext";
-import "./StartItems.css";
 const StartItems = () => {
   const { startsList } = useAppContext();
   const location = useLocation();
   const filmOrTv = location.pathname === "/popularFilms" ? "film" : "tvShow";
   return (
-    <div className=" startItemsCont">
+    <div className="flex flex-wrap items-center justify-center mt-8 mb-12 startItemsCont">
       {startsList === undefined || startsList.length === 0 ? (
         <p>No hay pelicula/serie con esa calificacion</p>
       ) : (

@@ -6,15 +6,9 @@ import PaginationCont from "../Pagination/PaginationCont";
 import StartCalification from "../StartCalification/StartCalification";
 import pororoLoad from "../images/pororoLoad.gif";
 import { Element } from "react-scroll";
-import "./PopularMovies.css";
-import { Swiper, SwiperSlide } from "swiper/react";
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/free-mode";
-import "swiper/css/pagination";
+import { SwiperSlide } from "swiper/react";
+import SwiperCarousel from "../SwiperCarousel/SwiperCarousel";
 
-// import required modules
-import { FreeMode } from "swiper";
 const PopularMovies = () => {
   const { moviesList, searchMovies, setSearchKey, setStartsList } =
     useAppContext();
@@ -49,39 +43,8 @@ const PopularMovies = () => {
         <span className=" text-uppercase fs-2 font-monospace">
           Popular Movies
         </span>
-        <div className="popularMoviesCont">
-          <Swiper
-            loop={true}
-            freeMode={true}
-            breakpoints={{
-              0: {
-                slidesPerView: 1.5,
-                spaceBetween: 10,
-              },
-              480: {
-                slidesPerView: 2.1,
-                spaceBetween: 10,
-              },
-              768: {
-                slidesPerView: 3.3,
-                spaceBetween: 10,
-              },
-              1024: {
-                slidesPerView: 4.5,
-                spaceBetween: 10,
-              },
-              1280: {
-                slidesPerView: 5.1,
-                spaceBetween: 10,
-              },
-              1440: {
-                slidesPerView: 5.5,
-                spaceBetween: 10,
-              },
-            }}
-            modules={[FreeMode]}
-            className="mySwiper"
-          >
+        <div className="flex flex-wrap items-center justify-center popularMoviesCont gap-7">
+          <SwiperCarousel>
             {moviesList ? (
               moviesList.map((el) => {
                 return (
@@ -109,7 +72,7 @@ const PopularMovies = () => {
             ) : (
               <img src={pororoLoad} alt="Pochoclo cargando" />
             )}
-          </Swiper>
+          </SwiperCarousel>
         </div>
 
         <PaginationCont />

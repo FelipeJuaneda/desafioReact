@@ -23,7 +23,7 @@ const AppContextProvider = ({ children }) => {
   const [popularPeople, setPopularPeople] = useState();
 
   //estado donde se guarda las peliculas filtradas por estrellas (se seteo en StartCalification.jsx)
-  const [startsList, setStartsList] = useState();
+  const [startsList, setStartsList] = useState([]);
 
   //seteo caracteres ingresados por el usuario desde el input de busqueda
   const [searchKey, setSearchKey] = useState("");
