@@ -6,7 +6,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { animateScroll as scroll } from "react-scroll";
 import SwiperCarouselDetail from "../SwiperCarousel/SwiperCarouselDetail";
 
-const FilmDetail = ({ film, details, filmCredits }) => {
+const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
   const { addMovieToWatchlist, removeMovieToWatchList, watchlist } =
     useAppContext();
 
@@ -163,6 +163,22 @@ const FilmDetail = ({ film, details, filmCredits }) => {
           </SwiperCarouselDetail>
         </div>
       </div>
+      {videosFilm ? (
+        videosFilm.map((e) => {
+          return (
+            <div>
+              <iframe width="560"
+              height="315"
+              src={`https://www.youtube.com/embed/${e.key}`}
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen />
+            </div>
+          );
+        })
+      ) : (
+        <p>Cargando...</p>
+      )}
 
       <button
         className="absolute backButton btn btn-danger top-10 right-10 550:top-4 550:right-4"

@@ -13,10 +13,13 @@ const FilmDetailCont = () => {
   const [filmDetail, setFilmDetail] = useState([]);
   //elenco de la pelicula
   const [filmCredits, setFilmCredits] = useState();
-
+  //aca guardo los videos/trailer de las pelis
+  const [videosFilm, setVideosFilm] = useState([]);
+  console.log(videosFilm)
   useEffect(() => {
     getFilmDetail();
     getFilmCredit();
+    getMovieVideos();
     // eslint-disable-next-line eqeqeq
     setFilm(moviesList ? moviesList.find((m) => m.id == filmId) : null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -34,6 +37,13 @@ const FilmDetailCont = () => {
       .then((response) => response.json())
       .then((data) => setFilmCredits(data));
   };
+  const getMovieVideos = () => {
+    fetch(`${baseUrl}movie/${filmId}/videos?api_key=${apiKey}&language=es`)
+      .then((response) => response.json())
+      .then((data) => {
+        setVideosFilm(data.results);
+      });
+  };
 
   return (
     <div>
@@ -42,6 +52,7 @@ const FilmDetailCont = () => {
           film={film}
           details={filmDetail}
           filmCredits={filmCredits}
+          videosFilm={videosFilm}
         />
       ) : (
         <p>Cargando...</p>
