@@ -26,12 +26,7 @@ const Header = () => {
                 <span className="sr-only">Peliculed</span>
 
                 {/* LOGO */}
-                <Link
-                  to={"/popularFilms"}
-                  onClick={() => {
-                    window.location.reload(true);
-                  }}
-                >
+                <Link to={"/"}>
                   <img
                     alt="Workflow"
                     className="w-auto h-8 sm:h-10"

@@ -1,9 +1,8 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { SwiperSlide } from "swiper/react";
 import { useAppContext } from "../contexts/AppContext";
 import toast, { Toaster } from "react-hot-toast";
-import { animateScroll as scroll } from "react-scroll";
 import SwiperCarouselDetail from "../SwiperCarousel/SwiperCarouselDetail";
 
 const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
@@ -89,22 +88,12 @@ const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
                 addMovieToWatchlist(film);
                 toast(
                   (t) => (
-                    <span
-                      className="flex flex-col items-center justify-center text-xs text-center text-white"
-                      style={{ background: "#198754" }}
-                    >
+                    <span className="text-xs text-center text-white ">
                       Pelicula agregada!
-                      <br />
-                      <Link
-                        onClick={() => scroll.scrollTo(650)}
-                        to={"/favoriteList"}
-                      >
-                        Ir a favoritos
-                      </Link>
                     </span>
                   ),
                   {
-                    duration: 3400,
+                    duration: 2100,
                     position: "top-center",
 
                     // Styling
@@ -163,22 +152,60 @@ const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
           </SwiperCarouselDetail>
         </div>
       </div>
-      {videosFilm ? (
-        videosFilm.map((e) => {
-          return (
-            <div>
-              <iframe width="560"
-              height="315"
-              src={`https://www.youtube.com/embed/${e.key}`}
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen />
-            </div>
-          );
-        })
-      ) : (
-        <p>Cargando...</p>
-      )}
+      <div className="w-full 2xl:w-3/5">
+        <span className="text-lg font-semibold underline font-cineFontFamily ">
+          Trailers y videos
+        </span>
+        {videosFilm.length > 0 ? (
+          videosFilm.map((e) => {
+            return (
+              <div
+                key={e.key}
+                className="accordion accordion-flush"
+                id="accordionFlushExample"
+              >
+                <div className="accordion-item">
+                  <span
+                    className="accordion-header"
+                    id={`flush-heading${e.id}`}
+                  >
+                    <button
+                      className="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target={`#flush-${e.id}`}
+                      aria-expanded="false"
+                      aria-controls={`flush-${e.id}`}
+                    >
+                      {e.type} / {e.name}
+                    </button>
+                  </span>
+                  <div
+                    id={`flush-${e.id}`}
+                    className="accordion-collapse collapse"
+                    aria-labelledby={`flush-heading${e.id}`}
+                    data-bs-parent="#accordionFlushExample"
+                  >
+                    <div className="accordion-body">
+                      <div>
+                        <iframe
+                          className="w-full h-128 580:h-80"
+                          src={`https://www.youtube.com/embed/${e.key}`}
+                          title="YouTube video player"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <p>No hay trailer ni video de esta pelicula</p>
+        )}
+      </div>
 
       <button
         className="absolute backButton btn btn-danger top-10 right-10 550:top-4 550:right-4"

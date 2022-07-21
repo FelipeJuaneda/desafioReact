@@ -43,7 +43,7 @@ const PopularTv = () => {
         <span className="text-center text-uppercase fs-2 font-monospace">
           Popular Tv Shows
         </span>
-        <div className="flex flex-wrap items-center justify-center popularTvCont gap-7">
+        <div className="flex flex-wrap items-center justify-center select-none popularTvCont gap-7">
           <SwiperCarousel>
             {tvPopularList ? (
               tvPopularList.map((el) => {

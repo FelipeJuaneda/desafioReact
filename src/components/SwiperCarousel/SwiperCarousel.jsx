@@ -1,16 +1,21 @@
 import React from "react";
 import { Swiper } from "swiper/react";
+import "./SwiperCarousel.css"
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
-import { FreeMode } from "swiper";
+import "swiper/css/navigation";
+import { FreeMode, Navigation } from "swiper";
 const SwiperCarousel = ({ children }) => {
   return (
     <Swiper
-      loop={true}
       grabCursor={true}
+      rewind={true}
       freeMode={true}
+      navigation={true}
+      modules={[FreeMode, Navigation]}
+      className="mySwiper"
       breakpoints={{
         0: {
           slidesPerView: 1.5,
@@ -37,8 +42,7 @@ const SwiperCarousel = ({ children }) => {
           spaceBetween: 10,
         },
       }}
-      modules={[FreeMode]}
-      className="mySwiper"
+      
     >
       {children}
     </Swiper>

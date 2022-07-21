@@ -40,7 +40,7 @@ const AppContextProvider = ({ children }) => {
 
   //use reduce para agregar a favorito peliculas
   const [state, dispatch] = useReducer(FavReducer, initialState);
-  console.log(state);
+
   useEffect(() => {
     getFilms();
     getPopularTv();
@@ -98,6 +98,16 @@ const AppContextProvider = ({ children }) => {
     dispatch({ type: "REMOVE_ALL_MOVIES_IN_WATCHLIST" });
   };
 
+  // const addTvToTvList = (movie) => {
+  //   dispatch({ type: "ADD_TV_TO_TVLIST", payload: movie });
+  // };
+  // const removeTvToTvList = (id) => {
+  //   dispatch({ type: "REMOVE_TV_TO_TVLIST", payload: id });
+  // };
+  // const removeAllTvInTvList = (id) => {
+  //   dispatch({ type: "REMOVE_ALL_TV_IN_TVLIST" });
+  // };
+
   return (
     <AppContext.Provider
       value={{
@@ -116,9 +126,13 @@ const AppContextProvider = ({ children }) => {
         baseUrl,
         popularPeople,
         watchlist: state.watchlist,
+        favoritetv: state.favoritetv,
         addMovieToWatchlist,
         removeMovieToWatchList,
         removeAllMoviesInWatchlist,
+        // addTvToTvList,
+        // removeTvToTvList,
+        // removeAllTvInTvList,
       }}
     >
       {children}

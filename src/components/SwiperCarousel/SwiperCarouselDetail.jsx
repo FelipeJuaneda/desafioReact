@@ -1,16 +1,19 @@
 import React from "react";
 import { Swiper } from "swiper/react";
-import { Pagination } from "swiper";
+import { Navigation, Pagination } from "swiper";
+import "./SwiperCarousel.css"
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 const SwiperCarouselDetail = ({ children }) => {
   return (
     <Swiper
       grabCursor={true}
-      modules={[Pagination]}
-      className="mySwiper"
+      modules={[Pagination, Navigation]}
+      navigation={true}
+      className="mySwiperDetail"
       breakpoints={{
         0: {
           slidesPerView: 2,

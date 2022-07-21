@@ -43,7 +43,7 @@ const PopularMovies = () => {
         <span className=" text-uppercase fs-2 font-monospace">
           Popular Movies
         </span>
-        <div className="flex flex-wrap items-center justify-center popularMoviesCont gap-7">
+        <div className="flex flex-wrap items-center justify-center select-none popularMoviesCont gap-7">
           <SwiperCarousel>
             {moviesList ? (
               moviesList.map((el) => {

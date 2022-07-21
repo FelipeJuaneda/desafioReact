@@ -1,11 +1,18 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { SwiperSlide } from "swiper/react";
-import SwiperCarouselDetail from "../SwiperCarousel/SwiperCarouselDetail";
 
-const TvDetail = ({ tvShowState, details, tvCredits }) => {
+import SwiperCarouselDetail from "../SwiperCarousel/SwiperCarouselDetail";
+// import toast, { Toaster } from "react-hot-toast";
+
+const TvDetail = ({ tvShowState, details, tvCredits, videosTv }) => {
   //para guardar la navegacion y volver para atras
   const navigate = useNavigate();
+  // const { addTvToTvList, removeTvToTvList, removeAllTvInTvList,favoritetv  } =
+  //   useAppContext();
+  //   const ifMovieIsIn = favoritetv.find((e) => e.id === tvShowState.id);
+  //   const watchlistDisabled = ifMovieIsIn ? true : false;
+  //   const changeColorFav = ifMovieIsIn ? "text-red-600" : "";
 
   return (
     <div className="detailFilmCont absolute top-0 left-0 right-0 overflow-y-auto bg-[#eeeeee] flex flex-col items-center gap-10 z-50">
@@ -69,10 +76,53 @@ const TvDetail = ({ tvShowState, details, tvCredits }) => {
               Calificacion: {tvShowState.vote_average}
             </span>
           </div>
+          {/* <div className="flex gap-3 pt-3 pb-3">
+            <button
+              className="text-xl text-black rounded-full bg-slate-400 btn"
+              disabled={watchlistDisabled}
+              onClick={() => {
+                addTvToTvList(tvShowState);
+                toast(
+                  (t) => (
+                    <span className="text-xs text-center text-white ">
+                      Pelicula agregada!
+                    </span>
+                  ),
+                  {
+                    duration: 2100,
+                    position: "top-center",
+
+                    // Styling
+                    style: {
+                      background: "#198754",
+                      letterSpacing: "2px",
+                    },
+                    // Custom Icon
+                    icon: "❤️",
+
+                    // Aria
+                    ariaProps: {
+                      role: "status",
+                      "aria-live": "polite",
+                    },
+                  }
+                );
+              }}
+            >
+              <i className={`ri-heart-fill ${changeColorFav}`} />
+            </button>
+            <Toaster />
+            <button
+              className="text-xl text-black rounded-full bg-slate-400 btn"
+              onClick={() => removeTvToTvList(tvShowState.id)}
+            >
+              <i className="ri-dislike-fill" />
+            </button>
+          </div> */}
         </div>
       </div>
 
-      {/* Movie cast - elenco de pelicula */}
+      {/* tv cast - elenco de serie */}
       <div className="w-full mt-12 swiperElencoCont 2xl:w-3/5">
         <span>Elenco:</span>
         <div className="select-none">
@@ -95,6 +145,61 @@ const TvDetail = ({ tvShowState, details, tvCredits }) => {
               : null}
           </SwiperCarouselDetail>
         </div>
+      </div>
+
+      <div className="w-full 2xl:w-3/5">
+        <span className="text-lg font-semibold underline font-cineFontFamily ">
+          Trailers y videos
+        </span>
+        {videosTv.length > 0 ? (
+          videosTv.map((e) => {
+            return (
+              <div
+                key={e.key}
+                className="accordion accordion-flush"
+                id="accordionFlushExample"
+              >
+                <div className="accordion-item">
+                  <span
+                    className="accordion-header"
+                    id={`flush-heading${e.id}`}
+                  >
+                    <button
+                      className="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target={`#flush-${e.id}`}
+                      aria-expanded="false"
+                      aria-controls={`flush-${e.id}`}
+                    >
+                      {e.type} / {e.name}
+                    </button>
+                  </span>
+                  <div
+                    id={`flush-${e.id}`}
+                    className="accordion-collapse collapse"
+                    aria-labelledby={`flush-heading${e.id}`}
+                    data-bs-parent="#accordionFlushExample"
+                  >
+                    <div className="accordion-body">
+                      <div>
+                        <iframe
+                          className="w-full h-128 580:h-80"
+                          src={`https://www.youtube.com/embed/${e.key}`}
+                          title="YouTube video player"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <p>No hay trailer ni video de esta serie</p>
+        )}
       </div>
 
       <button

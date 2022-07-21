@@ -19,6 +19,21 @@ export default (state, action) => {
         ...state,
         watchlist: [],
       };
+    // case "ADD_TV_TO_TVLIST":
+    //   return {
+    //     ...state,
+    //     favoritetv: [],
+    //   };
+    // case "REMOVE_TV_TO_TVLIST":
+    //   return {
+    //     ...state,
+    //     favoritetv: [],
+    //   };
+    // case "REMOVE_ALL_TV_IN_TVLIST":
+    //   return {
+    //     ...state,
+    //     favoritetv: [],
+    //   };
     default:
       return state;
   }

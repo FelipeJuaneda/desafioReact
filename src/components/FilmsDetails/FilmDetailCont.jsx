@@ -15,7 +15,7 @@ const FilmDetailCont = () => {
   const [filmCredits, setFilmCredits] = useState();
   //aca guardo los videos/trailer de las pelis
   const [videosFilm, setVideosFilm] = useState([]);
-  console.log(videosFilm)
+
   useEffect(() => {
     getFilmDetail();
     getFilmCredit();
@@ -25,11 +25,13 @@ const FilmDetailCont = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filmId, moviesList]);
 
+  //detalle de pelicula
   const getFilmDetail = async () => {
     await fetch(`${baseUrl}movie/${filmId}?api_key=${apiKey}&language=es`)
       .then((response) => response.json())
       .then((data) => setFilmDetail(data));
   };
+  //creditos de la pelicula
   const getFilmCredit = async () => {
     await fetch(
       `${baseUrl}movie/${filmId}/credits?api_key=${apiKey}&language=es`
@@ -37,6 +39,7 @@ const FilmDetailCont = () => {
       .then((response) => response.json())
       .then((data) => setFilmCredits(data));
   };
+  //video / trailer de pelicula
   const getMovieVideos = () => {
     fetch(`${baseUrl}movie/${filmId}/videos?api_key=${apiKey}&language=es`)
       .then((response) => response.json())
