@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAppContext } from "../contexts/AppContext";
 import FilmDetail from "./FilmDetail";
+import pororoLoad from "../images/pororoLoad.gif";
 
 const FilmDetailCont = () => {
   const { moviesList, apiKey, baseUrl } = useAppContext();
@@ -58,7 +59,9 @@ const FilmDetailCont = () => {
           videosFilm={videosFilm}
         />
       ) : (
-        <p>Cargando...</p>
+        <div className="flex justify-center">
+          <img src={pororoLoad} alt="Pochoclo cargando" />
+        </div>
       )}
     </div>
   );

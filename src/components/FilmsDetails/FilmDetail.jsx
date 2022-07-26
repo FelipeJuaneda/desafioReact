@@ -6,13 +6,13 @@ import toast, { Toaster } from "react-hot-toast";
 import SwiperCarouselDetail from "../SwiperCarousel/SwiperCarouselDetail";
 
 const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
-  const { addMovieToWatchlist, removeMovieToWatchList, watchlist } =
+  const { addMovieToFavoritemovie, removeMovieToFavoritemovie, favoritemovie } =
     useAppContext();
 
   //Si la pelicula se encuentra agregada
-  const ifMovieIsIn = watchlist.find((e) => e.id === film.id);
+  const ifMovieIsIn = favoritemovie.find((e) => e.id === film.id);
   //devuevle true o false depende si esta la pelicula agregada o no
-  const watchlistDisabled = ifMovieIsIn ? true : false;
+  const favoritemovieDisabled = ifMovieIsIn ? true : false;
   //si la peli esta agregada devuelve text-red sino nada
   const changeColorFav = ifMovieIsIn ? "text-red-600" : "";
   //para guardar la navegacion y volver para atras
@@ -83,9 +83,9 @@ const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
           <div className="flex gap-3 pt-3 pb-3">
             <button
               className="text-xl text-black rounded-full bg-slate-400 btn"
-              disabled={watchlistDisabled}
+              disabled={favoritemovieDisabled}
               onClick={() => {
-                addMovieToWatchlist(film);
+                addMovieToFavoritemovie(film);
                 toast(
                   (t) => (
                     <span className="text-xs text-center text-white ">
@@ -118,7 +118,7 @@ const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
             <Toaster />
             <button
               className="text-xl text-black rounded-full bg-slate-400 btn"
-              onClick={() => removeMovieToWatchList(film.id)}
+              onClick={() => removeMovieToFavoritemovie(film.id)}
             >
               <i className="ri-dislike-fill" />
             </button>

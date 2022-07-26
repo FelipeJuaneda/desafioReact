@@ -1,6 +1,6 @@
 import React from "react";
 import { Swiper } from "swiper/react";
-import "./SwiperCarousel.css"
+import "./SwiperCarousel.css";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -42,7 +42,6 @@ const SwiperCarousel = ({ children }) => {
           spaceBetween: 10,
         },
       }}
-      
     >
       {children}
     </Swiper>

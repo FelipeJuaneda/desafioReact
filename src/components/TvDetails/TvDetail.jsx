@@ -1,18 +1,22 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { SwiperSlide } from "swiper/react";
+import { useAppContext } from "../contexts/AppContext";
+import toast, { Toaster } from "react-hot-toast";
 
 import SwiperCarouselDetail from "../SwiperCarousel/SwiperCarouselDetail";
 // import toast, { Toaster } from "react-hot-toast";
 
 const TvDetail = ({ tvShowState, details, tvCredits, videosTv }) => {
+  const { addTvToTvList, removeTvToTvList, favoritetv } = useAppContext();
   //para guardar la navegacion y volver para atras
   const navigate = useNavigate();
-  // const { addTvToTvList, removeTvToTvList, removeAllTvInTvList,favoritetv  } =
-  //   useAppContext();
-  //   const ifMovieIsIn = favoritetv.find((e) => e.id === tvShowState.id);
-  //   const watchlistDisabled = ifMovieIsIn ? true : false;
-  //   const changeColorFav = ifMovieIsIn ? "text-red-600" : "";
+  //Si la serie se encuentra agregada
+  const ifMovieIsIn = favoritetv.find((e) => e.id === tvShowState.id);
+  //devuevle true o false depende si esta la serie agregada o no
+  const favoriteTvDisabled = ifMovieIsIn ? true : false;
+  //si la serie esta agregada devuelve text-red sino nada
+  const changeColorFav = ifMovieIsIn ? "text-red-600" : "";
 
   return (
     <div className="detailFilmCont absolute top-0 left-0 right-0 overflow-y-auto bg-[#eeeeee] flex flex-col items-center gap-10 z-50">
@@ -76,16 +80,16 @@ const TvDetail = ({ tvShowState, details, tvCredits, videosTv }) => {
               Calificacion: {tvShowState.vote_average}
             </span>
           </div>
-          {/* <div className="flex gap-3 pt-3 pb-3">
+          <div className="flex gap-3 pt-3 pb-3">
             <button
               className="text-xl text-black rounded-full bg-slate-400 btn"
-              disabled={watchlistDisabled}
+              disabled={favoriteTvDisabled}
               onClick={() => {
                 addTvToTvList(tvShowState);
                 toast(
                   (t) => (
                     <span className="text-xs text-center text-white ">
-                      Pelicula agregada!
+                      Serie agregada!
                     </span>
                   ),
                   {
@@ -118,7 +122,7 @@ const TvDetail = ({ tvShowState, details, tvCredits, videosTv }) => {
             >
               <i className="ri-dislike-fill" />
             </button>
-          </div> */}
+          </div>
         </div>
       </div>
 

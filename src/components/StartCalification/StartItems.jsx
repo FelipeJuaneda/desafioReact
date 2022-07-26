@@ -6,13 +6,13 @@ const StartItems = () => {
   const location = useLocation();
   const filmOrTv = location.pathname === "/popularFilms" ? "film" : "tvShow";
   return (
-    <div className="flex flex-wrap items-center justify-center mt-8 mb-12 startItemsCont">
+    <div className="flex flex-wrap items-center justify-center gap-1 mt-8 mb-12 startItemsCont">
       {startsList === undefined || startsList.length === 0 ? (
         <p>No hay pelicula/serie con esa calificacion</p>
       ) : (
         startsList.map((el) => {
           return (
-            <div key={el.id} className="card " style={{ width: "13rem" }}>
+            <div key={el.id} className="w-[205px] h-[305px]">
               <Link to={`/${filmOrTv}/${el.id}`}>
                 <img
                   src={
@@ -20,7 +20,7 @@ const StartItems = () => {
                       ? "https://www.orbis.com.ar/wp-content/themes/barberry/images/placeholder.jpg"
                       : "https://image.tmdb.org/t/p/w500/" + el.poster_path
                   }
-                  className="card-img-top"
+                  className="object-cover w-full h-full"
                   alt="poster de peliculas populares"
                 />
               </Link>

@@ -33,19 +33,24 @@ const AppContextProvider = ({ children }) => {
 
   //estado donde guarda las lista de favs
   const initialState = {
-    watchlist: localStorage.getItem("watchlist")
-      ? JSON.parse(localStorage.getItem("watchlist"))
+    favoritemovie: localStorage.getItem("favoritemovie")
+      ? JSON.parse(localStorage.getItem("favoritemovie"))
+      : [],
+    favoritetv: localStorage.getItem("favoritetv")
+      ? JSON.parse(localStorage.getItem("favoritetv"))
       : [],
   };
 
   //use reduce para agregar a favorito peliculas
   const [state, dispatch] = useReducer(FavReducer, initialState);
+  console.log(state);
 
   useEffect(() => {
     getFilms();
     getPopularTv();
     getPopularPeople();
-    localStorage.setItem("watchlist", JSON.stringify(state.watchlist));
+    localStorage.setItem("favoritemovie", JSON.stringify(state.favoritemovie));
+    localStorage.setItem("favoritetv", JSON.stringify(state.favoritetv));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagination, state]);
 
@@ -88,25 +93,25 @@ const AppContextProvider = ({ children }) => {
   }
 
   //AGREGANDO FAVORITE LIST CON USE REDUCE
-  const addMovieToWatchlist = (movie) => {
-    dispatch({ type: "ADD_MOVIE_TO_WATCHLIST", payload: movie });
+  const addMovieToFavoritemovie = (movie) => {
+    dispatch({ type: "ADD_MOVIE_TO_FAVORITEMOVIE", payload: movie });
   };
-  const removeMovieToWatchList = (id) => {
-    dispatch({ type: "REMOVE_MOVIE_TO_WATCHLIST", payload: id });
+  const removeMovieToFavoritemovie = (id) => {
+    dispatch({ type: "REMOVE_MOVIE_TO_FAVORITEMOVIE", payload: id });
   };
-  const removeAllMoviesInWatchlist = (id) => {
-    dispatch({ type: "REMOVE_ALL_MOVIES_IN_WATCHLIST" });
+  const removeAllMoviesInFavoritemovie = () => {
+    dispatch({ type: "REMOVE_ALL_MOVIES_IN_FAVORITEMOVIE" });
   };
 
-  // const addTvToTvList = (movie) => {
-  //   dispatch({ type: "ADD_TV_TO_TVLIST", payload: movie });
-  // };
-  // const removeTvToTvList = (id) => {
-  //   dispatch({ type: "REMOVE_TV_TO_TVLIST", payload: id });
-  // };
-  // const removeAllTvInTvList = (id) => {
-  //   dispatch({ type: "REMOVE_ALL_TV_IN_TVLIST" });
-  // };
+  const addTvToTvList = (tv) => {
+    dispatch({ type: "ADD_TV_TO_TVLIST", payload: tv });
+  };
+  const removeTvToTvList = (id) => {
+    dispatch({ type: "REMOVE_TV_TO_TVLIST", payload: id });
+  };
+  const removeAllTvInTvList = () => {
+    dispatch({ type: "REMOVE_ALL_TV_IN_TVLIST" });
+  };
 
   return (
     <AppContext.Provider
@@ -125,14 +130,14 @@ const AppContextProvider = ({ children }) => {
         apiKey,
         baseUrl,
         popularPeople,
-        watchlist: state.watchlist,
+        favoritemovie: state.favoritemovie,
         favoritetv: state.favoritetv,
-        addMovieToWatchlist,
-        removeMovieToWatchList,
-        removeAllMoviesInWatchlist,
-        // addTvToTvList,
-        // removeTvToTvList,
-        // removeAllTvInTvList,
+        addMovieToFavoritemovie,
+        removeMovieToFavoritemovie,
+        removeAllMoviesInFavoritemovie,
+        addTvToTvList,
+        removeTvToTvList,
+        removeAllTvInTvList,
       }}
     >
       {children}

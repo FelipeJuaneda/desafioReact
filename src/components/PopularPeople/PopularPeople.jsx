@@ -33,8 +33,8 @@ const PopularPeople = () => {
                 );
               })
             : null}
-          <PaginationCont />
         </div>
+        <PaginationCont />
       </div>
     </Element>
   );
