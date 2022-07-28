@@ -8,10 +8,10 @@ import pororoLoad from "../images/pororoLoad.gif";
 import { Element } from "react-scroll";
 import { SwiperSlide } from "swiper/react";
 import SwiperCarousel from "../SwiperCarousel/SwiperCarousel";
+import SearchMoviesForm from "../SearchForm/SearchMoviesForm";
 
 const PopularMovies = () => {
-  const { moviesList, searchMovies, setSearchKey, setStartsList } =
-    useAppContext();
+  const { moviesList } = useAppContext();
 
   return (
     <Element name="popularElement" id="popularMovieElement">
@@ -20,28 +20,15 @@ const PopularMovies = () => {
           <div className="pt-5 pb-5 container-fluid justify-content-evenly">
             {/* componente de estrellas */}
             <StartCalification />
-            <form onSubmit={searchMovies} className="d-flex">
-              <input
-                onChange={(e) => {
-                  setSearchKey(e.target.value);
-                  setStartsList(undefined);
-                }}
-                className="form-control me-2"
-                type="search"
-                placeholder="Buscar"
-                aria-label="Search"
-              />
-              <button className="btn btn-outline-success" type="submit">
-                Buscar
-              </button>
-            </form>
+            {/* Buscador de peliculas */}
+            <SearchMoviesForm />
           </div>
         </div>
         {/* aca se imprimen las peliculas filtradas por estrellas */}
         <StartItems />
 
         <span className=" text-uppercase fs-2 font-monospace">
-          Popular Movies
+          Peliculas Populares
         </span>
         <div className="flex flex-wrap items-center justify-center select-none popularMoviesCont gap-7">
           <SwiperCarousel>

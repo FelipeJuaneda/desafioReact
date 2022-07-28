@@ -1,12 +1,12 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SwiperSlide } from "swiper/react";
 import { useAppContext } from "../contexts/AppContext";
 import toast, { Toaster } from "react-hot-toast";
 import SwiperCarouselDetail from "../SwiperCarousel/SwiperCarouselDetail";
 
 const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
-  const { addMovieToFavoritemovie, removeMovieToFavoritemovie, favoritemovie } =
+  const { addMovieToFavorite, removeMovieToFavorite, favoritemovie } =
     useAppContext();
 
   //Si la pelicula se encuentra agregada
@@ -27,7 +27,7 @@ const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
       <div className="relative w-full bg-black posterFilm h-128 580:h-[80vh]">
         <img
           className="absolute top-0 bottom-0 left-0 right-0 object-cover w-full h-full posterImg opacity-30"
-          src={"https://image.tmdb.org/t/p/original/" + film.backdrop_path}
+          src={`https://image.tmdb.org/t/p/original/${film.backdrop_path}`}
           alt=""
         />
         <div className="absolute imgFilm -bottom-14 left-14 1024:hidden">
@@ -36,7 +36,7 @@ const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
             src={
               film.poster_path === null
                 ? "https://www.orbis.com.ar/wp-content/themes/barberry/images/placeholder.jpg"
-                : "https://image.tmdb.org/t/p/w500/" + film.poster_path
+                : `https://image.tmdb.org/t/p/w500/${film.poster_path}`
             }
             alt=" poster pelicula"
           />
@@ -51,12 +51,11 @@ const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
           >
             {details.genres
               ? details.genres.map((e) => (
-                  <p
-                    className="text-green-500 cursor-pointer font-cineFontFamily"
-                    key={e.id}
-                  >
-                    {e.name},
-                  </p>
+                  <Link to={`/genre/${e.id}`} key={e.id}>
+                    <p className="text-green-500 cursor-pointer font-cineFontFamily">
+                      {e.name},
+                    </p>
+                  </Link>
                 ))
               : null}
             <span className="text-white">
@@ -85,7 +84,7 @@ const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
               className="text-xl text-black rounded-full bg-slate-400 btn"
               disabled={favoritemovieDisabled}
               onClick={() => {
-                addMovieToFavoritemovie(film);
+                addMovieToFavorite(film);
                 toast(
                   (t) => (
                     <span className="text-xs text-center text-white ">
@@ -118,7 +117,7 @@ const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
             <Toaster />
             <button
               className="text-xl text-black rounded-full bg-slate-400 btn"
-              onClick={() => removeMovieToFavoritemovie(film.id)}
+              onClick={() => removeMovieToFavorite(film.id)}
             >
               <i className="ri-dislike-fill" />
             </button>
@@ -141,11 +140,13 @@ const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
                       src={
                         e.profile_path === null
                           ? "https://i.ibb.co/DLSk8bk/default-image.png"
-                          : "https://image.tmdb.org/t/p/w200" + e.profile_path
+                          : `https://image.tmdb.org/t/p/w200${e.profile_path}`
                       }
                       alt="elenco de pelicula"
                     />
-                    <span>{e.name}</span>
+                    <span className="font-semibold">{e.name}</span>
+                    <br />
+                    <span className="text-stone-500">{e.character}</span>
                   </SwiperSlide>
                 ))
               : null}
@@ -208,7 +209,7 @@ const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
       </div>
 
       <button
-        className="absolute backButton btn btn-danger top-10 right-10 550:top-4 550:right-4"
+        className="fixed z-10 backButton btn btn-danger top-10 right-10 550:top-4 550:right-4"
         onClick={() => navigate(-1)}
       >
         Volver

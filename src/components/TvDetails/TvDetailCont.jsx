@@ -16,39 +16,37 @@ const TvDetailCont = () => {
   const [tvCredits, setTvCredits] = useState();
   //aca guardo los videos/trailer de las pelis
   const [videosTv, setVideosTv] = useState([]);
-  console.log(videosTv);
   useEffect(() => {
+    //detalle de serie
+    const getTvDetail = async () => {
+      await fetch(`${baseUrl}tv/${tvId}?api_key=${apiKey}&language=es`)
+        .then((result) => result.json())
+        .then((data) => setTvDetail(data));
+    };
     getTvDetail();
+    //creditos de la serie
+    const getTvCredit = async () => {
+      await fetch(`${baseUrl}tv/${tvId}/credits?api_key=${apiKey}&language=es`)
+        .then((response) => response.json())
+        .then((data) => setTvCredits(data));
+    };
     getTvCredit();
+    //video / trailer de serie
+    const getTvVideos = () => {
+      fetch(`${baseUrl}tv/${tvId}/videos?api_key=${apiKey}&language=es`)
+        .then((response) => response.json())
+        .then((data) => {
+          setVideosTv(data.results);
+        });
+    };
     getTvVideos();
     // eslint-disable-next-line eqeqeq
     setTvShowState(
       // eslint-disable-next-line eqeqeq
       tvPopularList ? tvPopularList.find((m) => m.id == tvId) : null
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tvId, tvPopularList]);
+  }, [apiKey, baseUrl, tvId, tvPopularList]);
 
-  //detalle de serie
-  const getTvDetail = async () => {
-    await fetch(`${baseUrl}tv/${tvId}?api_key=${apiKey}&language=es`)
-      .then((result) => result.json())
-      .then((data) => setTvDetail(data));
-  };
-  //creditos de la serie
-  const getTvCredit = async () => {
-    await fetch(`${baseUrl}tv/${tvId}/credits?api_key=${apiKey}&language=es`)
-      .then((response) => response.json())
-      .then((data) => setTvCredits(data));
-  };
-  //video / trailer de serie
-  const getTvVideos = () => {
-    fetch(`${baseUrl}tv/${tvId}/videos?api_key=${apiKey}&language=es`)
-      .then((response) => response.json())
-      .then((data) => {
-        setVideosTv(data.results);
-      });
-  };
   return (
     <div>
       {tvShowState ? (

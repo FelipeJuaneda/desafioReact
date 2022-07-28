@@ -8,10 +8,10 @@ import pororoLoad from "../images/pororoLoad.gif";
 import { Element } from "react-scroll";
 import { SwiperSlide } from "swiper/react";
 import SwiperCarousel from "../SwiperCarousel/SwiperCarousel";
+import SearchTvShowForm from "../SearchForm/SearchTvShowForm";
 
 const PopularTv = () => {
-  const { tvPopularList, setSearchKey, searchMovies, setStartsList } =
-    useAppContext();
+  const { tvPopularList } = useAppContext();
   return (
     <Element name="popularElement">
       <div className="text-center">
@@ -20,28 +20,15 @@ const PopularTv = () => {
             <div className="pt-5 pb-5 container-fluid justify-content-evenly">
               {/* componente de estrellas */}
               <StartCalification />
-              <form onSubmit={searchMovies} className="d-flex">
-                <input
-                  onChange={(e) => {
-                    setSearchKey(e.target.value);
-                    setStartsList(undefined);
-                  }}
-                  className="form-control me-2"
-                  type="search"
-                  placeholder="Buscar"
-                  aria-label="Search"
-                />
-                <button className="btn btn-outline-success" type="submit">
-                  Buscar
-                </button>
-              </form>
+              {/* Buscador de series */}
+              <SearchTvShowForm />
             </div>
           </div>
           {/* aca se imprimen las peliculas filtradas por estrellas */}
           <StartItems />
         </div>
         <span className="text-center text-uppercase fs-2 font-monospace">
-          Popular Tv Shows
+          Series Populares
         </span>
         <div className="flex flex-wrap items-center justify-center select-none popularTvCont gap-7">
           <SwiperCarousel>

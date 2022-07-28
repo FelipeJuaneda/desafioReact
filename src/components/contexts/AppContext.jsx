@@ -30,7 +30,6 @@ const AppContextProvider = ({ children }) => {
 
   //paginas
   const [pagination, setPagination] = useState(1);
-
   //estado donde guarda las lista de favs
   const initialState = {
     favoritemovie: localStorage.getItem("favoritemovie")
@@ -43,7 +42,6 @@ const AppContextProvider = ({ children }) => {
 
   //use reduce para agregar a favorito peliculas
   const [state, dispatch] = useReducer(FavReducer, initialState);
-  console.log(state);
 
   useEffect(() => {
     getFilms();
@@ -51,6 +49,7 @@ const AppContextProvider = ({ children }) => {
     getPopularPeople();
     localStorage.setItem("favoritemovie", JSON.stringify(state.favoritemovie));
     localStorage.setItem("favoritetv", JSON.stringify(state.favoritetv));
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagination, state]);
 
@@ -93,13 +92,13 @@ const AppContextProvider = ({ children }) => {
   }
 
   //AGREGANDO FAVORITE LIST CON USE REDUCE
-  const addMovieToFavoritemovie = (movie) => {
+  const addMovieToFavorite = (movie) => {
     dispatch({ type: "ADD_MOVIE_TO_FAVORITEMOVIE", payload: movie });
   };
-  const removeMovieToFavoritemovie = (id) => {
+  const removeMovieToFavorite = (id) => {
     dispatch({ type: "REMOVE_MOVIE_TO_FAVORITEMOVIE", payload: id });
   };
-  const removeAllMoviesInFavoritemovie = () => {
+  const removeAllMoviesInFavorite = () => {
     dispatch({ type: "REMOVE_ALL_MOVIES_IN_FAVORITEMOVIE" });
   };
 
@@ -132,9 +131,9 @@ const AppContextProvider = ({ children }) => {
         popularPeople,
         favoritemovie: state.favoritemovie,
         favoritetv: state.favoritetv,
-        addMovieToFavoritemovie,
-        removeMovieToFavoritemovie,
-        removeAllMoviesInFavoritemovie,
+        addMovieToFavorite,
+        removeMovieToFavorite,
+        removeAllMoviesInFavorite,
         addTvToTvList,
         removeTvToTvList,
         removeAllTvInTvList,

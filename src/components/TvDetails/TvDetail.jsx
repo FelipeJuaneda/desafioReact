@@ -3,9 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { SwiperSlide } from "swiper/react";
 import { useAppContext } from "../contexts/AppContext";
 import toast, { Toaster } from "react-hot-toast";
-
 import SwiperCarouselDetail from "../SwiperCarousel/SwiperCarouselDetail";
-// import toast, { Toaster } from "react-hot-toast";
 
 const TvDetail = ({ tvShowState, details, tvCredits, videosTv }) => {
   const { addTvToTvList, removeTvToTvList, favoritetv } = useAppContext();
@@ -23,9 +21,7 @@ const TvDetail = ({ tvShowState, details, tvCredits, videosTv }) => {
       <div className="relative w-full bg-black posterFilm h-128 580:h-[80vh]">
         <img
           className="absolute top-0 bottom-0 left-0 right-0 object-cover w-full h-full posterImg opacity-30"
-          src={
-            "https://image.tmdb.org/t/p/original/" + tvShowState.backdrop_path
-          }
+          src={`https://image.tmdb.org/t/p/original/${tvShowState.backdrop_path}`}
           alt=""
         />
         <div className="absolute imgFilm -bottom-14 left-14 1024:hidden">
@@ -34,7 +30,7 @@ const TvDetail = ({ tvShowState, details, tvCredits, videosTv }) => {
             src={
               tvShowState.poster_path === null
                 ? "https://www.orbis.com.ar/wp-content/themes/barberry/images/placeholder.jpg"
-                : "https://image.tmdb.org/t/p/w500/" + tvShowState.poster_path
+                : `https://image.tmdb.org/t/p/w500/${tvShowState.poster_path}`
             }
             alt=" poster pelicula"
           />
@@ -60,8 +56,8 @@ const TvDetail = ({ tvShowState, details, tvCredits, videosTv }) => {
               : null}
             <span className="text-white">
               {details.number_of_seasons === 1
-                ? details.number_of_seasons + " temporada"
-                : details.number_of_seasons + " temporadas"}
+                ? `${details.number_of_seasons} temporada`
+                : `${details.number_of_seasons} temporadas`}
             </span>
           </div>
           <p
@@ -143,7 +139,9 @@ const TvDetail = ({ tvShowState, details, tvCredits, videosTv }) => {
                       }
                       alt="elenco de pelicula"
                     />
-                    <span>{e.name}</span>
+                    <span className="font-semibold">{e.name}</span>
+                    <br />
+                    <span className="text-stone-500">{e.character}</span>
                   </SwiperSlide>
                 ))
               : null}
@@ -207,7 +205,7 @@ const TvDetail = ({ tvShowState, details, tvCredits, videosTv }) => {
       </div>
 
       <button
-        className="absolute backButton btn btn-danger top-10 right-10 550:top-4 550:right-4"
+        className="fixed z-10 backButton btn btn-danger top-10 right-10 550:top-4 550:right-4"
         onClick={() => navigate(-1)}
       >
         Volver

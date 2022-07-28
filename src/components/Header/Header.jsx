@@ -62,7 +62,7 @@ const Header = () => {
               <Link
                 to="/favoriteList"
                 onClick={() => scroll.scrollTo(650)}
-                className="font-medium text-[#198754] hover:text-[#1d8b58e7]"
+                className="font-medium text-red-500 hover:text-red-400"
               >
                 Mis Favoritos
               </Link>
@@ -117,7 +117,7 @@ const Header = () => {
                 <Link
                   to={"/favoriteList"}
                   onClick={() => scroll.scrollTo(680)}
-                  className="block w-full px-5 py-3 font-medium text-center text-indigo-600 bg-gray-50 hover:bg-gray-100"
+                  className="block w-full px-5 py-3 font-medium text-center text-red-500 hover:text-red-400 bg-gray-50 hover:bg-gray-100"
                 >
                   Mis Favoritos
                 </Link>
