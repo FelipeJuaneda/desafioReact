@@ -8,7 +8,7 @@ import pororoLoad from "../images/pororoLoad.gif";
 import { Element } from "react-scroll";
 import { SwiperSlide } from "swiper/react";
 import SwiperCarousel from "../SwiperCarousel/SwiperCarousel";
-import SearchTvShowForm from "../SearchForm/SearchTvShowForm";
+import SearchForm from "../SearchForm/SearchForm";
 
 const PopularTv = () => {
   const { tvPopularList } = useAppContext();
@@ -21,7 +21,7 @@ const PopularTv = () => {
               {/* componente de estrellas */}
               <StartCalification />
               {/* Buscador de series */}
-              <SearchTvShowForm />
+              <SearchForm />
             </div>
           </div>
           {/* aca se imprimen las peliculas filtradas por estrellas */}

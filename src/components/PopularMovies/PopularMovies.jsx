@@ -8,7 +8,7 @@ import pororoLoad from "../images/pororoLoad.gif";
 import { Element } from "react-scroll";
 import { SwiperSlide } from "swiper/react";
 import SwiperCarousel from "../SwiperCarousel/SwiperCarousel";
-import SearchMoviesForm from "../SearchForm/SearchMoviesForm";
+import SearchForm from "../SearchForm/SearchForm";
 
 const PopularMovies = () => {
   const { moviesList } = useAppContext();
@@ -21,7 +21,7 @@ const PopularMovies = () => {
             {/* componente de estrellas */}
             <StartCalification />
             {/* Buscador de peliculas */}
-            <SearchMoviesForm />
+            <SearchForm />
           </div>
         </div>
         {/* aca se imprimen las peliculas filtradas por estrellas */}
@@ -36,10 +36,7 @@ const PopularMovies = () => {
               moviesList.map((el) => {
                 return (
                   <SwiperSlide key={el.id}>
-                    <div
-                      className="object-cover w-72 "
-                      style={{ height: "432px" }}
-                    >
+                    <div className="object-cover w-72 h-[432px]">
                       <Link to={`/film/${el.id}`}>
                         <img
                           src={

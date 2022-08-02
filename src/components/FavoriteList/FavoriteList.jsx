@@ -33,10 +33,7 @@ const FavoriteList = () => {
             favoritemovie.map((el) => {
               return (
                 <SwiperSlide key={el.id}>
-                  <div
-                    className="object-cover w-72 "
-                    style={{ height: "432px" }}
-                  >
+                  <div className="object-cover w-72 h-[432px]">
                     <Link to={`/film/${el.id}`}>
                       <img
                         src={
@@ -82,10 +79,7 @@ const FavoriteList = () => {
             favoritetv.map((el) => {
               return (
                 <SwiperSlide key={el.id}>
-                  <div
-                    className="object-cover w-72 "
-                    style={{ height: "432px" }}
-                  >
+                  <div className="object-cover w-72 h-[432px]">
                     <Link to={`/tvShow/${el.id}`}>
                       <img
                         src={

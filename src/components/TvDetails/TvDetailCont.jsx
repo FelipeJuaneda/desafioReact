@@ -5,17 +5,18 @@ import TvDetail from "./TvDetail";
 import pororoLoad from "../images/pororoLoad.gif";
 
 const TvDetailCont = () => {
-  const { tvPopularList, apiKey, baseUrl } = useAppContext();
-  //parametro id de la pelicula para url
+  const { tvPopularList, apiKey, baseUrl, favoritetv } = useAppContext();
+  //parametro id de la serie para url
   const { tvId } = useParams();
-  //seteo las peliculas encontradas con el mismo id que el parametro
+  //seteo la serie encontradas con el mismo id que el parametro
   const [tvShowState, setTvShowState] = useState({});
   //mas detalles de serie seleccionada
   const [tvDetail, setTvDetail] = useState([]);
   //elenco de serie
   const [tvCredits, setTvCredits] = useState();
-  //aca guardo los videos/trailer de las pelis
+  //aca guardo los videos/trailer de las series
   const [videosTv, setVideosTv] = useState([]);
+
   useEffect(() => {
     //detalle de serie
     const getTvDetail = async () => {
@@ -40,12 +41,13 @@ const TvDetailCont = () => {
         });
     };
     getTvVideos();
-    // eslint-disable-next-line eqeqeq
     setTvShowState(
-      // eslint-disable-next-line eqeqeq
-      tvPopularList ? tvPopularList.find((m) => m.id == tvId) : null
+      tvPopularList
+        ? tvPopularList.find((m) => m.id === parseInt(tvId)) ||
+            favoritetv.find((m) => m.id === parseInt(tvId))
+        : null
     );
-  }, [apiKey, baseUrl, tvId, tvPopularList]);
+  }, [apiKey, baseUrl, tvId, tvPopularList, favoritetv]);
 
   return (
     <div>

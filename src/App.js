@@ -22,8 +22,8 @@ function App() {
             <Route path="/popularPeople" element={<PopularPeople />} />
             <Route path="/favoriteList" element={<FavoriteList />} />
             <Route path="film/:filmId" element={<FilmDetailCont />} />
-            <Route path="genre/:genreId" element={<GenreList />} />
             <Route path="tvShow/:tvId" element={<TvDetailCont />} />
+            <Route path="genre/:genreId" element={<GenreList />} />
           </Route>
           <Route path="*" element={<PageNotFound />} />
         </Routes>

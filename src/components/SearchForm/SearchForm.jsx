@@ -1,8 +1,8 @@
 import React from "react";
 import { useAppContext } from "../contexts/AppContext";
 
-const SearchTvShowForm = () => {
-  const { setSearchKey, searchMovies, setStartsList } = useAppContext();
+const SearchForm = () => {
+  const { searchMovies, setSearchKey, setStartsList } = useAppContext();
   return (
     <form onSubmit={searchMovies} className="d-flex">
       <input
@@ -22,4 +22,4 @@ const SearchTvShowForm = () => {
   );
 };
 
-export default SearchTvShowForm;
+export default SearchForm;

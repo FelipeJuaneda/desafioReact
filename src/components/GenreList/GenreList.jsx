@@ -14,28 +14,25 @@ const GenreList = () => {
   const [genreList, setGenreList] = useState([]);
 
   useEffect(() => {
+    const getFilmByGenre = async () => {
+      await fetch(
+        `${baseUrl}discover/movie?api_key=${apiKey}&with_genres=${genreId}&language=es`
+      )
+        .then((response) => response.json())
+        .then((data) => setFilmByGenre(data));
+    };
     getFilmByGenre();
+    const getGenreList = async () => {
+      await fetch(`${baseUrl}genre/movie/list?api_key=${apiKey}&language=es`)
+        .then((response) => response.json())
+        .then((data) => setGenreList(data.genres));
+    };
     getGenreList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genreId]);
-
-  const getFilmByGenre = async () => {
-    await fetch(
-      `${baseUrl}discover/movie?api_key=${apiKey}&with_genres=${genreId}&language=es`
-    )
-      .then((response) => response.json())
-      .then((data) => setFilmByGenre(data));
-  };
-  const getGenreList = async () => {
-    await fetch(`${baseUrl}genre/movie/list?api_key=${apiKey}&language=es`)
-      .then((response) => response.json())
-      .then((data) => setGenreList(data.genres));
-  };
+  }, [apiKey, baseUrl, genreId]);
 
   //filtrando de la lista de generos el nombre seleccionado
   const genderName = genreList
-    ? // eslint-disable-next-line eqeqeq
-      genreList.filter((e) => e.id == genreId)
+    ? genreList.filter((e) => e.id === parseInt(genreId))
     : null;
 
   return (

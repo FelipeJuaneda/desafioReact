@@ -111,7 +111,6 @@ const AppContextProvider = ({ children }) => {
   const removeAllTvInTvList = () => {
     dispatch({ type: "REMOVE_ALL_TV_IN_TVLIST" });
   };
-
   return (
     <AppContext.Provider
       value={{
