@@ -24,104 +24,114 @@ const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
 
   return (
     <div className="detailFilmCont absolute top-0 left-0 right-0 overflow-y-auto bg-[#eeeeee] flex flex-col items-center gap-10 z-50">
-      <div className="relative w-full bg-black posterFilm h-128 580:h-[80vh]">
-        <img
-          className="absolute top-0 bottom-0 left-0 right-0 object-cover w-full h-full posterImg opacity-30"
-          src={`https://image.tmdb.org/t/p/original/${film.backdrop_path}`}
-          alt=""
-        />
-        <div className="absolute imgFilm -bottom-14 left-14 1024:hidden">
-          <img
-            className="rounded imgDetail w-60"
-            src={
-              film.poster_path === null
-                ? "https://www.orbis.com.ar/wp-content/themes/barberry/images/placeholder.jpg"
-                : `https://image.tmdb.org/t/p/w500/${film.poster_path}`
-            }
-            alt=" poster pelicula"
-          />
-        </div>
-        <div className="absolute bottom-0 w-4/6 overviewCalif left-80 1024:w-full 1024:h-[70%] 1024:left-0 1024:text-center 1024:flex 1024:justify-center 1024:items-center flex-col 580:h-4/5">
-          <span className="text-3xl text-white underline uppercase underline-offset-4 decoration-sky-500 hover:decoration-sky-300 font-cineFontFamily">
-            {film.original_title}
-          </span>
-          <div
-            id="generosDuracion"
-            className="flex items-baseline gap-2 1024:text-sm 1024:flex 1024:flex-wrap 1024:justify-start"
-          >
-            {details.genres
-              ? details.genres.map((e) => (
-                  <Link to={`/genre/${e.id}`} key={e.id}>
-                    <p className="text-green-500 cursor-pointer font-cineFontFamily">
-                      {e.name},
-                    </p>
-                  </Link>
-                ))
-              : null}
-            <span className="text-white">
-              ° {hours}h {minutes}m
-            </span>
+      <div
+        className="relative w-full  posterFilm h-128 580:h-[80vh] bg-cover bg-repeat"
+        style={{
+          backgroundImage: `url("https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${film.backdrop_path}")`,
+          backgroundPosition: "right -254px top",
+        }}
+      >
+        <div
+          className="h-full w-full "
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgb(0, 0, 0) 230px, rgba(8, 20, 32, 0.58) 100%)",
+          }}
+        >
+          <div className="absolute imgFilm -bottom-14 left-14 1024:hidden">
+            <img
+              className="rounded imgDetail w-60"
+              src={
+                film.poster_path === null
+                  ? "https://www.orbis.com.ar/wp-content/themes/barberry/images/placeholder.jpg"
+                  : `https://image.tmdb.org/t/p/w500/${film.poster_path}`
+              }
+              alt=" poster pelicula"
+            />
           </div>
+          <div className="absolute bottom-0 w-4/6 overviewCalif left-80 1024:w-full 1024:h-[70%] 1024:left-0 1024:text-center 1024:flex 1024:justify-center 1024:items-center flex-col 580:h-4/5">
+            <span className="text-3xl text-white underline uppercase underline-offset-4 decoration-sky-500 hover:decoration-sky-300 font-cineFontFamily">
+              {film.original_title}
+            </span>
+            <div
+              id="generosDuracion"
+              className="flex items-baseline gap-2 1024:text-sm 1024:flex 1024:flex-wrap 1024:justify-start"
+            >
+              {details.genres
+                ? details.genres.map((e) => (
+                    <Link to={`/genre/${e.id}`} key={e.id}>
+                      <p className="text-green-500 cursor-pointer font-cineFontFamily">
+                        {e.name},
+                      </p>
+                    </Link>
+                  ))
+                : null}
+              <span className="text-white">
+                ° {hours}h {minutes}m
+              </span>
+            </div>
 
-          <p
-            id="resumenParrafo"
-            className="text-base text-blue-50 font-cineFontFamily 1024:w-full 1024:text-center 1024:text-sm"
-          >
-            <span className="underline">Resumen:</span>
-            <br />
-            {film.overview}
-          </p>
-          <div className="text-start">
-            <p className="text-blue-50 decoration-8">
-              Estreno: {film.release_date}
+            <p
+              id="resumenParrafo"
+              className="text-base text-blue-50 font-cineFontFamily 1024:w-full 1024:text-center 1024:text-sm"
+            >
+              <span className="underline">Resumen:</span>
+              <br />
+              {film.overview}
             </p>
-            <span className="text-blue-50 decoration-8">
-              Calificacion: {film.vote_average}
-            </span>
-          </div>
-          <div className="flex gap-3 pt-3 pb-3">
-            <button
-              className="text-xl text-black rounded-full bg-slate-400 btn"
-              disabled={favoritemovieDisabled}
-              onClick={() => {
-                addMovieToFavorite(film);
-                toast(
-                  (t) => (
-                    <span className="text-xs text-center text-white ">
-                      Pelicula agregada!
-                    </span>
-                  ),
-                  {
-                    duration: 2100,
-                    position: "top-center",
+            <div className="text-start">
+              <p className="text-blue-50 decoration-8">
+                Estreno: {film.release_date}
+              </p>
+              <span className="text-blue-50 decoration-8">
+                Calificacion: {film.vote_average}
+              </span>
+            </div>
+            <div className="flex gap-3 pt-3 pb-3">
+              <button
+                className="text-xl text-black rounded-full bg-slate-400 btn"
+                disabled={favoritemovieDisabled}
+                onClick={() => {
+                  addMovieToFavorite(film);
+                  toast(
+                    (t) => (
+                      <span className="text-xs text-center text-white ">
+                        Pelicula agregada!
+                      </span>
+                    ),
+                    {
+                      duration: 2100,
+                      position: "top-center",
 
-                    // Styling
-                    style: {
-                      background: "#198754",
-                      letterSpacing: "2px",
-                    },
-                    // Custom Icon
-                    icon: "❤️",
+                      // Styling
+                      style: {
+                        background: "#198754",
+                        letterSpacing: "2px",
+                      },
+                      // Custom Icon
+                      icon: "❤️",
 
-                    // Aria
-                    ariaProps: {
-                      role: "status",
-                      "aria-live": "polite",
-                    },
-                  }
-                );
-              }}
-            >
-              <i className={`ri-heart-fill ${changeColorFav}`} />
-            </button>
-            <Toaster />
-            <button
-              className="text-xl text-black rounded-full bg-slate-400 btn"
-              onClick={() => removeMovieToFavorite(film.id)}
-            >
-              <i className="ri-dislike-fill" />
-            </button>
+                      // Aria
+                      ariaProps: {
+                        role: "status",
+                        "aria-live": "polite",
+                      },
+                    }
+                  );
+                }}
+              >
+                <i className={`ri-heart-fill ${changeColorFav}`} />
+              </button>
+              <Toaster />
+              <button
+                className="text-xl text-black rounded-full bg-slate-400 btn"
+                onClick={() => removeMovieToFavorite(film.id)}
+              >
+                <i className="ri-dislike-fill" />
+              </button>
+            </div>
           </div>
+          zz
         </div>
       </div>
 
