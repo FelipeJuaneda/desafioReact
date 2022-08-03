@@ -9,6 +9,7 @@ import { Element } from "react-scroll";
 import { SwiperSlide } from "swiper/react";
 import SwiperCarousel from "../SwiperCarousel/SwiperCarousel";
 import SearchForm from "../SearchForm/SearchForm";
+import { animateScroll as scroll } from "react-scroll";
 
 const PopularTv = () => {
   const { tvPopularList } = useAppContext();
@@ -40,7 +41,12 @@ const PopularTv = () => {
                       className="object-cover w-72"
                       style={{ height: "432px" }}
                     >
-                      <Link to={`/tvShow/${el.id}`}>
+                      <Link
+                        onClick={() => {
+                          scroll.scrollToTop();
+                        }}
+                        to={`/tvShow/${el.id}`}
+                      >
                         <img
                           src={
                             el.poster_path === null
