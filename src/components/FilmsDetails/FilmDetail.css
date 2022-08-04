@@ -1,0 +1,23 @@
+#gradientBackdrop {
+  background-image: linear-gradient(
+    to right,
+    rgb(0, 0, 0) 230px,
+    rgba(8, 20, 32, 0.58) 100%
+    );
+}
+#backDrop{
+    background-position: right -254px center;
+}
+
+@media screen and (max-width: 1024px) {
+  #gradientBackdrop {
+    background-image: linear-gradient(
+      to top,
+      rgb(0, 0, 0) 53px,
+      rgb(8 20 32 / 65%) 100%
+    );
+  }
+  #backDrop{
+    background-position: center;
+  }
+}

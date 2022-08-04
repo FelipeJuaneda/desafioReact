@@ -2,7 +2,8 @@ import React from "react";
 import { useAppContext } from "../contexts/AppContext";
 
 const SearchForm = () => {
-  const { searchMovies, setSearchKey, setStartsList } = useAppContext();
+  const { searchMovies, setSearchKey, setStartsList, searchKey } =
+    useAppContext();
   return (
     <form onSubmit={searchMovies} className="d-flex">
       <input
@@ -14,6 +15,7 @@ const SearchForm = () => {
         type="search"
         placeholder="Buscar"
         aria-label="Search"
+        value={searchKey}
       />
       <button className="btn btn-outline-success" type="submit">
         Buscar

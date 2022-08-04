@@ -4,6 +4,7 @@ import { SwiperSlide } from "swiper/react";
 import { useAppContext } from "../contexts/AppContext";
 import toast, { Toaster } from "react-hot-toast";
 import SwiperCarouselDetail from "../SwiperCarousel/SwiperCarouselDetail";
+import "./FilmDetail.css";
 
 const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
   const { addMovieToFavorite, removeMovieToFavorite, favoritemovie } =
@@ -25,22 +26,16 @@ const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
   return (
     <div className="detailFilmCont absolute top-0 left-0 right-0 overflow-y-auto bg-[#eeeeee] flex flex-col items-center gap-10 z-50">
       <div
+        id="backDrop"
         className="relative w-full  posterFilm h-128 580:h-[80vh] bg-cover bg-repeat"
         style={{
           backgroundImage: `url("https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${film.backdrop_path}")`,
-          backgroundPosition: "right -254px top",
         }}
       >
-        <div
-          className="h-full w-full "
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, rgb(0, 0, 0) 230px, rgba(8, 20, 32, 0.58) 100%)",
-          }}
-        >
+        <div id="gradientBackdrop" className="w-full h-full ">
           <div className="absolute imgFilm -bottom-14 left-14 1024:hidden">
             <img
-              className="rounded imgDetail w-60"
+              className="rounded imgDetail w-60 drop-shadow-2xl"
               src={
                 film.poster_path === null
                   ? "https://www.orbis.com.ar/wp-content/themes/barberry/images/placeholder.jpg"
@@ -131,7 +126,6 @@ const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
               </button>
             </div>
           </div>
-          zz
         </div>
       </div>
 

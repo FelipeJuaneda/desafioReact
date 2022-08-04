@@ -13,7 +13,7 @@ import SwiperCarousel from "../SwiperCarousel/SwiperCarousel";
 const FavoriteList = () => {
   const {
     favoritemovie,
-    removeMovieToFavoritemovie,
+    removeMovieToFavorite,
     removeTvToTvList,
     favoritetv,
   } = useAppContext();
@@ -49,7 +49,7 @@ const FavoriteList = () => {
                   </div>
 
                   <button
-                    onClick={() => removeMovieToFavoritemovie(el.id)}
+                    onClick={() => removeMovieToFavorite(el.id)}
                     className="absolute top-0 left-0 flex items-center justify-center bg-red-500 w-9 h-9 btn"
                   >
                     <i className="ri-dislike-fill" />

@@ -6,10 +6,12 @@ import pororoLoad from "../images/pororoLoad.gif";
 
 const FilmDetailCont = () => {
   const { moviesList, apiKey, baseUrl, favoritemovie } = useAppContext();
+  console.log(moviesList)
   //parametro id de la pelicula para url
   const { filmId } = useParams();
   //seteo la pelicula encontrada con el mismo id que el parametro
   const [film, setFilm] = useState({});
+  console.log(film)
   //mas detalles de pelicula seleccionada
   const [filmDetail, setFilmDetail] = useState([]);
   //elenco de la pelicula
