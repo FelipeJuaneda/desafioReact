@@ -2,21 +2,16 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Element } from "react-scroll";
 import { SwiperSlide } from "swiper/react";
-import { useAppContext } from "../contexts/AppContext";
-
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
 import SwiperCarousel from "../SwiperCarousel/SwiperCarousel";
+import { useFavoriteContext } from "../contexts/FavoriteContext";
 
 const FavoriteList = () => {
-  const {
-    favoritemovie,
-    removeMovieToFavorite,
-    removeTvToTvList,
-    favoritetv,
-  } = useAppContext();
+  const { favoritemovie, removeMovieToFavorite, removeTvToTvList, favoritetv } =
+    useFavoriteContext();
   return (
     <Element name="favoriteListElement">
       {/* PELICULAS FAVORITAS */}

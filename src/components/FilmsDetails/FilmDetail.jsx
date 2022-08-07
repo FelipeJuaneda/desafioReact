@@ -1,21 +1,11 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { SwiperSlide } from "swiper/react";
-import { useAppContext } from "../contexts/AppContext";
-import toast, { Toaster } from "react-hot-toast";
-import SwiperCarouselDetail from "../SwiperCarousel/SwiperCarouselDetail";
+import AddRemoveButtons from "../FavoriteList/AddRemoveButtons";
+import MovieCast from "./MovieCast";
+import VideosFilm from "./VideosFilm";
 import "./FilmDetail.css";
 
 const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
-  const { addMovieToFavorite, removeMovieToFavorite, favoritemovie } =
-    useAppContext();
-
-  //Si la pelicula se encuentra agregada
-  const ifMovieIsIn = favoritemovie.find((e) => e.id === film.id);
-  //devuevle true o false depende si esta la pelicula agregada o no
-  const favoritemovieDisabled = ifMovieIsIn ? true : false;
-  //si la peli esta agregada devuelve text-red sino nada
-  const changeColorFav = ifMovieIsIn ? "text-red-600" : "";
   //para guardar la navegacion y volver para atras
   const navigate = useNavigate();
 
@@ -82,135 +72,18 @@ const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
                 Calificacion: {film.vote_average}
               </span>
             </div>
-            <div className="flex gap-3 pt-3 pb-3">
-              <button
-                className="text-xl text-black rounded-full bg-slate-400 btn"
-                disabled={favoritemovieDisabled}
-                onClick={() => {
-                  addMovieToFavorite(film);
-                  toast(
-                    (t) => (
-                      <span className="text-xs text-center text-white ">
-                        Pelicula agregada!
-                      </span>
-                    ),
-                    {
-                      duration: 2100,
-                      position: "top-center",
 
-                      // Styling
-                      style: {
-                        background: "#198754",
-                        letterSpacing: "2px",
-                      },
-                      // Custom Icon
-                      icon: "❤️",
-
-                      // Aria
-                      ariaProps: {
-                        role: "status",
-                        "aria-live": "polite",
-                      },
-                    }
-                  );
-                }}
-              >
-                <i className={`ri-heart-fill ${changeColorFav}`} />
-              </button>
-              <Toaster />
-              <button
-                className="text-xl text-black rounded-full bg-slate-400 btn"
-                onClick={() => removeMovieToFavorite(film.id)}
-              >
-                <i className="ri-dislike-fill" />
-              </button>
-            </div>
+            {/* aca va los botones favs */}
+            <AddRemoveButtons film={film} />
           </div>
         </div>
       </div>
 
-      {/* Movie cast - elenco de pelicula */}
-      <div className="w-full mt-12 swiperElencoCont 2xl:w-3/5">
-        <span className="text-lg font-semibold underline font-cineFontFamily ">
-          Elenco:
-        </span>
-        <div className="select-none">
-          <SwiperCarouselDetail>
-            {filmCredits
-              ? filmCredits.cast.map((e) => (
-                  <SwiperSlide style={{ width: "200px" }} key={e.id}>
-                    <img
-                      className="rounded-lg imgPerson w-[230px] h-[345px] object-cover 1024:w-[200px] 1024:h-[285px]"
-                      src={
-                        e.profile_path === null
-                          ? "https://i.ibb.co/DLSk8bk/default-image.png"
-                          : `https://image.tmdb.org/t/p/w200${e.profile_path}`
-                      }
-                      alt="elenco de pelicula"
-                    />
-                    <span className="font-semibold">{e.name}</span>
-                    <br />
-                    <span className="text-stone-500">{e.character}</span>
-                  </SwiperSlide>
-                ))
-              : null}
-          </SwiperCarouselDetail>
-        </div>
-      </div>
-      <div className="w-full 2xl:w-3/5">
-        <span className="text-lg font-semibold underline font-cineFontFamily ">
-          Trailers y videos
-        </span>
-        {videosFilm.length > 0 ? (
-          videosFilm.map((e) => {
-            return (
-              <div
-                key={e.key}
-                className="accordion accordion-flush"
-                id="accordionFlushExample"
-              >
-                <div className="accordion-item">
-                  <span
-                    className="accordion-header"
-                    id={`flush-heading${e.id}`}
-                  >
-                    <button
-                      className="accordion-button collapsed"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target={`#flush-${e.id}`}
-                      aria-expanded="false"
-                      aria-controls={`flush-${e.id}`}
-                    >
-                      {e.type} / {e.name}
-                    </button>
-                  </span>
-                  <div
-                    id={`flush-${e.id}`}
-                    className="accordion-collapse collapse"
-                    aria-labelledby={`flush-heading${e.id}`}
-                    data-bs-parent="#accordionFlushExample"
-                  >
-                    <div className="accordion-body">
-                      <div>
-                        <iframe
-                          className="w-full h-128 580:h-80"
-                          src={`https://www.youtube.com/embed/${e.key}`}
-                          title="YouTube video player"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })
-        ) : (
-          <p>No hay trailer ni video de esta pelicula</p>
-        )}
-      </div>
+      {/* elenco de pelicula */}
+      <MovieCast filmCredits={filmCredits} />
+
+      {/* Trailers y videos de pelicula */}
+      <VideosFilm videosFilm={videosFilm} />
 
       <button
         className="fixed z-10 backButton btn btn-danger top-10 right-10 550:top-4 550:right-4"

@@ -9,25 +9,27 @@ import PageNotFound from "./components/PageNotFound/PageNotFound";
 import PopularPeople from "./components/PopularPeople/PopularPeople";
 import FavoriteList from "./components/FavoriteList/FavoriteList";
 import GenreList from "./components/GenreList/GenreList";
+import FavoriteContextProvider from "./components/contexts/FavoriteContext";
 
 function App() {
   return (
     <AppContextProvider>
-      <div className="App">
-        {/* para los detalles de las peliculas se uso react-router-dom */}
-        <Routes>
-          <Route path="/" element={<LayoutRouter />}>
-            <Route path="/popularFilms" element={<PopularMovies />} />
-            <Route path="/popularTv" element={<PopularTv />} />
-            <Route path="/popularPeople" element={<PopularPeople />} />
-            <Route path="/favoriteList" element={<FavoriteList />} />
-            <Route path="film/:filmId" element={<FilmDetailCont />} />
-            <Route path="tvShow/:tvId" element={<TvDetailCont />} />
-            <Route path="genre/:genreId" element={<GenreList />} />
-          </Route>
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </div>
+      <FavoriteContextProvider>
+        <div className="App">
+          <Routes>
+            <Route path="/" element={<LayoutRouter />}>
+              <Route path="/popularFilms" element={<PopularMovies />} />
+              <Route path="/popularTv" element={<PopularTv />} />
+              <Route path="/popularPeople" element={<PopularPeople />} />
+              <Route path="/favoriteList" element={<FavoriteList />} />
+              <Route path="film/:filmId" element={<FilmDetailCont />} />
+              <Route path="tvShow/:tvId" element={<TvDetailCont />} />
+              <Route path="genre/:genreId" element={<GenreList />} />
+            </Route>
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </div>
+      </FavoriteContextProvider>
     </AppContextProvider>
   );
 }

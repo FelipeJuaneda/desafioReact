@@ -3,15 +3,18 @@ import { useParams } from "react-router-dom";
 import { useAppContext } from "../contexts/AppContext";
 import FilmDetail from "./FilmDetail";
 import pororoLoad from "../images/pororoLoad.gif";
+import { useFavoriteContext } from "../contexts/FavoriteContext";
 
 const FilmDetailCont = () => {
-  const { moviesList, apiKey, baseUrl, favoritemovie } = useAppContext();
-  console.log(moviesList)
+  const { moviesList, apiKey, baseUrl } = useAppContext();
+  console.log(moviesList);
+  const { favoritemovie } = useFavoriteContext();
+
   //parametro id de la pelicula para url
   const { filmId } = useParams();
   //seteo la pelicula encontrada con el mismo id que el parametro
   const [film, setFilm] = useState({});
-  console.log(film)
+  console.log(film);
   //mas detalles de pelicula seleccionada
   const [filmDetail, setFilmDetail] = useState([]);
   //elenco de la pelicula

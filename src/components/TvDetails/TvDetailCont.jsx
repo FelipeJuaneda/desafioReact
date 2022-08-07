@@ -3,9 +3,12 @@ import { useParams } from "react-router-dom";
 import { useAppContext } from "../contexts/AppContext";
 import TvDetail from "./TvDetail";
 import pororoLoad from "../images/pororoLoad.gif";
+import { useFavoriteContext } from "../contexts/FavoriteContext";
 
 const TvDetailCont = () => {
-  const { tvPopularList, apiKey, baseUrl, favoritetv } = useAppContext();
+  const { tvPopularList, apiKey, baseUrl } = useAppContext();
+  const { favoritetv } = useFavoriteContext();
+
   //parametro id de la serie para url
   const { tvId } = useParams();
   //seteo la serie encontradas con el mismo id que el parametro

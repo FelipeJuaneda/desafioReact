@@ -1,13 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { SwiperSlide } from "swiper/react";
-import { useAppContext } from "../contexts/AppContext";
 import toast, { Toaster } from "react-hot-toast";
 import SwiperCarouselDetail from "../SwiperCarousel/SwiperCarouselDetail";
 import "../FilmsDetails/FilmDetail.css";
+import { useFavoriteContext } from "../contexts/FavoriteContext";
 
 const TvDetail = ({ tvShowState, details, tvCredits, videosTv }) => {
-  const { addTvToTvList, removeTvToTvList, favoritetv } = useAppContext();
+  const { favoritetv, addTvToTvList, removeTvToTvList } = useFavoriteContext();
+
   //para guardar la navegacion y volver para atras
   const navigate = useNavigate();
   //Si la serie se encuentra agregada

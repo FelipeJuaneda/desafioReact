@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useAppContext } from "../contexts/AppContext";
 const StartItems = () => {
   const { startsList } = useAppContext();
+  console.log(startsList)
   const location = useLocation();
   const filmOrTv = location.pathname === "/popularFilms" ? "film" : "tvShow";
   return (
