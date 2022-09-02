@@ -74,7 +74,7 @@ const TvDetail = ({ tvShowState, details, tvCredits, videosTv }) => {
             </p>
             <div className="text-start">
               <p className="text-blue-50 decoration-8">
-                Estreno: {tvShowState.release_date}
+                Estreno: {tvShowState.first_air_date}
               </p>
               <span className="text-blue-50 decoration-8">
                 Calificacion: {tvShowState.vote_average}

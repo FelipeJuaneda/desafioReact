@@ -4,10 +4,11 @@ import { useAppContext } from "../contexts/AppContext";
 import FilmDetail from "./FilmDetail";
 import pororoLoad from "../images/pororoLoad.gif";
 import { useFavoriteContext } from "../contexts/FavoriteContext";
+import { animateScroll as scroll } from "react-scroll";
 
 const FilmDetailCont = () => {
   const { moviesList, apiKey, baseUrl } = useAppContext();
-  console.log(moviesList);
+
   const { favoritemovie } = useFavoriteContext();
 
   //parametro id de la pelicula para url
@@ -23,6 +24,8 @@ const FilmDetailCont = () => {
   const [videosFilm, setVideosFilm] = useState([]);
 
   useEffect(() => {
+    scroll.scrollToTop();
+
     //detalle de pelicula
     const getFilmDetail = async () => {
       await fetch(`${baseUrl}movie/${filmId}?api_key=${apiKey}&language=es`)

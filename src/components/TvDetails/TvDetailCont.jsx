@@ -4,6 +4,7 @@ import { useAppContext } from "../contexts/AppContext";
 import TvDetail from "./TvDetail";
 import pororoLoad from "../images/pororoLoad.gif";
 import { useFavoriteContext } from "../contexts/FavoriteContext";
+import { animateScroll as scroll } from "react-scroll";
 
 const TvDetailCont = () => {
   const { tvPopularList, apiKey, baseUrl } = useAppContext();
@@ -21,27 +22,45 @@ const TvDetailCont = () => {
   const [videosTv, setVideosTv] = useState([]);
 
   useEffect(() => {
+    scroll.scrollToTop();
+
     //detalle de serie
     const getTvDetail = async () => {
-      await fetch(`${baseUrl}tv/${tvId}?api_key=${apiKey}&language=es`)
-        .then((result) => result.json())
-        .then((data) => setTvDetail(data));
+      try {
+        const dataTvDetail = await fetch(
+          `${baseUrl}tv/${tvId}?api_key=${apiKey}&language=es`
+        );
+        const dataJsonTvDetail = await dataTvDetail.json();
+        setTvDetail(dataJsonTvDetail);
+      } catch (error) {
+        console.log(error);
+      }
     };
     getTvDetail();
     //creditos de la serie
     const getTvCredit = async () => {
-      await fetch(`${baseUrl}tv/${tvId}/credits?api_key=${apiKey}&language=es`)
-        .then((response) => response.json())
-        .then((data) => setTvCredits(data));
+      try {
+        const dataTvCredit = await fetch(
+          `${baseUrl}tv/${tvId}/credits?api_key=${apiKey}&language=es`
+        );
+        const dataJsonTvCredit = await dataTvCredit.json();
+        setTvCredits(dataJsonTvCredit);
+      } catch (error) {
+        console.log(error);
+      }
     };
     getTvCredit();
     //video / trailer de serie
-    const getTvVideos = () => {
-      fetch(`${baseUrl}tv/${tvId}/videos?api_key=${apiKey}&language=es`)
-        .then((response) => response.json())
-        .then((data) => {
-          setVideosTv(data.results);
-        });
+    const getTvVideos = async () => {
+      try {
+        const dataTvVideos = await fetch(
+          `${baseUrl}tv/${tvId}/videos?api_key=${apiKey}&language=es`
+        );
+        const dataJsonTvVideos = await dataTvVideos.json();
+        setVideosTv(dataJsonTvVideos.results);
+      } catch (error) {
+        console.log(error);
+      }
     };
     getTvVideos();
     setTvShowState(

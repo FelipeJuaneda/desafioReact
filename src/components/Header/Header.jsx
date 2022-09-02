@@ -4,13 +4,13 @@ import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import logo from "../images/iconoPororo.png";
 import { Link } from "react-router-dom";
-import { animateScroll as scroll } from "react-scroll";
+import { animateScroll as scroll, scroller } from "react-scroll";
 
 const Header = () => {
   const navigation = [
-    { name: "Peliculas", to: "/popularFilms", scrollTo: 630 },
-    { name: "Series", to: "/popularTv", scrollTo: 630 },
-    { name: "Personas", to: "/popularPeople", scrollTo: 630 },
+    { name: "Peliculas", to: "/popularFilms", scrollTo: "popularElement" },
+    { name: "Series", to: "/popularTv", scrollTo: "popularElement" },
+    { name: "Personas", to: "/popularPeople", scrollTo: "popularElement" },
   ];
 
   return (
@@ -48,7 +48,13 @@ const Header = () => {
                   key={item.name}
                   to={item.to}
                   className="font-medium text-gray-500 hover:text-gray-900"
-                  onClick={() => scroll.scrollTo(item.scrollTo)}
+                  // onClick={() => scroll.scrollTo(item.scrollTo)}
+                  onClick={() => {
+                    scroller.scrollTo(item.scrollTo, {
+                      duration: 500,
+                      smooth: true,
+                    });
+                  }}
                 >
                   {item.name}
                 </Link>

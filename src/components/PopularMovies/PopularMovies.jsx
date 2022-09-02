@@ -9,7 +9,6 @@ import { Element } from "react-scroll";
 import { SwiperSlide } from "swiper/react";
 import SwiperCarousel from "../SwiperCarousel/SwiperCarousel";
 import SearchForm from "../SearchForm/SearchForm";
-import { animateScroll as scroll } from "react-scroll";
 
 const PopularMovies = () => {
   const { moviesList } = useAppContext();
@@ -38,9 +37,7 @@ const PopularMovies = () => {
                 return (
                   <SwiperSlide key={el.id}>
                     <div className="object-cover w-72 h-[432px]">
-                      <Link onClick={()=>{
-                      scroll.scrollToTop();
-                      }} to={`/film/${el.id}`}>
+                      <Link to={`/film/${el.id}`}>
                         <img
                           src={
                             el.poster_path === null

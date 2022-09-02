@@ -41,11 +41,15 @@ const AppContextProvider = ({ children }) => {
   const type = searchKey ? "search" : "discover";
   const getFilms = useCallback(
     async (searchKey) => {
-      await fetch(
-        `${baseUrl}${type}/movie?api_key=${apiKey}&language=es&query=${searchKey}&page=${pagination}`
-      )
-        .then((response) => response.json())
-        .then((data) => setMoviesList(data.results));
+      try {
+        const dataFilms = await fetch(
+          `${baseUrl}${type}/movie?api_key=${apiKey}&language=es&query=${searchKey}&page=${pagination}`
+        );
+        const dataJsonFilms = await dataFilms.json();
+        setMoviesList(dataJsonFilms.results);
+      } catch (error) {
+        console.log(error);
+      }
     },
     [pagination, type]
   );
@@ -53,21 +57,29 @@ const AppContextProvider = ({ children }) => {
   //obteniendo series populares
   const getPopularTv = useCallback(
     async (searchKey) => {
-      await fetch(
-        `${baseUrl}${type}/tv?api_key=${apiKey}&language=es&query=${searchKey}&page=${pagination}`
-      )
-        .then((response) => response.json())
-        .then((data) => setTvPopularList(data.results));
+      try {
+        const dataPopularTv = await fetch(
+          `${baseUrl}${type}/tv?api_key=${apiKey}&language=es&query=${searchKey}&page=${pagination}`
+        );
+        const dataJsonPopularTv = await dataPopularTv.json();
+        setTvPopularList(dataJsonPopularTv.results);
+      } catch (error) {
+        console.log(error);
+      }
     },
     [pagination, type]
   );
   //obteniendo personas populares
   const getPopularPeople = async () => {
-    await fetch(
-      `${baseUrl}person/popular?api_key=${apiKey}&language=es&page=${pagination}`
-    )
-      .then((response) => response.json())
-      .then((data) => setPopularPeople(data.results));
+    try {
+      const dataPeople = await fetch(
+        `${baseUrl}person/popular?api_key=${apiKey}&language=es&page=${pagination}`
+      );
+      const dataJsonPeople = await dataPeople.json();
+      setPopularPeople(dataJsonPeople.results);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   //funcion para buscar peliculas
