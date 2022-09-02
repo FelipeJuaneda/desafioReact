@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
@@ -12,11 +12,26 @@ const Header = () => {
     { name: "Series", to: "/popularTv", scrollTo: "popularElement" },
     { name: "Personas", to: "/popularPeople", scrollTo: "popularElement" },
   ];
+  const [scrollActive, setScrollActive] = useState(false);
 
+  const effectScroll = () => {
+    if (window.scrollY >= 75 && window.screen.width < 768) {
+      setScrollActive(true);
+    } else {
+      setScrollActive(false);
+    }
+  };
+  window.addEventListener("scroll", effectScroll);
   return (
-    <header>
+    <header
+      className={
+        scrollActive
+          ? "fixed w-full top-0 p-3 bg-[#198754ea] transition duration-200"
+          : "768:pt-6"
+      }
+    >
       <Popover>
-        <div className="relative px-4 pt-6 sm:px-6 lg:px-8">
+        <div className="px-4 pt-6 relativ sm:px-6 lg:px-8 768:p-0">
           <nav
             className="relative flex items-center justify-between sm:h-10 lg:justify-start"
             aria-label="Global"
@@ -48,7 +63,6 @@ const Header = () => {
                   key={item.name}
                   to={item.to}
                   className="font-medium text-gray-500 hover:text-gray-900"
-                  // onClick={() => scroll.scrollTo(item.scrollTo)}
                   onClick={() => {
                     scroller.scrollTo(item.scrollTo, {
                       duration: 500,
@@ -107,7 +121,12 @@ const Header = () => {
                     key={item.name}
                     to={item.to}
                     className="block px-3 py-2 text-base font-medium text-gray-700 rounded-md hover:text-gray-900 hover:bg-gray-50"
-                    onClick={() => scroll.scrollTo(item.scrollTo)}
+                    onClick={() => {
+                      scroller.scrollTo(item.scrollTo, {
+                        duration: 500,
+                        smooth: true,
+                      });
+                    }}
                   >
                     {item.name}
                   </Link>

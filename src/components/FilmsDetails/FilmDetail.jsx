@@ -36,7 +36,7 @@ const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
           </div>
           <div className="absolute bottom-0 w-4/6 overviewCalif left-80 1024:w-full 1024:h-[70%] 1024:left-0 1024:text-center 1024:flex 1024:justify-center 1024:items-center flex-col 580:h-4/5">
             <span className="text-3xl text-white underline uppercase underline-offset-4 decoration-sky-500 hover:decoration-sky-300 font-cineFontFamily">
-              {film.original_title}
+              {film.title}
             </span>
             <div
               id="generosDuracion"

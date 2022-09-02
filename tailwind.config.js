@@ -11,6 +11,8 @@ module.exports = {
         '1024': { 'raw': '(max-width: 1024px)' },
         '550': { 'raw': '(max-width: 550px)' },
         '580': { 'raw': '(max-width: 580px)' },
+        '768': { 'raw': '(max-width: 768px)' },
+
       }
     },
     fontFamily:{
