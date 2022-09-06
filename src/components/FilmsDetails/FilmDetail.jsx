@@ -19,7 +19,7 @@ const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
         id="backDrop"
         className="relative w-full  posterFilm h-128 580:h-[80vh] bg-cover bg-repeat"
         style={{
-          backgroundImage: `url("https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${film.backdrop_path}")`,
+          backgroundImage: `url("https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${details.backdrop_path}")`,
         }}
       >
         <div id="gradientBackdrop" className="w-full h-full ">
@@ -27,9 +27,9 @@ const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
             <img
               className="rounded imgDetail w-60 drop-shadow-2xl"
               src={
-                film.poster_path === null
+                details.poster_path === null
                   ? "https://www.orbis.com.ar/wp-content/themes/barberry/images/placeholder.jpg"
-                  : `https://image.tmdb.org/t/p/w500/${film.poster_path}`
+                  : `https://image.tmdb.org/t/p/w500/${details.poster_path}`
               }
               alt=" poster pelicula"
             />
@@ -62,14 +62,14 @@ const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
             >
               <span className="underline">Resumen:</span>
               <br />
-              {film.overview}
+              {details.overview}
             </p>
             <div className="text-start">
               <p className="text-blue-50 decoration-8">
-                Estreno: {film.release_date}
+                Estreno: {details.release_date}
               </p>
               <span className="text-blue-50 decoration-8">
-                Calificacion: {film.vote_average}
+                Calificacion: {details.vote_average}
               </span>
             </div>
 

@@ -14,12 +14,11 @@ const FilmDetailCont = () => {
   //parametro id de la pelicula para url
   const { filmId } = useParams();
   //seteo la pelicula encontrada con el mismo id que el parametro
-  const [film, setFilm] = useState({});
-  console.log(film);
+  const [film, setFilm] = useState([]);
   //mas detalles de pelicula seleccionada
   const [filmDetail, setFilmDetail] = useState([]);
   //elenco de la pelicula
-  const [filmCredits, setFilmCredits] = useState();
+  const [filmCredits, setFilmCredits] = useState([]);
   //aca guardo los videos/trailer de las pelis
   const [videosFilm, setVideosFilm] = useState([]);
 
@@ -28,34 +27,46 @@ const FilmDetailCont = () => {
 
     //detalle de pelicula
     const getFilmDetail = async () => {
-      await fetch(`${baseUrl}movie/${filmId}?api_key=${apiKey}&language=es`)
-        .then((response) => response.json())
-        .then((data) => setFilmDetail(data));
+      try {
+        const dataFilmDetail = await fetch(
+          `${baseUrl}movie/${filmId}?api_key=${apiKey}&language=es`
+        );
+        const dataFilmDetailJson = await dataFilmDetail.json();
+        setFilmDetail(dataFilmDetailJson);
+      } catch (error) {
+        console.log(error);
+      }
     };
     getFilmDetail();
     //creditos de la pelicula
     const getFilmCredit = async () => {
-      await fetch(
-        `${baseUrl}movie/${filmId}/credits?api_key=${apiKey}&language=es`
-      )
-        .then((response) => response.json())
-        .then((data) => setFilmCredits(data));
+      try {
+        const dataFilmCredit = await fetch(
+          `${baseUrl}movie/${filmId}/credits?api_key=${apiKey}&language=es`
+        );
+        const dataFilmCreditJson = await dataFilmCredit.json();
+        setFilmCredits(dataFilmCreditJson.cast);
+      } catch (error) {
+        console.log(error);
+      }
     };
     getFilmCredit();
     //video / trailer de pelicula
-    const getMovieVideos = () => {
-      fetch(`${baseUrl}movie/${filmId}/videos?api_key=${apiKey}&language=es`)
-        .then((response) => response.json())
-        .then((data) => {
-          setVideosFilm(data.results);
-        });
+    const getMovieVideos = async () => {
+      try {
+        const dataMovieVideos = await fetch(
+          `${baseUrl}movie/${filmId}/videos?api_key=${apiKey}&language=es`
+        );
+        const dataMovieVideosJson = await dataMovieVideos.json();
+        setVideosFilm(dataMovieVideosJson.results);
+      } catch (error) {
+        console.log(error);
+      }
     };
     getMovieVideos();
     setFilm(
-      moviesList
-        ? moviesList.find((m) => m.id === parseInt(filmId)) ||
-            favoritemovie.find((m) => m.id === parseInt(filmId))
-        : null
+      moviesList.find((m) => m.id === parseInt(filmId)) ||
+        favoritemovie.find((f) => f.id === parseInt(filmId))||true
     );
   }, [apiKey, baseUrl, favoritemovie, filmId, moviesList]);
 

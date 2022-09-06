@@ -141,7 +141,12 @@ const Header = () => {
                 </a>
                 <Link
                   to={"/favoriteList"}
-                  onClick={() => scroll.scrollTo(680)}
+                  onClick={() => {
+                    scroller.scrollTo("favoriteListElement", {
+                      duration: 500,
+                      smooth: true,
+                    });
+                  }}
                   className="block w-full px-5 py-3 font-medium text-center text-red-500 hover:text-red-400 bg-gray-50 hover:bg-gray-100"
                 >
                   Mis Favoritos

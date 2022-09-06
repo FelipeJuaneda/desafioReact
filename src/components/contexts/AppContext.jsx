@@ -8,7 +8,7 @@ export const useAppContext = () => useContext(AppContext);
 
 const AppContextProvider = ({ children }) => {
   //estado donde se almacena las peliculas ordenadas por popularidad, y busquedas
-  const [moviesList, setMoviesList] = useState();
+  const [moviesList, setMoviesList] = useState([]);
 
   //estado donde guardo las series populares
   const [tvPopularList, setTvPopularList] = useState();
