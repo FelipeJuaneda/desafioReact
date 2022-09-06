@@ -12,7 +12,7 @@ const AddRemoveButtons = ({ film }) => {
   const favoritemovieDisabled = ifMovieIsIn ? true : false;
   //si la peli esta agregada devuelve text-red sino nada
   const changeColorFav = ifMovieIsIn ? "text-red-600" : "";
-  
+
   return (
     <div className="flex gap-3 pt-3 pb-3">
       <button

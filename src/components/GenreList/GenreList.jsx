@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { Element } from "react-scroll";
 import { useAppContext } from "../contexts/AppContext";
 import pororoLoad from "../images/pororoLoad.gif";
 
@@ -36,7 +37,8 @@ const GenreList = () => {
     : null;
 
   return (
-    <div className="w-full h-full">
+    <Element name="genreList" id="genreList">
+      <div className="w-full h-full">
       <div className="h-24 bg-[#a72509] py-4 px-5 1024:py-1 1024:px-2">
         {genderName.map((e) => (
           <span
@@ -89,6 +91,7 @@ const GenreList = () => {
         )}
       </div>
     </div>
+    </Element>
   );
 };
 

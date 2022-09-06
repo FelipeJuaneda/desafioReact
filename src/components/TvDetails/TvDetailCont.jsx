@@ -13,11 +13,11 @@ const TvDetailCont = () => {
   //parametro id de la serie para url
   const { tvId } = useParams();
   //seteo la serie encontradas con el mismo id que el parametro
-  const [tvShowState, setTvShowState] = useState({});
+  const [tvShowState, setTvShowState] = useState([]);
   //mas detalles de serie seleccionada
   const [tvDetail, setTvDetail] = useState([]);
   //elenco de serie
-  const [tvCredits, setTvCredits] = useState();
+  const [tvCredits, setTvCredits] = useState([]);
   //aca guardo los videos/trailer de las series
   const [videosTv, setVideosTv] = useState([]);
 
@@ -44,7 +44,7 @@ const TvDetailCont = () => {
           `${baseUrl}tv/${tvId}/credits?api_key=${apiKey}&language=es`
         );
         const dataJsonTvCredit = await dataTvCredit.json();
-        setTvCredits(dataJsonTvCredit);
+        setTvCredits(dataJsonTvCredit.cast);
       } catch (error) {
         console.log(error);
       }
@@ -64,10 +64,9 @@ const TvDetailCont = () => {
     };
     getTvVideos();
     setTvShowState(
-      tvPopularList
-        ? tvPopularList.find((m) => m.id === parseInt(tvId)) ||
-            favoritetv.find((m) => m.id === parseInt(tvId))
-        : null
+      tvPopularList.find((m) => m.id === parseInt(tvId)) ||
+        favoritetv.find((m) => m.id === parseInt(tvId)) ||
+        true
     );
   }, [apiKey, baseUrl, tvId, tvPopularList, favoritetv]);
 
@@ -75,7 +74,6 @@ const TvDetailCont = () => {
     <div>
       {tvShowState ? (
         <TvDetail
-          tvShowState={tvShowState}
           details={tvDetail}
           tvCredits={tvCredits}
           videosTv={videosTv}

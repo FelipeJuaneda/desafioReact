@@ -3,9 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import AddRemoveButtons from "../FavoriteList/AddRemoveButtons";
 import MovieCast from "./MovieCast";
 import VideosFilm from "./VideosFilm";
+import { animateScroll as scroll } from "react-scroll";
 import "./FilmDetail.css";
 
-const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
+const FilmDetail = ({ details, filmCredits, videosFilm }) => {
   //para guardar la navegacion y volver para atras
   const navigate = useNavigate();
 
@@ -36,7 +37,7 @@ const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
           </div>
           <div className="absolute bottom-0 w-4/6 overviewCalif left-80 1024:w-full 1024:h-[70%] 1024:left-0 1024:text-center 1024:flex 1024:justify-center 1024:items-center flex-col 580:h-4/5">
             <span className="text-3xl text-white underline uppercase underline-offset-4 decoration-sky-500 hover:decoration-sky-300 font-cineFontFamily">
-              {film.title}
+              {details.title}
             </span>
             <div
               id="generosDuracion"
@@ -44,7 +45,13 @@ const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
             >
               {details.genres
                 ? details.genres.map((e) => (
-                    <Link to={`/genre/${e.id}`} key={e.id}>
+                    <Link
+                      to={`/genre/${e.id}`}
+                      key={e.id}
+                      onClick={() => {
+                        scroll.scrollTo(600);
+                      }}
+                    >
                       <p className="text-green-500 cursor-pointer font-cineFontFamily">
                         {e.name},
                       </p>
@@ -74,7 +81,7 @@ const FilmDetail = ({ film, details, filmCredits, videosFilm }) => {
             </div>
 
             {/* aca va los botones favs */}
-            <AddRemoveButtons film={film} />
+            <AddRemoveButtons film={details} />
           </div>
         </div>
       </div>

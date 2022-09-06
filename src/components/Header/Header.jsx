@@ -8,9 +8,9 @@ import { animateScroll as scroll, scroller } from "react-scroll";
 
 const Header = () => {
   const navigation = [
-    { name: "Peliculas", to: "/popularFilms", scrollTo: "popularElement" },
-    { name: "Series", to: "/popularTv", scrollTo: "popularElement" },
-    { name: "Personas", to: "/popularPeople", scrollTo: "popularElement" },
+    { name: "Peliculas", to: "/popularFilms", scrollTo: 600 },
+    { name: "Series", to: "/popularTv", scrollTo: 600 },
+    { name: "Personas", to: "/popularPeople", scrollTo: 600 },
   ];
   const [scrollActive, setScrollActive] = useState(false);
 
@@ -64,10 +64,7 @@ const Header = () => {
                   to={item.to}
                   className="font-medium text-gray-500 hover:text-gray-900"
                   onClick={() => {
-                    scroller.scrollTo(item.scrollTo, {
-                      duration: 500,
-                      smooth: true,
-                    });
+                    scroll.scrollTo(item.scrollTo);
                   }}
                 >
                   {item.name}
@@ -122,10 +119,7 @@ const Header = () => {
                     to={item.to}
                     className="block px-3 py-2 text-base font-medium text-gray-700 rounded-md hover:text-gray-900 hover:bg-gray-50"
                     onClick={() => {
-                      scroller.scrollTo(item.scrollTo, {
-                        duration: 500,
-                        smooth: true,
-                      });
+                      scroll.scrollTo(item.scrollTo);
                     }}
                   >
                     {item.name}
@@ -142,10 +136,7 @@ const Header = () => {
                 <Link
                   to={"/favoriteList"}
                   onClick={() => {
-                    scroller.scrollTo("favoriteListElement", {
-                      duration: 500,
-                      smooth: true,
-                    });
+                    scroll.scrollTo(600);
                   }}
                   className="block w-full px-5 py-3 font-medium text-center text-red-500 hover:text-red-400 bg-gray-50 hover:bg-gray-100"
                 >

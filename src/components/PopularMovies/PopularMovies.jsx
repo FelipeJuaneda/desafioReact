@@ -4,7 +4,7 @@ import StartItems from "../StartCalification/StartItems";
 import { Link } from "react-router-dom";
 import PaginationCont from "../Pagination/PaginationCont";
 import StartCalification from "../StartCalification/StartCalification";
-import pororoLoad from "../images/pororoLoad.gif";
+import notFoundMovie from "../images/gifNotFound.gif";
 import { Element } from "react-scroll";
 import { SwiperSlide } from "swiper/react";
 import SwiperCarousel from "../SwiperCarousel/SwiperCarousel";
@@ -32,7 +32,7 @@ const PopularMovies = () => {
         </span>
         <div className="flex flex-wrap items-center justify-center select-none popularMoviesCont gap-7">
           <SwiperCarousel>
-            {moviesList ? (
+            {moviesList.length > 0 ? (
               moviesList.map((el) => {
                 return (
                   <SwiperSlide key={el.id}>
@@ -54,7 +54,7 @@ const PopularMovies = () => {
                 );
               })
             ) : (
-              <img src={pororoLoad} alt="Pochoclo cargando" />
+              <img src={notFoundMovie} alt="Pelicula no encontrada" />
             )}
           </SwiperCarousel>
         </div>

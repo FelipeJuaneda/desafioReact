@@ -8,7 +8,6 @@ import { animateScroll as scroll } from "react-scroll";
 
 const FilmDetailCont = () => {
   const { moviesList, apiKey, baseUrl } = useAppContext();
-
   const { favoritemovie } = useFavoriteContext();
 
   //parametro id de la pelicula para url
@@ -66,7 +65,8 @@ const FilmDetailCont = () => {
     getMovieVideos();
     setFilm(
       moviesList.find((m) => m.id === parseInt(filmId)) ||
-        favoritemovie.find((f) => f.id === parseInt(filmId))||true
+        favoritemovie.find((f) => f.id === parseInt(filmId)) ||
+        true
     );
   }, [apiKey, baseUrl, favoritemovie, filmId, moviesList]);
 
@@ -74,7 +74,6 @@ const FilmDetailCont = () => {
     <div>
       {film ? (
         <FilmDetail
-          film={film}
           details={filmDetail}
           filmCredits={filmCredits}
           videosFilm={videosFilm}
