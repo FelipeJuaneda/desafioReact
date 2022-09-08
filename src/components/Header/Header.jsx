@@ -4,7 +4,7 @@ import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import logo from "../images/iconoPororo.png";
 import { Link } from "react-router-dom";
-import { animateScroll as scroll, scroller } from "react-scroll";
+import { animateScroll as scroll } from "react-scroll";
 
 const Header = () => {
   const navigation = [
@@ -16,12 +16,6 @@ const Header = () => {
 
   let ubicacionActual = window.pageYOffset;
   const effectScroll = () => {
-    // if (window.scrollY >= 75 && window.screen.width < 768) {
-    //   setScrollActive(true);
-    // } else {
-    //   setScrollActive(false);
-    // }
-
     let desplazamientoActual = window.pageYOffset;
     if (
       ubicacionActual >= desplazamientoActual &&
@@ -39,7 +33,7 @@ const Header = () => {
     <header
       className={
         scrollActive
-          ? "fixed w-full top-0 p-3 bg-[#198754ea] transition duration-200"
+          ? "fixed w-full top-0 p-2 bg-[#198754ea] transition-all duration-400 ease-in"
           : "768:pt-6"
       }
     >
@@ -63,7 +57,7 @@ const Header = () => {
                 </Link>
 
                 <div className="flex items-center -mr-2 md:hidden">
-                  <Popover.Button className="inline-flex items-center justify-center p-2 text-gray-400 bg-white rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                  <Popover.Button className="inline-flex items-center justify-center p-1  text-gray-400 bg-white rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                     <span className="sr-only">Open main menu</span>
                     <MenuIcon className="w-6 h-6" aria-hidden="true" />
                   </Popover.Button>
@@ -114,7 +108,7 @@ const Header = () => {
             className="absolute inset-x-0 top-0 z-10 p-2 transition origin-top-right transform md:hidden"
           >
             <div className="overflow-hidden bg-white rounded-lg shadow-md ring-1 ring-black ring-opacity-5">
-              <div className="flex items-center justify-between px-5 pt-4">
+              <div className="flex items-center justify-between px-4 pt-3">
                 <div>
                   <img className="w-auto h-8" src={logo} alt="" />
                 </div>
@@ -142,7 +136,7 @@ const Header = () => {
               <div className="flex">
                 <a
                   href="/"
-                  className="block w-full px-5 py-3 font-medium text-center text-indigo-600 bg-gray-50 hover:bg-gray-100"
+                  className="block w-full px-2 py-2 font-medium text-center text-indigo-600 bg-gray-50 hover:bg-gray-100"
                 >
                   Iniciar Sesión
                 </a>
@@ -151,7 +145,7 @@ const Header = () => {
                   onClick={() => {
                     scroll.scrollTo(600);
                   }}
-                  className="block w-full px-5 py-3 font-medium text-center text-red-500 hover:text-red-400 bg-gray-50 hover:bg-gray-100"
+                  className="block w-full px-2 py-2 font-medium text-center text-red-500 hover:text-red-400 bg-gray-50 hover:bg-gray-100"
                 >
                   Mis Favoritos
                 </Link>

@@ -17,7 +17,7 @@ const PopularMovies = () => {
     <Element name="popularElement" id="popularMovieElement">
       <div className="text-center ">
         <div className="navbar navbar-light bg-light">
-          <div className="pt-5 pb-5 container-fluid justify-content-evenly">
+          <div className="md:pb-5 md:pt-5 container-fluid justify-content-evenly 768:pt-3 768:pb-3">
             {/* componente de estrellas */}
             <StartCalification />
             {/* Buscador de peliculas */}
