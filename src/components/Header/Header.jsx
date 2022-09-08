@@ -14,12 +14,25 @@ const Header = () => {
   ];
   const [scrollActive, setScrollActive] = useState(false);
 
+  let ubicacionActual = window.pageYOffset;
   const effectScroll = () => {
-    if (window.scrollY >= 75 && window.screen.width < 768) {
+    // if (window.scrollY >= 75 && window.screen.width < 768) {
+    //   setScrollActive(true);
+    // } else {
+    //   setScrollActive(false);
+    // }
+
+    let desplazamientoActual = window.pageYOffset;
+    if (
+      ubicacionActual >= desplazamientoActual &&
+      window.screen.width < 768 &&
+      window.scrollY > 0
+    ) {
       setScrollActive(true);
     } else {
       setScrollActive(false);
     }
+    ubicacionActual = desplazamientoActual;
   };
   window.addEventListener("scroll", effectScroll);
   return (
