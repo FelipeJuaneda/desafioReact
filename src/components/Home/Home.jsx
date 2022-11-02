@@ -3,10 +3,36 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAppContext } from "../contexts/AppContext";
 import Header from "../Header/Header";
-import imgHome from "../images/fotoHome.jpg";
 import { animateScroll as scroll } from "react-scroll";
 export default function Home() {
   const { setStartsList, setPagination } = useAppContext();
+
+  const buttonsHome = [
+    {
+      id: 1,
+      title: "Peliculas Populares",
+      divFather: "mt-3 shadow",
+      to: "/popularFilms",
+      linkClass:
+        "w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-[#198754] hover:bg-[#41aa79] md:py-4 md:text-lg md:px-10",
+    },
+    {
+      id: 2,
+      title: "Series Populares",
+      divFather: "mt-3 sm:mt-0 sm:ml-3",
+      to: "/popularTv",
+      linkClass:
+        "w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-[#198754] bg-indigo-100 hover:bg-[#19875415] hover:text-[#1d8b58e7] md:py-4 md:text-lg md:px-10",
+    },
+  ];
+  const imgsHome = [
+    "https://i.ibb.co/PZhq2YZ/fotoHome.jpg",
+    "https://i.ibb.co/pJ3gHF3/pexels-tima-miroshnichenko-7991158.jpg",
+    "https://i.ibb.co/2S1f1hW/pexels-pixabay-33129.jpg",
+    "https://i.ibb.co/wCWPRzq/pexels-martin-lopez-1117132.jpg",
+    "https://i.ibb.co/m5pxcRN/pexels-cottonbro-8263345.jpg",
+  ];
+  const randomImgs = imgsHome[Math.floor(imgsHome.length * Math.random())];
 
   return (
     <div className="relative overflow-hidden bg-white">
@@ -37,32 +63,23 @@ export default function Home() {
                 descubrir. Explora ahora.
               </p>
               <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                <div className="mt-3 shadow">
-                  <Link
-                    to={"/popularFilms"}
-                    onClick={() => {
-                      scroll.scrollTo(630);
-                      setStartsList(undefined);
-                      setPagination(1);
-                    }}
-                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-[#198754] hover:bg-[#41aa79] md:py-4 md:text-lg md:px-10"
-                  >
-                    Peliculas Populares
-                  </Link>
-                </div>
-                <div className="mt-3 sm:mt-0 sm:ml-3">
-                  <Link
-                    to={"/popularTv"}
-                    onClick={() => {
-                      scroll.scrollTo(630);
-                      setStartsList(undefined);
-                      setPagination(1);
-                    }}
-                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-[#198754] bg-indigo-100 hover:bg-[#19875415] hover:text-[#1d8b58e7] md:py-4 md:text-lg md:px-10"
-                  >
-                    Series Populares
-                  </Link>
-                </div>
+                {buttonsHome.map((boton) => {
+                  return (
+                    <div key={boton.id} className={boton.divFather}>
+                      <Link
+                        to={boton.to}
+                        onClick={() => {
+                          scroll.scrollTo(630);
+                          setStartsList(undefined);
+                          setPagination(1);
+                        }}
+                        className={boton.linkClass}
+                      >
+                        {boton.title}
+                      </Link>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </main>
@@ -71,7 +88,7 @@ export default function Home() {
       <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
         <img
           className="object-cover w-full h-56 sm:h-72 md:h-96 lg:w-full lg:h-full"
-          src={imgHome}
+          src={randomImgs}
           alt=""
         />
       </div>

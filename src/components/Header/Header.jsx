@@ -33,8 +33,8 @@ const Header = () => {
     <header
       className={
         scrollActive
-          ? "fixed w-full top-0 p-2 bg-[#198754ea] transition-all duration-400 ease-in"
-          : "768:pt-6"
+          ? "fixed w-full top-0 p-2 bg-[#198754ea] transition-top duration-300 z-20"
+          : "768:top-[-64px] 768:pt-6"
       }
     >
       <Popover>
@@ -57,7 +57,7 @@ const Header = () => {
                 </Link>
 
                 <div className="flex items-center -mr-2 md:hidden">
-                  <Popover.Button className="inline-flex items-center justify-center p-1  text-gray-400 bg-white rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                  <Popover.Button className="inline-flex items-center justify-center p-1 text-gray-400 bg-white rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                     <span className="sr-only">Open main menu</span>
                     <MenuIcon className="w-6 h-6" aria-hidden="true" />
                   </Popover.Button>

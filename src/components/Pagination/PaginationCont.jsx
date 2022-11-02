@@ -6,7 +6,7 @@ const PaginationCont = () => {
   const { setPagination, pagination, setStartsList } = useAppContext();
 
   const valueElement = "popularElement";
-
+  const buttonsPagination = [{ number: 1 }, { number: 2 }, { number: 3 }];
   return (
     <div>
       <nav aria-label="Page navigation example">
@@ -19,42 +19,22 @@ const PaginationCont = () => {
               Anterior
             </button>
           </li>
-          <li className="page-item">
-            <button
-              className="page-link"
-              onClick={() => {
-                setPagination(1);
-                scroller.scrollTo(valueElement);
-                setStartsList(undefined);
-              }}
-            >
-              1
-            </button>
-          </li>
-          <li className="page-item">
-            <button
-              className="page-link"
-              onClick={() => {
-                setPagination(2);
-                scroller.scrollTo(valueElement);
-                setStartsList(undefined);
-              }}
-            >
-              2
-            </button>
-          </li>
-          <li className="page-item">
-            <button
-              className="page-link"
-              onClick={() => {
-                setPagination(3);
-                scroller.scrollTo(valueElement);
-                setStartsList(undefined);
-              }}
-            >
-              3
-            </button>
-          </li>
+          {buttonsPagination.map((element) => {
+            return (
+              <li key={element.number} className="page-item">
+                <button
+                  className="page-link"
+                  onClick={() => {
+                    setPagination(element.number);
+                    scroller.scrollTo(valueElement);
+                    setStartsList(undefined);
+                  }}
+                >
+                  {element.number}
+                </button>
+              </li>
+            );
+          })}
           <li className="page-item">
             <button
               className="page-link"
