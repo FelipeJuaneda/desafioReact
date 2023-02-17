@@ -1,5 +1,5 @@
 import React from "react";
-import { useAppContext } from "../contexts/AppContext";
+import { useAppContext } from "../../contexts/AppContext";
 import StartItems from "../StartCalification/StartItems";
 import { Link } from "react-router-dom";
 import PaginationCont from "../Pagination/PaginationCont";

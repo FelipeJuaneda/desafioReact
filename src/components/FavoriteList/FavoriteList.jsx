@@ -7,7 +7,7 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
 import SwiperCarousel from "../SwiperCarousel/SwiperCarousel";
-import { useFavoriteContext } from "../contexts/FavoriteContext";
+import { useFavoriteContext } from "../../contexts/FavoriteContext";
 
 const FavoriteList = () => {
   const { favoritemovie, removeMovieToFavorite, removeTvToTvList, favoritetv } =

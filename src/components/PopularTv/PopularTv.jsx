@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useAppContext } from "../contexts/AppContext";
+import { useAppContext } from "../../contexts/AppContext";
 import PaginationCont from "../Pagination/PaginationCont";
 import StartCalification from "../StartCalification/StartCalification";
 import StartItems from "../StartCalification/StartItems";

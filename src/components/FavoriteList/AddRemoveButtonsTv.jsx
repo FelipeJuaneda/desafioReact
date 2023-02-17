@@ -1,5 +1,5 @@
 import React from "react";
-import { useFavoriteContext } from "../contexts/FavoriteContext";
+import { useFavoriteContext } from "../../contexts/FavoriteContext";
 import toast, { Toaster } from "react-hot-toast";
 
 const AddRemoveButtonsTv = ({ tvShowState }) => {

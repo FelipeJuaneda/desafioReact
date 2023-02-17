@@ -5,8 +5,13 @@ import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import logo from "../images/iconoPororo.png";
 import { Link } from "react-router-dom";
 import { animateScroll as scroll } from "react-scroll";
+import { useAuthContext } from "../../contexts/AuthContext";
 
 const Header = () => {
+  const { user, logout } = useAuthContext();
+  const handleLogOut = async () => {
+    await logout();
+  };
   const navigation = [
     { name: "Peliculas", to: "/popularFilms", scrollTo: 600 },
     { name: "Series", to: "/popularTv", scrollTo: 600 },
@@ -77,12 +82,23 @@ const Header = () => {
                   {item.name}
                 </Link>
               ))}
-              <a
-                href="/"
-                className="font-medium text-[#198754] hover:text-[#1d8b58e7]"
-              >
-                Iniciar Sesión
-              </a>
+              {user === null ? (
+                <Link
+                  to={"/login"}
+                  className="font-medium text-[#198754] hover:text-[#1d8b58e7]"
+                >
+                  Iniciar Sesión
+                </Link>
+              ) : (
+                <Link
+                  to={"/login"}
+                  onClick={handleLogOut}
+                  className="font-medium text-red hover:text-red-400"
+                >
+                  Cerrar Sesión
+                </Link>
+              )}
+
               <Link
                 to="/favoriteList"
                 onClick={() => scroll.scrollTo(650)}
