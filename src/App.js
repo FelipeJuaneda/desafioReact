@@ -19,13 +19,12 @@ import Header from "./components/Header/Header";
 
 function App() {
   let location = useLocation();
-  console.log(location.pathname)
   return (
     <AuthProvider>
       <AppContextProvider>
         <FavoriteContextProvider>
           <div className="App">
-            {location.pathname!=="/"&&<Header/>}
+            {location.pathname !== "/" && <Header />}
             <Routes>
               <Route
                 path="/"
@@ -50,7 +49,16 @@ function App() {
               />
               <Route path="/popularTv" element={<PopularTv />} />
               <Route path="/popularPeople" element={<PopularPeople />} />
-              <Route path="/favoriteList" element={<FavoriteList />} />
+              <Route
+                path="/favoriteList"
+                element={
+                  <>
+                    <ProtectedRoute>
+                      <FavoriteList />
+                    </ProtectedRoute>
+                  </>
+                }
+              />
               <Route path="film/:filmId" element={<FilmDetailCont />} />
               <Route path="tvShow/:tvId" element={<TvDetailCont />} />
               <Route path="genre/:genreId" element={<GenreList />} />

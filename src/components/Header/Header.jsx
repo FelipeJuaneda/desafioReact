@@ -4,7 +4,6 @@ import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import logo from "../images/iconoPororo.png";
 import { Link } from "react-router-dom";
-import { animateScroll as scroll } from "react-scroll";
 import { useAuthContext } from "../../contexts/AuthContext";
 
 const Header = () => {
@@ -13,9 +12,9 @@ const Header = () => {
     await logout();
   };
   const navigation = [
-    { name: "Peliculas", to: "/popularFilms", scrollTo: 600 },
-    { name: "Series", to: "/popularTv", scrollTo: 600 },
-    { name: "Personas", to: "/popularPeople", scrollTo: 600 },
+    { name: "Peliculas", to: "/popularFilms" },
+    { name: "Series", to: "/popularTv" },
+    { name: "Personas", to: "/popularPeople" },
   ];
   const [scrollActive, setScrollActive] = useState(false);
 
@@ -38,14 +37,14 @@ const Header = () => {
     <header
       className={
         scrollActive
-          ? "fixed w-full top-0 p-2 bg-[#198754ea] transition-top duration-300 z-20"
-          : "768:top-[-64px] 768:pt-6"
+          ? "fixed w-full top-0 bg-[#198754ea] transition-top duration-300 z-20"
+          : "768:top-[-64px]"
       }
     >
       <Popover>
-        <div className="px-4 pt-6 relativ sm:px-6 lg:px-8 768:p-0">
+        <div className="px-4 640:py-3 sm:py-5 lg:py-7 relative sm:px-6 lg:px-8">
           <nav
-            className="relative flex items-center justify-between sm:h-10 lg:justify-start"
+            className="relative flex items-center justify-around sm:h-10 "
             aria-label="Global"
           >
             <div className="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
@@ -75,13 +74,16 @@ const Header = () => {
                   key={item.name}
                   to={item.to}
                   className="font-medium text-gray-500 hover:text-gray-900"
-                  onClick={() => {
-                    scroll.scrollTo(item.scrollTo);
-                  }}
                 >
                   {item.name}
                 </Link>
               ))}
+              <Link
+                to="/favoriteList"
+                className="font-medium text-red-500 hover:text-red-400"
+              >
+                Mis Favoritos
+              </Link>
               {user === null ? (
                 <Link
                   to={"/login"}
@@ -98,14 +100,6 @@ const Header = () => {
                   Cerrar Sesión
                 </Link>
               )}
-
-              <Link
-                to="/favoriteList"
-                onClick={() => scroll.scrollTo(650)}
-                className="font-medium text-red-500 hover:text-red-400"
-              >
-                Mis Favoritos
-              </Link>
             </div>
           </nav>
         </div>
@@ -141,31 +135,36 @@ const Header = () => {
                     key={item.name}
                     to={item.to}
                     className="block px-3 py-2 text-base font-medium text-gray-700 rounded-md hover:text-gray-900 hover:bg-gray-50"
-                    onClick={() => {
-                      scroll.scrollTo(item.scrollTo);
-                    }}
                   >
                     {item.name}
                   </Link>
                 ))}
               </div>
               <div className="flex">
-                <a
-                  href="/"
-                  className="block w-full px-2 py-2 font-medium text-center text-indigo-600 bg-gray-50 hover:bg-gray-100"
-                >
-                  Iniciar Sesión
-                </a>
                 <Link
                   to={"/favoriteList"}
-                  onClick={() => {
-                    scroll.scrollTo(600);
-                  }}
                   className="block w-full px-2 py-2 font-medium text-center text-red-500 hover:text-red-400 bg-gray-50 hover:bg-gray-100"
                 >
                   Mis Favoritos
                 </Link>
+                {user === null ? (
+                  <Link
+                    to={"/login"}
+                    className="font-medium text-[#198754] hover:text-[#1d8b58e7] block w-full px-2 py-2  text-center  bg-gray-50 hover:bg-gray-100"
+                  >
+                    Iniciar Sesión
+                  </Link>
+                ) : (
+                  <Link
+                    to={"/login"}
+                    onClick={handleLogOut}
+                    className="font-medium text-red hover:text-red-400 block w-full px-2 py-2 text-center bg-gray-50 hover:bg-gray-100"
+                  >
+                    Cerrar Sesión
+                  </Link>
+                )}
               </div>
+              <div></div>
             </div>
           </Popover.Panel>
         </Transition>

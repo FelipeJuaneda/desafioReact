@@ -15,8 +15,10 @@ const RecoverPassword = () => {
     try {
       await resetPassword(email);
     } catch (error) {
-        if(error.code==="auth/invalid-email")return setError("Ingresa un Email valido")
-        if(error.code==="auth/user-not-found")return setError("El Email ingresado no se encontro")
+      if (error.code === "auth/invalid-email")
+        return setError("Ingresa un Email valido");
+      if (error.code === "auth/user-not-found")
+        return setError("El Email ingresado no se encontro");
       setError(error.message);
     }
   };

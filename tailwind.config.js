@@ -12,7 +12,7 @@ module.exports = {
         '550': { 'raw': '(max-width: 550px)' },
         '580': { 'raw': '(max-width: 580px)' },
         '768': { 'raw': '(max-width: 768px)' },
-
+        '640':{ 'raw': '(max-width: 640px)' }
       }
     },
     fontFamily:{
