@@ -1,8 +1,7 @@
-/* This example requires Tailwind CSS v2.0+ */
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAppContext } from "../../contexts/AppContext";
-import Header from "../Header/Header";
+import Header from "../../Layouts/Header/Header";
 import { useAuthContext } from "../../contexts/AuthContext";
 export default function Home() {
   const { setStartsList, setPagination } = useAppContext();

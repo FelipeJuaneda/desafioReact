@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAppContext } from "../../contexts/AppContext";
 import FilmDetail from "./FilmDetail";
-import pororoLoad from "../images/pororoLoad.gif";
+import pororoLoad from "../../images/pororoLoad.gif";
 import { useFavoriteContext } from "../../contexts/FavoriteContext";
 import { animateScroll as scroll } from "react-scroll";
 

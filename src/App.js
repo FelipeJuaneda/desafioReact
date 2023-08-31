@@ -1,21 +1,21 @@
-import AppContextProvider from "./contexts/AppContext";
 import { Routes, Route, useLocation } from "react-router-dom";
-import FilmDetailCont from "./components/FilmsDetails/FilmDetailCont";
-import PopularMovies from "./components/PopularMovies/PopularMovies";
-import PopularTv from "./components/PopularTv/PopularTv";
-import TvDetailCont from "./components/TvDetails/TvDetailCont";
-import PageNotFound from "./components/PageNotFound/PageNotFound";
-import PopularPeople from "./components/PopularPeople/PopularPeople";
-import FavoriteList from "./components/FavoriteList/FavoriteList";
-import GenreList from "./components/GenreList/GenreList";
-import FavoriteContextProvider from "./contexts/FavoriteContext";
-import Login from "./components/RegisterLogin/Login/Login";
 import AuthProvider from "./contexts/AuthContext";
-import Register from "./components/RegisterLogin/Register/Register";
-import Home from "./components/Home/Home";
-import ProtectedRoute from "./components/RegisterLogin/ProtectedRoute";
-import RecoverPassword from "./components/RegisterLogin/RecoverPassword/RecoverPassword";
-import Header from "./components/Header/Header";
+import AppContextProvider from "./contexts/AppContext";
+import FavoriteContextProvider from "./contexts/FavoriteContext";
+import Header from "./Layouts/Header/Header";
+import ProtectedRoute from "./Pages/RegisterLogin/ProtectedRoute";
+import Login from "./Pages/RegisterLogin/Login/Login";
+import RecoverPassword from "./Pages/RegisterLogin/RecoverPassword/RecoverPassword";
+import Register from "./Pages/RegisterLogin/Register/Register";
+import Home from "./Pages/Home/Home";
+import PopularTv from "./Pages/PopularTv/PopularTv";
+import PopularPeople from "./Pages/PopularPeople/PopularPeople";
+import FavoriteList from "./Pages/FavoriteList/FavoriteList";
+import FilmDetailCont from "./Pages/FilmsDetails/FilmDetailCont";
+import TvDetailCont from "./Pages/TvDetails/TvDetailCont";
+import GenreList from "./Pages/GenreList/GenreList";
+import PageNotFound from "./Pages/PageNotFound/PageNotFound";
+import PopularMovies from "./Pages/PopularMovies/PopularMovies";
 
 function App() {
   let location = useLocation();
@@ -29,24 +29,15 @@ function App() {
               <Route
                 path="/"
                 element={
-                  <>
-                    <ProtectedRoute>
-                      <Home />
-                    </ProtectedRoute>
-                  </>
+                  <ProtectedRoute>
+                    <Home />
+                  </ProtectedRoute>
                 }
               />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/recoverPassword" element={<RecoverPassword />} />
-              <Route
-                path="/popularFilms"
-                element={
-                  <>
-                    <PopularMovies />
-                  </>
-                }
-              />
+              <Route path="/popularFilms" element={<PopularMovies />} />
               <Route path="/popularTv" element={<PopularTv />} />
               <Route path="/popularPeople" element={<PopularPeople />} />
               <Route

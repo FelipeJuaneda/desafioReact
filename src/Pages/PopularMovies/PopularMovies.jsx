@@ -1,16 +1,16 @@
 import React from "react";
 import { useAppContext } from "../../contexts/AppContext";
-import StartItems from "../StartCalification/StartItems";
+import StartItems from "../../components/StartCalification/StartItems";
 import { Link } from "react-router-dom";
-import PaginationCont from "../Pagination/PaginationCont";
-import StartCalification from "../StartCalification/StartCalification";
-import notFoundMovie from "../images/gifNotFound.gif";
+import PaginationCont from "../../components/Pagination/PaginationCont";
+import StartCalification from "../../components/StartCalification/StartCalification";
+import notFoundMovie from "../../images/gifNotFound.gif";
 import { Element } from "react-scroll";
 import { SwiperSlide } from "swiper/react";
-import SwiperCarousel from "../SwiperCarousel/SwiperCarousel";
-import SearchForm from "../SearchForm/SearchForm";
+import SwiperCarousel from "../../components/SwiperCarousel/SwiperCarousel";
+import SearchForm from "../../components/SearchForm/SearchForm";
 
-const PopularMovies = () => {
+const Popular = () => {
   const { moviesList } = useAppContext();
 
   return (
@@ -65,4 +65,4 @@ const PopularMovies = () => {
   );
 };
 
-export default PopularMovies;
+export default Popular;

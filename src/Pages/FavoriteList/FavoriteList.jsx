@@ -2,12 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Element } from "react-scroll";
 import { SwiperSlide } from "swiper/react";
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
-import SwiperCarousel from "../SwiperCarousel/SwiperCarousel";
 import { useFavoriteContext } from "../../contexts/FavoriteContext";
+import SwiperCarousel from "../../components/SwiperCarousel/SwiperCarousel";
 
 const FavoriteList = () => {
   const { favoritemovie, removeMovieToFavorite, removeTvToTvList, favoritetv } =

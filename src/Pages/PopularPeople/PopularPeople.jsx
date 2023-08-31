@@ -1,7 +1,7 @@
 import React from "react";
 import { Element } from "react-scroll";
 import { useAppContext } from "../../contexts/AppContext";
-import PaginationCont from "../Pagination/PaginationCont";
+import PaginationCont from "../../components/Pagination/PaginationCont";
 const PopularPeople = () => {
   const { popularPeople } = useAppContext();
   return (

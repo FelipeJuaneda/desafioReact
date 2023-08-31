@@ -1,14 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAppContext } from "../../contexts/AppContext";
-import PaginationCont from "../Pagination/PaginationCont";
-import StartCalification from "../StartCalification/StartCalification";
-import StartItems from "../StartCalification/StartItems";
-import pororoLoad from "../images/pororoLoad.gif";
+import PaginationCont from "../../components/Pagination/PaginationCont";
+import StartCalification from "../../components/StartCalification/StartCalification";
+import StartItems from "../../components/StartCalification/StartItems";
+import pororoLoad from "../../images/pororoLoad.gif";
 import { Element } from "react-scroll";
 import { SwiperSlide } from "swiper/react";
-import SwiperCarousel from "../SwiperCarousel/SwiperCarousel";
-import SearchForm from "../SearchForm/SearchForm";
+import SwiperCarousel from "../../components/SwiperCarousel/SwiperCarousel";
+import SearchForm from "../../components/SearchForm/SearchForm";
 
 const PopularTv = () => {
   const { tvPopularList } = useAppContext();

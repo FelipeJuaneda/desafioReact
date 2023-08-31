@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
-import logo from "../images/iconoPororo.png";
+import logo from "../../images/iconoPororo.png";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
 
@@ -42,7 +42,7 @@ const Header = () => {
       }
     >
       <Popover>
-        <div className="px-4 640:py-3 sm:py-5 lg:py-7 relative sm:px-6 lg:px-8">
+        <div className="relative px-4 640:py-3 sm:py-5 lg:py-7 sm:px-6 lg:px-8">
           <nav
             className="relative flex items-center justify-around sm:h-10 "
             aria-label="Global"
@@ -158,7 +158,7 @@ const Header = () => {
                   <Link
                     to={"/login"}
                     onClick={handleLogOut}
-                    className="font-medium text-red hover:text-red-400 block w-full px-2 py-2 text-center bg-gray-50 hover:bg-gray-100"
+                    className="block w-full px-2 py-2 font-medium text-center text-red hover:text-red-400 bg-gray-50 hover:bg-gray-100"
                   >
                     Cerrar Sesión
                   </Link>

@@ -24,27 +24,12 @@ function StartCalification() {
     setCurrentValue(value);
     let updateList =
       location.pathname === "/popularFilms" ? moviesList : tvPopularList;
-      
-    if (value === 1) {
-      updateList = updateList.filter((item) => item.vote_average <= 2);
-    } else if (value === 2) {
-      updateList = updateList.filter(
-        (item) => item.vote_average > 2 && item.vote_average < 4
-      );
-    } else if (value === 3) {
-      updateList = updateList.filter(
-        (item) => item.vote_average > 4 && item.vote_average < 6
-      );
-    } else if (value === 4) {
-      updateList = updateList.filter(
-        (item) => item.vote_average > 6 && item.vote_average < 8
-      );
-    } else if (value === 5) {
-      updateList = updateList.filter(
-        (item) => item.vote_average > 8 && item.vote_average < 10
-      );
-    }
-    setStartsList(updateList);
+    const minRating = (value - 1) * 2;
+    const maxRating = minRating + 2;
+    const filteredList = updateList.filter(
+      (item) => item.vote_average > minRating && item.vote_average <= maxRating
+    );
+    setStartsList(filteredList);
   };
 
   const handleMouseOver = (newHoverValue) => {

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../../contexts/AuthContext";
-import imgRegister from "../../images/imgRegister.jpg";
-import logo from "../../images/iconoPororo.png";
+import imgRegister from "../../../images/imgRegister.jpg";
+import logo from "../../../images/iconoPororo.png";
 
 const Register = () => {
   const { signUp } = useAuthContext();
@@ -99,7 +99,7 @@ const Register = () => {
 
             {error && (
               <div className="container border-l-4 border-amber-500 bg-amber-200">
-                <div className="ml-2 p-2 flex justify-center gap-3">
+                <div className="flex justify-center gap-3 p-2 ml-2">
                   <strong>Warning </strong> <span>{error}</span>
                 </div>
               </div>

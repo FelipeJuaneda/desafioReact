@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../../contexts/AuthContext";
-import imgLogin from "../../images/imgLogin.jpg";
+import imgLogin from "../../../images/imgLogin.jpg";
 
 const Login = () => {
   const { login, loginWithGoogle, loginWithFacebook } = useAuthContext();
@@ -74,7 +74,7 @@ const Login = () => {
         </div>
         {error && (
           <div className="container border-l-4 border-amber-500 bg-amber-200">
-            <div className="ml-2 p-2 flex justify-center gap-3">
+            <div className="flex justify-center gap-3 p-2 ml-2">
               <strong>Warning </strong> <span>{error}</span>
             </div>
           </div>
@@ -97,7 +97,7 @@ const Login = () => {
               />
 
               <span className="absolute inset-y-0 inline-flex items-center right-4">
-                <i className="ri-at-line text-lg text-gray-400" />
+                <i className="text-lg text-gray-400 ri-at-line" />
               </span>
             </div>
           </div>
@@ -117,12 +117,12 @@ const Login = () => {
 
               <span
                 onClick={handleViewPassword}
-                className="absolute inset-y-0 inline-flex items-center right-4 cursor-pointer"
+                className="absolute inset-y-0 inline-flex items-center cursor-pointer right-4"
               >
                 {viewPassword ? (
-                  <i className="ri-eye-line text-lg text-gray-400" />
+                  <i className="text-lg text-gray-400 ri-eye-line" />
                 ) : (
-                  <i className="ri-eye-off-line text-lg text-gray-400" />
+                  <i className="text-lg text-gray-400 ri-eye-off-line" />
                 )}
               </span>
             </div>
