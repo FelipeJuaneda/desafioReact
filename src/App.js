@@ -37,8 +37,26 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/recoverPassword" element={<RecoverPassword />} />
-              <Route path="/popularFilms" element={<PopularMovies />} />
-              <Route path="/popularTv" element={<PopularTv />} />
+              <Route
+                path="/popularFilms"
+                element={
+                  <PopularMovies
+                    typePopular="movie"
+                    title="Peliculas Populares"
+                    to="film"
+                  />
+                }
+              />
+              <Route
+                path="/popularTv"
+                element={
+                  <PopularMovies
+                    typePopular="tv"
+                    title="Series Populares"
+                    to="tv"
+                  />
+                }
+              />
               <Route path="/popularPeople" element={<PopularPeople />} />
               <Route
                 path="/favoriteList"

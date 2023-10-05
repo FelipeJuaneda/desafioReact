@@ -1,9 +1,10 @@
 import React from "react";
 import { useAppContext } from "../../contexts/AppContext";
+import useSearch from "../../hooks/useSearch";
 
 const SearchForm = () => {
-  const { searchMovies, setSearchKey, setStartsList, searchKey } =
-    useAppContext();
+  const { setStartsList } = useAppContext();
+  const { searchKey, setSearchKey, searchMovies } = useSearch();
   return (
     <form onSubmit={searchMovies} className="d-flex">
       <input
