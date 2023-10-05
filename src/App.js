@@ -53,7 +53,7 @@ function App() {
                   <PopularMovies
                     typePopular="tv"
                     title="Series Populares"
-                    to="tv"
+                    to="tvShow"
                   />
                 }
               />

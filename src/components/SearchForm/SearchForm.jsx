@@ -2,16 +2,23 @@ import React from "react";
 import { useAppContext } from "../../contexts/AppContext";
 import useSearch from "../../hooks/useSearch";
 
-const SearchForm = () => {
+const SearchForm = ({ getPopularData }) => {
   const { setStartsList } = useAppContext();
-  const { searchKey, setSearchKey, searchMovies } = useSearch();
+  const { searchKey, setSearchKey } = useSearch();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    getPopularData(searchKey);
+  };
+  const handleChange = (e) => {
+    setSearchKey(e.target.value);
+    setStartsList(undefined);
+  };
+
   return (
-    <form onSubmit={searchMovies} className="d-flex">
+    <form onSubmit={handleSubmit} className="d-flex">
       <input
-        onChange={(e) => {
-          setSearchKey(e.target.value);
-          setStartsList(undefined);
-        }}
+        onChange={handleChange}
         className="form-control me-2"
         type="search"
         placeholder="Buscar"

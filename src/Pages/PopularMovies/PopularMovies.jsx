@@ -1,22 +1,21 @@
-import React from "react";
-// import { useAppContext } from "../../contexts/AppContext";
 import StartItems from "../../components/StartCalification/StartItems";
 import { Link } from "react-router-dom";
 import PaginationCont from "../../components/Pagination/PaginationCont";
 import StartCalification from "../../components/StartCalification/StartCalification";
-import notFoundMovie from "../../images/gifNotFound.gif";
 import { Element } from "react-scroll";
 import { SwiperSlide } from "swiper/react";
 import SwiperCarousel from "../../components/SwiperCarousel/SwiperCarousel";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import usePopularData from "../../hooks/usePopularData";
-import useSearch from "../../hooks/useSearch";
+import Loading from "../../components/Loading/Loading";
 
 const Popular = ({ typePopular, title, to }) => {
-  const { data, loading } = usePopularData(typePopular);
+  const { data, loading, getPopularData } = usePopularData(typePopular);
+
   if (loading) {
-    <img src={notFoundMovie} alt="Pelicula no encontrada" />;
+    <Loading />;
   }
+
   return (
     <Element name="popularElement" id="popularMovieElement">
       <div className="text-center ">
@@ -25,7 +24,7 @@ const Popular = ({ typePopular, title, to }) => {
             {/* componente de estrellas */}
             <StartCalification />
             {/* Buscador */}
-            <SearchForm />
+            <SearchForm getPopularData={getPopularData} />
           </div>
         </div>
         {/* aca se imprimen los filtrados por estrellas */}
