@@ -19,7 +19,7 @@ const StartItems = () => {
                   src={
                     el.poster_path === null
                       ? "https://www.orbis.com.ar/wp-content/themes/barberry/images/placeholder.jpg"
-                      : "https://image.tmdb.org/t/p/w500/" + el.poster_path
+                      : `https://image.tmdb.org/t/p/w500/${el.poster_path}`
                   }
                   className="object-cover w-full h-full"
                   alt="poster de peliculas populares"
