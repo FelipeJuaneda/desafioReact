@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 const usePopularData = (typePopular) => {
   const [data, setData] = useState([]);
   console.log(data);
-  //   const { searchKey } = useSearch();
 
   const apiKey = "2b935647da58bcc58e034d8d53657003";
   const baseUrl = "https://api.themoviedb.org/3/";
