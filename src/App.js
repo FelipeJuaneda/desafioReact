@@ -8,14 +8,13 @@ import Login from "./Pages/RegisterLogin/Login/Login";
 import RecoverPassword from "./Pages/RegisterLogin/RecoverPassword/RecoverPassword";
 import Register from "./Pages/RegisterLogin/Register/Register";
 import Home from "./Pages/Home/Home";
-import PopularTv from "./Pages/PopularTv/PopularTv";
 import PopularPeople from "./Pages/PopularPeople/PopularPeople";
 import FavoriteList from "./Pages/FavoriteList/FavoriteList";
 import FilmDetailCont from "./Pages/FilmsDetails/FilmDetailCont";
 import TvDetailCont from "./Pages/TvDetails/TvDetailCont";
 import GenreList from "./Pages/GenreList/GenreList";
 import PageNotFound from "./Pages/PageNotFound/PageNotFound";
-import PopularMovies from "./Pages/PopularMovies/PopularMovies";
+import PopularMovies from "./Pages/Popular/Popular";
 
 function App() {
   let location = useLocation();

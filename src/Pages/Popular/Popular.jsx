@@ -8,12 +8,25 @@ import SwiperCarousel from "../../components/SwiperCarousel/SwiperCarousel";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import usePopularData from "../../hooks/usePopularData";
 import Loading from "../../components/Loading/Loading";
+import { useEffect, useState } from "react";
 
 const Popular = ({ typePopular, title, to }) => {
   const { data, loading, getPopularData } = usePopularData(typePopular);
+  const [filteredData, setFilteredData] = useState([]);
+  const [hasFilter, setHasFilter] = useState(false);
+  console.log(filteredData);
+
+  useEffect(() => {
+    setFilteredData([]);
+  }, [data]);
+
+  const handleFilterData = (filteredData) => {
+    setFilteredData(filteredData);
+    setHasFilter(true);
+  };
 
   if (loading) {
-    <Loading />;
+    return <Loading />;
   }
 
   return (
@@ -22,13 +35,17 @@ const Popular = ({ typePopular, title, to }) => {
         <div className="navbar navbar-light bg-light">
           <div className="md:pb-5 md:pt-5 container-fluid justify-content-evenly 768:pt-3 768:pb-3">
             {/* componente de estrellas */}
-            <StartCalification />
+            <StartCalification
+              data={data}
+              setHasFilter={setHasFilter}
+              setFilteredData={handleFilterData}
+            />
             {/* Buscador */}
             <SearchForm getPopularData={getPopularData} />
           </div>
         </div>
         {/* aca se imprimen los filtrados por estrellas */}
-        <StartItems />
+        <StartItems to={to} data={filteredData} hasFilter={hasFilter} />
 
         <span className=" text-uppercase fs-2 font-monospace">{title}</span>
         <div className="flex flex-wrap items-center justify-center select-none popularMoviesCont gap-7">

@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
+import Loading from "../components/Loading/Loading";
 
 const usePopularData = (typePopular) => {
   const [data, setData] = useState([]);
-  console.log(data);
 
   const apiKey = "2b935647da58bcc58e034d8d53657003";
   const baseUrl = "https://api.themoviedb.org/3/";
 
   const [loading, setLoading] = useState(true);
+
   const getPopularData = async (searchKey) => {
     const type = searchKey ? "search" : "discover";
     try {
