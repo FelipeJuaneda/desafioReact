@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-const StartItems = ({ to, data, hasFilter }) => {
+const StartItems = ({ title, to, data, hasFilter }) => {
   return (
     <div className="flex flex-wrap items-center justify-center gap-1 mt-8 mb-12 startItemsCont">
       {hasFilter && (data === undefined || data.length === 0) ? (
-        <p>No hay película/serie con esa calificación</p>
+        <p>No hay {to} con esa calificación</p>
       ) : (
         data &&
         data.map((el) => (
@@ -17,7 +17,7 @@ const StartItems = ({ to, data, hasFilter }) => {
                     : `https://image.tmdb.org/t/p/w500/${el.poster_path}`
                 }
                 className="object-cover w-full h-full"
-                alt="poster de peliculas populares"
+                alt={`Poster de ${title}`}
               />
             </Link>
           </div>

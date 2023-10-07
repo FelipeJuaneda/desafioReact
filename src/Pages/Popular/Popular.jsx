@@ -9,12 +9,16 @@ import SearchForm from "../../components/SearchForm/SearchForm";
 import usePopularData from "../../hooks/usePopularData";
 import Loading from "../../components/Loading/Loading";
 import { useEffect, useState } from "react";
+import { usePagination } from "../../hooks/usePagination";
 
 const Popular = ({ typePopular, title, to }) => {
-  const { data, loading, getPopularData } = usePopularData(typePopular);
+  const { pagination, goBack, buttonPagination, goNext } = usePagination();
+  const { data, loading, getPopularData } = usePopularData(
+    typePopular,
+    pagination
+  );
   const [filteredData, setFilteredData] = useState([]);
   const [hasFilter, setHasFilter] = useState(false);
-  console.log(filteredData);
 
   useEffect(() => {
     setFilteredData([]);
@@ -45,7 +49,12 @@ const Popular = ({ typePopular, title, to }) => {
           </div>
         </div>
         {/* aca se imprimen los filtrados por estrellas */}
-        <StartItems to={to} data={filteredData} hasFilter={hasFilter} />
+        <StartItems
+          title={title}
+          to={to}
+          data={filteredData}
+          hasFilter={hasFilter}
+        />
 
         <span className=" text-uppercase fs-2 font-monospace">{title}</span>
         <div className="flex flex-wrap items-center justify-center select-none popularMoviesCont gap-7">
@@ -73,7 +82,12 @@ const Popular = ({ typePopular, title, to }) => {
           </SwiperCarousel>
         </div>
 
-        <PaginationCont />
+        <PaginationCont
+          pagination={pagination}
+          goBack={goBack}
+          buttonPagination={buttonPagination}
+          goNext={goNext}
+        />
       </div>
     </Element>
   );

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Loading from "../components/Loading/Loading";
 
-const usePopularData = (typePopular) => {
+const usePopularData = (typePopular, pagination) => {
+  console.log(pagination);
   const [data, setData] = useState([]);
 
   const apiKey = "2b935647da58bcc58e034d8d53657003";
@@ -13,7 +13,7 @@ const usePopularData = (typePopular) => {
     const type = searchKey ? "search" : "discover";
     try {
       const dataFetch = await fetch(
-        `${baseUrl}${type}/${typePopular}?api_key=${apiKey}&language=es&query=${searchKey}`
+        `${baseUrl}${type}/${typePopular}?api_key=${apiKey}&language=es&query=${searchKey}&page=${pagination}`
       );
       const dataJson = await dataFetch.json();
       setData(dataJson.results);
@@ -25,7 +25,7 @@ const usePopularData = (typePopular) => {
   };
   useEffect(() => {
     getPopularData();
-  }, [typePopular]);
+  }, [typePopular, pagination]);
   return { data, loading, getPopularData };
 };
 
