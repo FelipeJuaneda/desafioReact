@@ -1,7 +1,7 @@
-import StartItems from "../../components/StartCalification/StartItems";
+import StarsItems from "../../components/StarsCalification/StarsItems";
 import { Link } from "react-router-dom";
 import PaginationCont from "../../components/Pagination/PaginationCont";
-import StartCalification from "../../components/StartCalification/StartCalification";
+import StarsCalification from "../../components/StarsCalification/StarsCalification";
 import { Element } from "react-scroll";
 import { SwiperSlide } from "swiper/react";
 import SwiperCarousel from "../../components/SwiperCarousel/SwiperCarousel";
@@ -39,7 +39,7 @@ const Popular = ({ typePopular, title, to }) => {
         <div className="navbar navbar-light bg-light">
           <div className="md:pb-5 md:pt-5 container-fluid justify-content-evenly 768:pt-3 768:pb-3">
             {/* componente de estrellas */}
-            <StartCalification
+            <StarsCalification
               data={data}
               setHasFilter={setHasFilter}
               setFilteredData={handleFilterData}
@@ -49,7 +49,7 @@ const Popular = ({ typePopular, title, to }) => {
           </div>
         </div>
         {/* aca se imprimen los filtrados por estrellas */}
-        <StartItems
+        <StarsItems
           title={title}
           to={to}
           data={filteredData}

@@ -1,9 +1,7 @@
 import React from "react";
-import { useAppContext } from "../../contexts/AppContext";
 import useSearch from "../../hooks/useSearch";
 
 const SearchForm = ({ getPopularData }) => {
-  const { setStartsList } = useAppContext();
   const { searchKey, setSearchKey } = useSearch();
 
   const handleSubmit = (e) => {
@@ -12,7 +10,6 @@ const SearchForm = ({ getPopularData }) => {
   };
   const handleChange = (e) => {
     setSearchKey(e.target.value);
-    setStartsList(undefined);
   };
 
   return (
