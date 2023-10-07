@@ -14,7 +14,7 @@ import FilmDetailCont from "./Pages/FilmsDetails/FilmDetailCont";
 import TvDetailCont from "./Pages/TvDetails/TvDetailCont";
 import GenreList from "./Pages/GenreList/GenreList";
 import PageNotFound from "./Pages/PageNotFound/PageNotFound";
-import PopularMovies from "./Pages/Popular/Popular";
+import Popular from "./Pages/Popular/Popular";
 
 function App() {
   let location = useLocation();
@@ -39,7 +39,7 @@ function App() {
               <Route
                 path="/popularFilms"
                 element={
-                  <PopularMovies
+                  <Popular
                     typePopular="movie"
                     title="Peliculas Populares"
                     to="film"
@@ -49,14 +49,17 @@ function App() {
               <Route
                 path="/popularTv"
                 element={
-                  <PopularMovies
+                  <Popular
                     typePopular="tv"
                     title="Series Populares"
                     to="tvShow"
                   />
                 }
               />
-              <Route path="/popularPeople" element={<PopularPeople />} />
+              <Route
+                path="/popularPeople"
+                element={<PopularPeople typePopular="person/popular" />}
+              />
               <Route
                 path="/favoriteList"
                 element={
