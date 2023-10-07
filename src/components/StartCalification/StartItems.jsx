@@ -1,8 +1,14 @@
 import React from "react";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Link } from "react-router-dom";
 const StartItems = ({ title, to, data, hasFilter }) => {
+  const [listRef] = useAutoAnimate();
+
   return (
-    <div className="flex flex-wrap items-center justify-center gap-1 mt-8 mb-12 startItemsCont">
+    <div
+      ref={listRef}
+      className="flex flex-wrap items-center justify-center gap-1 mt-8 mb-12 startItemsCont"
+    >
       {hasFilter && (data === undefined || data.length === 0) ? (
         <p>No hay {to} con esa calificación</p>
       ) : (
