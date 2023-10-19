@@ -1,9 +1,7 @@
-import React from "react";
-import useSearch from "../../hooks/useSearch";
+import React, { useState } from "react";
 
 const SearchForm = ({ getPopularData }) => {
-  const { searchKey, setSearchKey } = useSearch();
-
+  const [searchKey, setSearchKey] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
     getPopularData(searchKey);

@@ -5,7 +5,6 @@ import AddToFavoriteButton from "../../components/AddToFavoriteButton/AddToFavor
 import "./Detail.css";
 
 const Detail = ({ dataDetail, dataCredits, dataVideos, type }) => {
-  console.log(dataDetail);
   //para guardar la navegacion y volver para atras
   const navigate = useNavigate();
 

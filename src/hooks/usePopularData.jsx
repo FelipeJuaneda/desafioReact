@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
+import { baseUrl, apiKey } from "../utils/config";
 
 const usePopularData = (typePopular, pagination) => {
   const [data, setData] = useState([]);
-  const apiKey = "2b935647da58bcc58e034d8d53657003";
-  const baseUrl = "https://api.themoviedb.org/3/";
-
   const [loading, setLoading] = useState(true);
 
   const getPopularData = async (searchKey) => {

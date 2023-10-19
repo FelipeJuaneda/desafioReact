@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
-
+import { baseUrl, apiKey } from "../utils/config";
 const useDetail = ({ detailId, type }) => {
   // const [data, setData] = useState()
   const [dataDetail, setDataDetail] = useState();
   const [dataCredits, setDataCredits] = useState();
   const [dataVideos, setDataVideos] = useState();
   const [loading, setLoading] = useState(true);
-  const apiKey = "2b935647da58bcc58e034d8d53657003";
-  const baseUrl = "https://api.themoviedb.org/3/";
 
   useEffect(() => {
     //detalle de pelicula

@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Element } from "react-scroll";
-import { useAppContext } from "../../contexts/AppContext";
+import { baseUrl, apiKey } from "../../utils/config";
 import pororoLoad from "../../images/pororoLoad.gif";
-
 import "./GenreList.css";
 const GenreList = () => {
-  const { apiKey, baseUrl } = useAppContext();
   const { genreId } = useParams();
 
   //peliculas segun genero guardado aca
