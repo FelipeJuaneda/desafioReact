@@ -7,7 +7,6 @@ const useDetail = ({ detailId, type }) => {
     dataCredits: [],
     dataVideos: [],
   });
-  console.log(data);
   const [loading, setLoading] = useState(true);
 
   const fetchData = async (url, key) => {
