@@ -6,8 +6,8 @@ const DetailVideos = ({ dataVideos }) => {
       <span className="text-lg font-semibold underline font-cineFontFamily ">
         Trailers y videos
       </span>
-      {dataVideos && dataVideos.length > 0 ? (
-        dataVideos.map((e) => {
+      {dataVideos.results && dataVideos.results.length > 0 ? (
+        dataVideos.results.map((e) => {
           return (
             <div
               key={e.key}

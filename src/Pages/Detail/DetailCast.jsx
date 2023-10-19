@@ -12,7 +12,7 @@ const DetailCast = ({ dataCredits }) => {
         </span>
         <div className="select-none">
           <SwiperCarouselDetail>
-            {dataCredits?.map((e) => (
+            {dataCredits?.cast?.map((e) => (
               <SwiperSlide style={{ width: "200px" }} key={e.id}>
                 <img
                   className="rounded-lg imgPerson w-[230px] h-[345px] object-cover 1024:w-[200px] 1024:h-[285px]"
