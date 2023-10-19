@@ -8,10 +8,10 @@ const PopularPeople = ({ typePopular }) => {
   const { pagination, goBack, buttonPagination, goNext } = usePagination();
   const { data, loading } = usePopularData(typePopular, pagination);
 
-  console.log(data);
   if (loading) {
     return <Loading />;
   }
+
   return (
     <Element name="popularElement">
       <div>

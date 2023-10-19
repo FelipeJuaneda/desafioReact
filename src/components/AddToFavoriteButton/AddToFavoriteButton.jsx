@@ -2,12 +2,12 @@ import React from "react";
 import { useFavoriteContext } from "../../contexts/FavoriteContext";
 import toast, { Toaster } from "react-hot-toast";
 
-const AddRemoveButtons = ({ film }) => {
+const AddToFavoriteButton = ({ dataDetail }) => {
   const { favoritemovie, addMovieToFavorite, removeMovieToFavorite } =
     useFavoriteContext();
 
   //Si la pelicula se encuentra agregada
-  const ifMovieIsIn = favoritemovie.find((e) => e.id === film.id);
+  const ifMovieIsIn = favoritemovie.find((e) => e.id === dataDetail.id);
   //devuevle true o false depende si esta la pelicula agregada o no
   const favoritemovieDisabled = ifMovieIsIn ? true : false;
   //si la peli esta agregada devuelve text-red sino nada
@@ -19,7 +19,7 @@ const AddRemoveButtons = ({ film }) => {
         className="text-xl text-black rounded-full bg-slate-400 btn"
         disabled={favoritemovieDisabled}
         onClick={() => {
-          addMovieToFavorite(film);
+          addMovieToFavorite(dataDetail);
           toast(
             (t) => (
               <span className="text-xs text-center text-white ">
@@ -52,7 +52,7 @@ const AddRemoveButtons = ({ film }) => {
       <Toaster />
       <button
         className="text-xl text-black rounded-full bg-slate-400 btn"
-        onClick={() => removeMovieToFavorite(film.id)}
+        onClick={() => removeMovieToFavorite(dataDetail.id)}
       >
         <i className="ri-dislike-fill" />
       </button>
@@ -60,4 +60,4 @@ const AddRemoveButtons = ({ film }) => {
   );
 };
 
-export default AddRemoveButtons;
+export default AddToFavoriteButton;

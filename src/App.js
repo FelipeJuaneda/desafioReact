@@ -9,11 +9,10 @@ import Register from "./Pages/RegisterLogin/Register/Register";
 import Home from "./Pages/Home/Home";
 import PopularPeople from "./Pages/PopularPeople/PopularPeople";
 import FavoriteList from "./Pages/FavoriteList/FavoriteList";
-import FilmDetailCont from "./Pages/FilmsDetails/FilmDetailCont";
-import TvDetailCont from "./Pages/TvDetails/TvDetailCont";
 import GenreList from "./Pages/GenreList/GenreList";
 import PageNotFound from "./Pages/PageNotFound/PageNotFound";
 import Popular from "./Pages/Popular/Popular";
+import DetailCont from "./Pages/Detail/DetailCont";
 
 function App() {
   let location = useLocation();
@@ -61,15 +60,17 @@ function App() {
             <Route
               path="/favoriteList"
               element={
-                <>
-                  <ProtectedRoute>
-                    <FavoriteList />
-                  </ProtectedRoute>
-                </>
+                <ProtectedRoute>
+                  <FavoriteList />
+                </ProtectedRoute>
               }
             />
-            <Route path="film/:filmId" element={<FilmDetailCont />} />
-            <Route path="tvShow/:tvId" element={<TvDetailCont />} />
+
+            <Route
+              path="film/:detailId"
+              element={<DetailCont type="movie" />}
+            />
+            <Route path="tvShow/:detailId" element={<DetailCont type="tv" />} />
             <Route path="genre/:genreId" element={<GenreList />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>

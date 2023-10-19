@@ -1,13 +1,13 @@
 import React from "react";
 
-const VideosFilm = ({ videosFilm }) => {
+const DetailVideos = ({ dataVideos }) => {
   return (
     <div className="w-full 2xl:w-3/5">
       <span className="text-lg font-semibold underline font-cineFontFamily ">
         Trailers y videos
       </span>
-      {videosFilm.length > 0 ? (
-        videosFilm.map((e) => {
+      {dataVideos && dataVideos.length > 0 ? (
+        dataVideos.map((e) => {
           return (
             <div
               key={e.key}
@@ -50,10 +50,10 @@ const VideosFilm = ({ videosFilm }) => {
           );
         })
       ) : (
-        <p>No hay trailer ni video de esta pelicula</p>
+        <p>No hay trailer ni video de esta película</p>
       )}
     </div>
   );
 };
 
-export default VideosFilm;
+export default DetailVideos;

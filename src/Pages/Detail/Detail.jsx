@@ -1,13 +1,16 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import TvCast from "./TvCast";
-import VideosTv from "./VideosTv";
-import AddRemoveButtonsTv from "../FavoriteList/AddRemoveButtonsTv";
-import "../FilmsDetails/FilmDetail.css";
+import { Link, useNavigate } from "react-router-dom";
+import DetailVideos from "./DetailVideos";
+import DetailCast from "./DetailCast";
+import AddToFavoriteButton from "../../components/AddToFavoriteButton/AddToFavoriteButton";
+import "./Detail.css";
 
-const TvDetail = ({ details, tvCredits, videosTv }) => {
+const Detail = ({ dataDetail, dataCredits, dataVideos }) => {
   //para guardar la navegacion y volver para atras
   const navigate = useNavigate();
+
+  //convirtiendo minutos en horas, y separando los minutos restantes
+  const hours = Math.trunc(dataDetail.runtime / 60);
+  const minutes = dataDetail.runtime % 60;
 
   return (
     <div className="detailFilmCont absolute top-0 left-0 right-0 overflow-y-auto bg-[#eeeeee] flex flex-col items-center gap-10 z-50">
@@ -15,74 +18,71 @@ const TvDetail = ({ details, tvCredits, videosTv }) => {
         id="backDrop"
         className="relative w-full  posterFilm h-128 580:h-[80vh] bg-cover bg-repeat"
         style={{
-          backgroundImage: `url("https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${details.backdrop_path}")`,
+          backgroundImage: `url("https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${dataDetail.backdrop_path}")`,
         }}
       >
-        <div id="gradientBackdrop" className="w-full h-full">
+        <div id="gradientBackdrop" className="w-full h-full ">
           <div className="absolute imgFilm -bottom-14 left-14 1024:hidden">
             <img
               className="rounded imgDetail w-60 drop-shadow-2xl"
               src={
-                details.poster_path === null
+                dataDetail.poster_path === null
                   ? "https://www.orbis.com.ar/wp-content/themes/barberry/images/placeholder.jpg"
-                  : `https://image.tmdb.org/t/p/w500/${details.poster_path}`
+                  : `https://image.tmdb.org/t/p/w500/${dataDetail.poster_path}`
               }
               alt=" poster pelicula"
             />
           </div>
-          <div className="absolute bottom-0 w-4/6 overviewCalif left-80 1024:w-full 1024:h-[70%] 1024:flex 1024:left-0 1024:text-center 1024:justify-center 1024:items-center flex-col 580:h-4/5">
+          <div className="absolute bottom-0 w-4/6 overviewCalif left-80 1024:w-full 1024:h-[70%] 1024:left-0 1024:text-center 1024:flex 1024:justify-center 1024:items-center flex-col 580:h-4/5">
             <span className="text-3xl text-white underline uppercase underline-offset-4 decoration-sky-500 hover:decoration-sky-300 font-cineFontFamily">
-              {details.name}
+              {dataDetail.title}
             </span>
-
             <div
               id="generosDuracion"
               className="flex items-baseline gap-2 1024:text-sm 1024:flex 1024:flex-wrap 1024:justify-start"
             >
-              {details.genres
-                ? details.genres.map((e) => (
-                    <p
-                      className="text-green-500 cursor-pointer font-cineFontFamily"
-                      key={e.id}
-                    >
-                      {e.name},
-                    </p>
+              {dataDetail.genres
+                ? dataDetail.genres.map((e) => (
+                    <Link to={`/genre/${e.id}`} key={e.id}>
+                      <p className="text-green-500 cursor-pointer font-cineFontFamily">
+                        {e.name},
+                      </p>
+                    </Link>
                   ))
                 : null}
               <span className="text-white">
-                {details.number_of_seasons === 1
-                  ? `${details.number_of_seasons} temporada`
-                  : `${details.number_of_seasons} temporadas`}
+                ° {hours}h {minutes}m
               </span>
             </div>
+
             <p
               id="resumenParrafo"
               className="text-base text-blue-50 font-cineFontFamily 1024:w-full 1024:text-center 1024:text-sm"
             >
               <span className="underline">Resumen:</span>
               <br />
-              {details.overview}
+              {dataDetail.overview}
             </p>
             <div className="text-start">
               <p className="text-blue-50 decoration-8">
-                Estreno: {details.first_air_date}
+                Estreno: {dataDetail.release_date}
               </p>
               <span className="text-blue-50 decoration-8">
-                Calificacion: {details.vote_average}
+                Calificacion: {dataDetail.vote_average}
               </span>
             </div>
 
             {/* aca va los botones favs */}
-            <AddRemoveButtonsTv tvShowState={details} />
+            <AddToFavoriteButton dataDetail={dataDetail} />
           </div>
         </div>
       </div>
 
-      {/* elenco de serie */}
-      <TvCast tvCredits={tvCredits} />
+      {/* elenco de pelicula */}
+      <DetailCast dataCredits={dataCredits} />
 
-      {/* Trailers y videos de serie */}
-      <VideosTv videosTv={videosTv} />
+      {/* Trailers y videos de pelicula */}
+      <DetailVideos dataVideos={dataVideos} />
 
       <button
         className="fixed z-10 backButton btn btn-danger top-10 right-10 550:top-4 550:right-4"
@@ -94,4 +94,4 @@ const TvDetail = ({ details, tvCredits, videosTv }) => {
   );
 };
 
-export default TvDetail;
+export default Detail;
