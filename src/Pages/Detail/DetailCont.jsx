@@ -10,11 +10,12 @@ const DetailCont = ({ type }) => {
     type,
   });
 
-  if (loading) {
+  if (loading || !dataDetail) {
     return <Loading />;
   }
   return (
     <Detail
+      type={type}
       dataDetail={dataDetail}
       dataCredits={dataCredits}
       dataVideos={dataVideos}

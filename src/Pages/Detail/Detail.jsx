@@ -4,7 +4,8 @@ import DetailCast from "./DetailCast";
 import AddToFavoriteButton from "../../components/AddToFavoriteButton/AddToFavoriteButton";
 import "./Detail.css";
 
-const Detail = ({ dataDetail, dataCredits, dataVideos }) => {
+const Detail = ({ dataDetail, dataCredits, dataVideos, type }) => {
+  console.log(dataDetail);
   //para guardar la navegacion y volver para atras
   const navigate = useNavigate();
 
@@ -35,7 +36,7 @@ const Detail = ({ dataDetail, dataCredits, dataVideos }) => {
           </div>
           <div className="absolute bottom-0 w-4/6 overviewCalif left-80 1024:w-full 1024:h-[70%] 1024:left-0 1024:text-center 1024:flex 1024:justify-center 1024:items-center flex-col 580:h-4/5">
             <span className="text-3xl text-white underline uppercase underline-offset-4 decoration-sky-500 hover:decoration-sky-300 font-cineFontFamily">
-              {dataDetail.title}
+              {dataDetail.title || dataDetail.name}
             </span>
             <div
               id="generosDuracion"
@@ -51,7 +52,12 @@ const Detail = ({ dataDetail, dataCredits, dataVideos }) => {
                   ))
                 : null}
               <span className="text-white">
-                ° {hours}h {minutes}m
+                {type === "movie"
+                  ? `° ${hours}h ${minutes}m`
+                  : dataDetail.number_of_seasons === 1
+                  ? `${dataDetail.number_of_seasons} temporada`
+                  : `${dataDetail.number_of_seasons} temporadas`}
+                {}
               </span>
             </div>
 
@@ -65,7 +71,7 @@ const Detail = ({ dataDetail, dataCredits, dataVideos }) => {
             </p>
             <div className="text-start">
               <p className="text-blue-50 decoration-8">
-                Estreno: {dataDetail.release_date}
+                Estreno: {dataDetail.release_date || dataDetail.first_air_date}
               </p>
               <span className="text-blue-50 decoration-8">
                 Calificacion: {dataDetail.vote_average}
