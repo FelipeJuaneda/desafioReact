@@ -16,7 +16,7 @@ const Detail = ({ dataDetail, dataCredits, dataVideos, type }) => {
     <div className="detailFilmCont absolute top-0 left-0 right-0 overflow-y-auto bg-[#eeeeee] flex flex-col items-center gap-10 z-50">
       <div
         id="backDrop"
-        className="relative w-full  posterFilm h-128 580:h-[80vh] bg-cover bg-repeat"
+        className="relative w-full bg-repeat bg-cover posterFilm h-128"
         style={{
           backgroundImage: `url("https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${dataDetail.backdrop_path}")`,
         }}
@@ -62,7 +62,7 @@ const Detail = ({ dataDetail, dataCredits, dataVideos, type }) => {
 
             <p
               id="resumenParrafo"
-              className="text-base text-blue-50 font-cineFontFamily 1024:w-full 1024:text-center 1024:text-sm"
+              className="overflow-auto text-base text-blue-50 font-cineFontFamily 1024:w-full 1024:text-center 1024:text-sm"
             >
               <span className="underline">Resumen:</span>
               <br />

@@ -5,11 +5,13 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import "remixicon/fonts/remixicon.css";
+import { Toaster } from "sonner";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
+      <Toaster expand={false} closeButton richColors />
       <App />
     </BrowserRouter>
   </React.StrictMode>
