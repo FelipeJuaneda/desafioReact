@@ -27,7 +27,7 @@ const GenreList = () => {
         .then((data) => setGenreList(data.genres));
     };
     getGenreList();
-  }, [apiKey, baseUrl, genreId]);
+  }, [genreId]);
 
   //filtrando de la lista de generos el nombre seleccionado
   const genderName = genreList
