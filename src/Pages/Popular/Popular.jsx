@@ -2,7 +2,6 @@ import StarsItems from "../../components/StarsCalification/StarsItems";
 import { Link } from "react-router-dom";
 import PaginationCont from "../../components/Pagination/PaginationCont";
 import StarsCalification from "../../components/StarsCalification/StarsCalification";
-import { Element } from "react-scroll";
 import { SwiperSlide } from "swiper/react";
 import SwiperCarousel from "../../components/SwiperCarousel/SwiperCarousel";
 import SearchForm from "../../components/SearchForm/SearchForm";
@@ -10,6 +9,7 @@ import usePopularData from "../../hooks/usePopularData";
 import Loading from "../../components/Loading/Loading";
 import { useEffect, useState } from "react";
 import { usePagination } from "../../hooks/usePagination";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 const Popular = ({ typePopular, title, to }) => {
   const { pagination, goBack, buttonPagination, goNext } = usePagination();
@@ -19,6 +19,7 @@ const Popular = ({ typePopular, title, to }) => {
   );
   const [filteredData, setFilteredData] = useState([]);
   const [hasFilter, setHasFilter] = useState(false);
+  const [startsList] = useAutoAnimate();
 
   useEffect(() => {
     setFilteredData([]);
@@ -34,7 +35,7 @@ const Popular = ({ typePopular, title, to }) => {
   }
 
   return (
-    <Element name="popularElement" id="popularMovieElement">
+    <div id="popularMovieElement">
       <div className="text-center ">
         <div className="navbar navbar-light bg-light">
           <div className="md:pb-5 md:pt-5 container-fluid justify-content-evenly 768:pt-3 768:pb-3">
@@ -49,28 +50,45 @@ const Popular = ({ typePopular, title, to }) => {
           </div>
         </div>
         {/* aca se imprimen los filtrados por estrellas */}
-        <StarsItems
-          title={title}
-          to={to}
-          data={filteredData}
-          hasFilter={hasFilter}
-        />
-
+        <div ref={startsList}>
+          {hasFilter && (
+            <StarsItems
+              title={title}
+              to={to}
+              data={filteredData}
+              hasFilter={hasFilter}
+            />
+          )}
+        </div>
         <span className=" text-uppercase fs-2 font-monospace">{title}</span>
         <div className="flex flex-wrap items-center justify-center select-none popularMoviesCont gap-7">
           <SwiperCarousel>
             {data?.map((el) => {
+              const imageUrl = el.poster_path
+                ? `https://image.tmdb.org/t/p/w500${el.poster_path}`
+                : "https://www.orbis.com.ar/wp-content/themes/barberry/images/placeholder.jpg";
+
+              const srcset = `
+                ${imageUrl} 500w,
+                ${imageUrl}?size=800 800w,
+                ${imageUrl}?size=1200 1200w
+              `;
+
+              const sizes = `
+                (max-width: 500px) 100vw,
+                (max-width: 1200px) 50vw,
+                1200px
+              `;
+
               return (
                 <SwiperSlide key={el.id}>
                   <div className="object-cover w-72 h-[432px]">
                     <Link to={`/${to}/${el.id}`}>
                       <img
-                        src={
-                          el.poster_path === null
-                            ? "https://www.orbis.com.ar/wp-content/themes/barberry/images/placeholder.jpg"
-                            : "https://image.tmdb.org/t/p/original" +
-                              el.poster_path
-                        }
+                        src={imageUrl}
+                        srcSet={srcset}
+                        sizes={sizes}
+                        loading="lazy"
                         className="w-4/5 rounded-md h-4/5"
                         alt={`Poster de ${title}`}
                       />
@@ -89,7 +107,7 @@ const Popular = ({ typePopular, title, to }) => {
           goNext={goNext}
         />
       </div>
-    </Element>
+    </div>
   );
 };
 

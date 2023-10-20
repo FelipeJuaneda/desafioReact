@@ -25,12 +25,13 @@ const Detail = ({ dataDetail, dataCredits, dataVideos, type }) => {
           <div className="absolute imgFilm -bottom-14 left-14 1024:hidden">
             <img
               className="rounded imgDetail w-60 drop-shadow-2xl"
+              loading="lazy"
               src={
                 dataDetail.poster_path === null
                   ? "https://www.orbis.com.ar/wp-content/themes/barberry/images/placeholder.jpg"
                   : `https://image.tmdb.org/t/p/w500/${dataDetail.poster_path}`
               }
-              alt=" poster pelicula"
+              alt={`poster de ${dataDetail.title || dataDetail.name}`}
             />
           </div>
           <div className="absolute bottom-0 w-4/6 overviewCalif left-80 1024:w-full 1024:h-[70%] 1024:left-0 1024:text-center 1024:flex 1024:justify-center 1024:items-center flex-col 580:h-4/5">
