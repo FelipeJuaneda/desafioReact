@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { FaStar } from "react-icons/fa";
+import React, { useState } from "react";
 
 const colors = {
   green: "#198754",
@@ -38,16 +37,20 @@ const StartCalification = ({ data, setFilteredData, setHasFilter }) => {
     <div style={styles.container}>
       <div style={styles.stars}>
         {[1, 2, 3, 4, 5].map((value) => (
-          <FaStar
+          <i
+            className="text-2xl ri-star-fill"
             key={value}
-            size={24}
             onClick={() => handleStarClick(value)}
             onMouseOver={() => handleStarHover(value)}
             onMouseLeave={handleStarLeave}
-            color={
-              (hoverValue || currentValue) >= value ? colors.green : colors.grey
-            }
-            style={{ marginRight: 10, cursor: "pointer" }}
+            style={{
+              marginRight: 10,
+              cursor: "pointer",
+              color:
+                (hoverValue || currentValue) >= value
+                  ? colors.green
+                  : colors.grey,
+            }}
           />
         ))}
       </div>

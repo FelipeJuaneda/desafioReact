@@ -7,13 +7,11 @@ const DetailVideos = ({ dataVideos }) => {
         Trailers y videos
       </span>
       {dataVideos.results && dataVideos.results.length > 0 ? (
-        dataVideos.results.map((e) => {
-          return (
-            <div key={e.key}>
-              <VideoAccordion videoData={e} />
-            </div>
-          );
-        })
+        <div className="accordion accordion-flush" id="accordionFlushExample">
+          {dataVideos.results.map((e) => (
+            <VideoAccordion key={e.id} videoData={e} />
+          ))}
+        </div>
       ) : (
         <p>No hay trailer ni video de esta película</p>
       )}
@@ -56,6 +54,7 @@ const VideoPlayer = ({ videoKey }) => {
   return (
     <div>
       <iframe
+        loading="lazy"
         className="w-full h-128 580:h-80"
         src={`https://www.youtube.com/embed/${videoKey}`}
         title="YouTube video player"
