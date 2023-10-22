@@ -76,13 +76,13 @@ const AddToFavoriteButton = ({ dataDetail }) => {
   return (
     <div className="flex gap-3 pt-3 pb-3">
       <button
-        className="text-xl text-black rounded-full bg-slate-400 btn"
+        className="p-2 rounded-full bg-verde-principal-500 hover:bg-verde-principal-400 focus:outline-none h-11 w-11"
         onClick={handleToggleFavorite}
       >
         {isFavorite ? (
-          <i className={`ri-heart-fill text-red-600`} />
+          <i className="text-xl text-red-600 ri-heart-fill" />
         ) : (
-          <i className="ri-heart-line" />
+          <i className="text-xl ri-heart-line" />
         )}
       </button>
     </div>

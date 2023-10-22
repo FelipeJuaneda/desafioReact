@@ -4,7 +4,6 @@ import { baseUrl, apiKey } from "../utils/config";
 const usePopularData = (typePopular, pagination) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const getPopularData = async (searchKey) => {
     const type = searchKey ? "search" : "discover";
     try {

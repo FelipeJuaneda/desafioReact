@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
@@ -16,31 +15,9 @@ const Header = () => {
     { name: "Series", to: "/popularTv" },
     { name: "Personas", to: "/popularPeople" },
   ];
-  const [scrollActive, setScrollActive] = useState(false);
 
-  let ubicacionActual = window.pageYOffset;
-  const effectScroll = () => {
-    let desplazamientoActual = window.pageYOffset;
-    if (
-      ubicacionActual >= desplazamientoActual &&
-      window.screen.width < 768 &&
-      window.scrollY > 0
-    ) {
-      setScrollActive(true);
-    } else {
-      setScrollActive(false);
-    }
-    ubicacionActual = desplazamientoActual;
-  };
-  window.addEventListener("scroll", effectScroll);
   return (
-    <header
-      className={
-        scrollActive
-          ? "fixed w-full top-0 bg-[#198754ea] transition-top duration-300 z-20"
-          : "768:top-[-64px]"
-      }
-    >
+    <header className={"768:top-[-64px]"}>
       <Popover>
         <div className="relative px-4 640:py-3 sm:py-5 lg:py-7 sm:px-6 lg:px-8">
           <nav

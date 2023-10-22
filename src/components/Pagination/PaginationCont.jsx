@@ -1,37 +1,42 @@
 import React from "react";
+import ReactPaginate from "react-paginate";
 
 const PaginationCont = ({ pagination, goBack, buttonPagination, goNext }) => {
-  const buttonsPagination = [{ number: 1 }, { number: 2 }, { number: 3 }];
+  const handlePageChange = ({ selected }) => {
+    buttonPagination(selected + 1);
+  };
+  const totalPages = 500;
+  const showNextButton = pagination < totalPages - 1;
+  const showPrevButton = pagination > 1;
+
   return (
     <div>
-      <nav aria-label="Page navigation example">
-        <ul className="pagination justify-content-center">
-          <li className={pagination === 1 ? "page-item disabled" : "page-item"}>
-            <button className="page-link" onClick={goBack}>
-              Anterior
-            </button>
-          </li>
-          {buttonsPagination.map((element) => {
-            return (
-              <li key={element.number} className="page-item">
-                <button
-                  className="page-link"
-                  onClick={() => {
-                    buttonPagination(element.number);
-                  }}
-                >
-                  {element.number}
-                </button>
-              </li>
-            );
-          })}
-          <li className="page-item">
-            <button className="page-link" onClick={goNext}>
-              Siguiente
-            </button>
-          </li>
-        </ul>
-      </nav>
+      <ReactPaginate
+        onPageChange={handlePageChange}
+        breakLabel={<span>...</span>}
+        nextLabel={
+          showNextButton ? (
+            <i
+              onClick={goNext}
+              className="flex items-center justify-center w-10 h-10 rounded-md bg-verde-principal-400 ri-arrow-right-s-line"
+            />
+          ) : null
+        }
+        pageRangeDisplayed={5}
+        pageCount={totalPages}
+        previousLabel={
+          showPrevButton ? (
+            <i
+              onClick={goBack}
+              className="flex items-center justify-center w-10 h-10 mr-4 rounded-md bg-verde-principal-400 ri-arrow-left-s-line"
+            />
+          ) : null
+        }
+        renderOnZeroPageCount={null}
+        containerClassName="flex items-center justify-center gap-2"
+        pageClassName="block border border-solid border-gray-500 hover:bg-gray-200 hover:border-gray-200 w-10 h-10 flex items-center justify-center rounded-md "
+        activeClassName="bg-verde-principal-200"
+      />
     </div>
   );
 };

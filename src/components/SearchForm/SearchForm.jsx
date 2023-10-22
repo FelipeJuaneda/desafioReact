@@ -11,17 +11,17 @@ const SearchForm = ({ getPopularData }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="d-flex">
+    <form className="relative text-gray-600" onSubmit={handleSubmit}>
       <input
-        onChange={handleChange}
-        className="form-control me-2"
+        className="h-10 px-5 pr-16 text-sm bg-white border-2 border-gray-300 rounded-lg focus:outline-none"
         type="search"
-        placeholder="Buscar"
-        aria-label="Search"
+        name="search"
+        placeholder="Search"
         value={searchKey}
+        onChange={handleChange}
       />
-      <button className="btn btn-outline-success" type="submit">
-        Buscar
+      <button type="submit" className={`absolute top-0 right-0 bottom-0 mr-3`}>
+        <i className="ri-search-line" />
       </button>
     </form>
   );

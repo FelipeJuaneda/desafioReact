@@ -13,7 +13,7 @@ export default function Home() {
       divFather: "mt-3 shadow",
       to: "/popularFilms",
       linkClass:
-        "w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-[#198754] hover:bg-[#41aa79] md:py-4 md:text-lg md:px-10",
+        "w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-verde-principal-700 hover:bg-verde-principal-600 md:py-4 md:text-lg md:px-10",
     },
     {
       id: 2,
@@ -21,7 +21,7 @@ export default function Home() {
       divFather: "mt-3 sm:mt-0 sm:ml-3",
       to: "/popularTv",
       linkClass:
-        "w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-[#198754] bg-indigo-100 hover:bg-[#19875415] hover:text-[#1d8b58e7] md:py-4 md:text-lg md:px-10",
+        "w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-verde-principal-700 bg-indigo-100 hover:bg-verde-principal-50  md:py-4 md:text-lg md:px-10",
     },
   ];
   const imgsHome = [
@@ -54,7 +54,7 @@ export default function Home() {
             <div className="sm:text-center lg:text-left">
               <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
                 <span className="block xl:inline">PELICULED</span>{" "}
-                <span className="block text-[#198754] xl:inline">
+                <span className="block text-verde-principal-700 xl:inline">
                   Bienvenidos.
                 </span>
               </h1>
@@ -62,7 +62,7 @@ export default function Home() {
                 Millones de películas, programas de televisión y personas por
                 descubrir. Explora ahora.
               </p>
-              <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+              <div className="items-baseline mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                 {buttonsHome.map((boton) => {
                   return (
                     <div key={boton.id} className={boton.divFather}>

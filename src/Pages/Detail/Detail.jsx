@@ -13,7 +13,7 @@ const Detail = ({ dataDetail, dataCredits, dataVideos, type }) => {
   const minutes = dataDetail.runtime % 60;
 
   return (
-    <div className="detailFilmCont absolute top-0 left-0 right-0 overflow-y-auto bg-[#eeeeee] flex flex-col items-center gap-10 z-50">
+    <div className="absolute top-0 left-0 right-0 z-50 flex flex-col items-center gap-10 overflow-y-auto detailFilmCont bg-verde-principal-50">
       <div
         id="backDrop"
         className="relative w-full bg-repeat bg-cover posterFilm h-128"
@@ -45,7 +45,7 @@ const Detail = ({ dataDetail, dataCredits, dataVideos, type }) => {
               {dataDetail.genres
                 ? dataDetail.genres.map((e) => (
                     <Link to={`/genre/${e.id}`} key={e.id}>
-                      <p className="text-green-500 cursor-pointer font-cineFontFamily">
+                      <p className="cursor-pointer text-verde-principal-500 font-cineFontFamily">
                         {e.name},
                       </p>
                     </Link>
@@ -91,7 +91,8 @@ const Detail = ({ dataDetail, dataCredits, dataVideos, type }) => {
       <DetailVideos dataVideos={dataVideos} />
 
       <button
-        className="fixed z-10 backButton btn btn-danger top-10 right-10 550:top-4 550:right-4"
+        className="fixed z-10 px-6 py-3 font-sans text-xs font-bold text-white uppercase transition-all bg-red-600 rounded-lg shadow-md top-10 right-10 md:top-4 md:right-4 middle-none center shadow-pink-500/20 hover:shadow-lg hover:shadow-red-500/40 focus:opacity-85 focus:shadow-none active:opacity-85 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+        data-ripple-light="true"
         onClick={() => navigate(-1)}
       >
         Volver

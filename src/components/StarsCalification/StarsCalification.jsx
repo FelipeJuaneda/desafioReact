@@ -1,10 +1,5 @@
 import React, { useState } from "react";
 
-const colors = {
-  green: "#198754",
-  grey: "#a9a9a9",
-};
-
 const StartCalification = ({ data, setFilteredData, setHasFilter }) => {
   const [currentValue, setCurrentValue] = useState(0);
   const [hoverValue, setHoverValue] = useState(undefined);
@@ -38,19 +33,15 @@ const StartCalification = ({ data, setFilteredData, setHasFilter }) => {
       <div style={styles.stars}>
         {[1, 2, 3, 4, 5].map((value) => (
           <i
-            className="text-2xl ri-star-fill"
+            className={`text-2xl ri-star-fill mr-2 cursor-pointer ${
+              (hoverValue || currentValue) >= value
+                ? "text-verde-principal-700"
+                : "text-gray-500"
+            }`}
             key={value}
             onClick={() => handleStarClick(value)}
             onMouseOver={() => handleStarHover(value)}
             onMouseLeave={handleStarLeave}
-            style={{
-              marginRight: 10,
-              cursor: "pointer",
-              color:
-                (hoverValue || currentValue) >= value
-                  ? colors.green
-                  : colors.grey,
-            }}
           />
         ))}
       </div>

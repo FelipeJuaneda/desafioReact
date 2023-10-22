@@ -38,7 +38,7 @@ const Popular = ({ typePopular, title, to }) => {
     <div id="popularMovieElement">
       <div className="text-center ">
         <div className="navbar navbar-light bg-light">
-          <div className="md:pb-5 md:pt-5 container-fluid justify-content-evenly 768:pt-3 768:pb-3">
+          <div className="flex flex-row flex-wrap items-center 768:flex-col md:pb-5 md:pt-5 justify-evenly 768:pt-3 768:pb-3">
             {/* componente de estrellas */}
             <StarsCalification
               data={data}
@@ -60,7 +60,11 @@ const Popular = ({ typePopular, title, to }) => {
             />
           )}
         </div>
-        <span className=" text-uppercase fs-2 font-monospace">{title}</span>
+        <div className="p-6 768:p-3">
+          <span className="text-4xl text-uppercase fs-2 font-monospace">
+            {title}
+          </span>
+        </div>
         <div className="flex flex-wrap items-center justify-center select-none popularMoviesCont gap-7">
           <SwiperCarousel>
             {data?.map((el) => {
