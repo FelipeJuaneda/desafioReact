@@ -1,17 +1,18 @@
 import React from "react";
+import { Accordion, AccordionItem as Item } from "@szhsin/react-accordion";
 
 const DetailVideos = ({ dataVideos }) => {
   return (
-    <div className="w-full 2xl:w-3/5">
+    <div className="w-full 2xl:w-3/5 lg:w-9/12 lg:m-auto">
       <span className="text-lg font-semibold underline font-cineFontFamily">
         Trailers y videos
       </span>
       {dataVideos.results && dataVideos.results.length > 0 ? (
-        <div className="accordion accordion-flush" id="accordionFlushExample">
+        <Accordion transition transitionTimeout={200}>
           {dataVideos.results.map((e) => (
             <VideoAccordion key={e.id} videoData={e} />
           ))}
-        </div>
+        </Accordion>
       ) : (
         <p>No hay trailer ni video de esta película</p>
       )}
@@ -21,32 +22,9 @@ const DetailVideos = ({ dataVideos }) => {
 
 const VideoAccordion = ({ videoData }) => {
   return (
-    <div className="accordion accordion-flush" id="accordionFlushExample">
-      <div className="accordion-item">
-        <span className="accordion-header" id={`flush-heading${videoData.id}`}>
-          <button
-            className="accordion-button collapsed"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target={`#flush-${videoData.id}`}
-            aria-expanded="false"
-            aria-controls={`flush-${videoData.id}`}
-          >
-            {videoData.type} / {videoData.name}
-          </button>
-        </span>
-        <div
-          id={`flush-${videoData.id}`}
-          className="accordion-collapse collapse"
-          aria-labelledby={`flush-heading${videoData.id}`}
-          data-bs-parent="#accordionFlushExample"
-        >
-          <div className="accordion-body">
-            <VideoPlayer videoKey={videoData.key} />
-          </div>
-        </div>
-      </div>
-    </div>
+    <AccordionItem header={`${videoData.type} / ${videoData.name}`}>
+      <VideoPlayer videoKey={videoData.key} />
+    </AccordionItem>
   );
 };
 
@@ -64,5 +42,33 @@ const VideoPlayer = ({ videoKey }) => {
     </div>
   );
 };
+
+const AccordionItem = ({ header, ...children }) => (
+  <Item
+    {...children}
+    header={({ state: { isEnter } }) => (
+      <>
+        {header}
+        <i
+          className={`ri-arrow-up-s-line text-xl ml-auto transition-transform duration-200 ease-out ${
+            isEnter && "rotate-180"
+          }`}
+          alt="Chevron"
+        />
+      </>
+    )}
+    className="border-b"
+    buttonProps={{
+      className: ({ isEnter }) =>
+        `flex w-full p-4 text-left hover:bg-verde-principal-500 ${
+          isEnter && "bg-verde-principal-600"
+        }`,
+    }}
+    contentProps={{
+      className: "transition-height duration-200 ease-out",
+    }}
+    panelProps={{ className: "p-4" }}
+  />
+);
 
 export default DetailVideos;
