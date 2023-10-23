@@ -30,9 +30,7 @@ const Popular = ({ typePopular, title, to }) => {
     setHasFilter(true);
   };
 
-  if (loading) {
-    return <Loading />;
-  }
+  if (loading) return <Loading />;
 
   return (
     <div id="popularMovieElement">
