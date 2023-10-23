@@ -14,32 +14,28 @@ const SwiperCarousel = ({ children }) => {
       rewind={true}
       freeMode={true}
       navigation={true}
+      lazy={true}
       modules={[FreeMode, Navigation]}
       className="mySwiper"
+      spaceBetween={15}
       breakpoints={{
         0: {
-          slidesPerView: 1.5,
-          spaceBetween: 10,
+          slidesPerView: 2.8,
         },
         480: {
-          slidesPerView: 2.1,
-          spaceBetween: 10,
+          slidesPerView: 4.3,
         },
         768: {
-          slidesPerView: 3.3,
-          spaceBetween: 10,
+          slidesPerView: 5.4,
         },
         1024: {
           slidesPerView: 4.5,
-          spaceBetween: 10,
         },
         1280: {
           slidesPerView: 5.1,
-          spaceBetween: 10,
         },
         1440: {
           slidesPerView: 5.5,
-          spaceBetween: 10,
         },
       }}
     >

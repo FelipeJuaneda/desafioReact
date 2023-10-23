@@ -65,11 +65,11 @@ const Popular = ({ typePopular, title, to }) => {
             {title}
           </span>
         </div>
-        <div className="flex flex-wrap items-center justify-center select-none popularMoviesCont gap-7">
+        <div className="flex flex-wrap items-center justify-center select-none popularMoviesCont gap-7 xl:w-3/4 xl:m-auto">
           <SwiperCarousel>
             {data?.map((el) => {
               const imageUrl = el.poster_path
-                ? `https://image.tmdb.org/t/p/w500${el.poster_path}`
+                ? `https://image.tmdb.org/t/p/w220_and_h330_face${el.poster_path}`
                 : "https://www.orbis.com.ar/wp-content/themes/barberry/images/placeholder.jpg";
 
               const srcset = `
@@ -86,14 +86,14 @@ const Popular = ({ typePopular, title, to }) => {
 
               return (
                 <SwiperSlide key={el.id}>
-                  <div className="object-cover w-72 h-[432px]">
+                  <div className="object-cover w-full ">
                     <Link to={`/${to}/${el.id}`}>
                       <img
                         src={imageUrl}
                         srcSet={srcset}
                         sizes={sizes}
                         loading="lazy"
-                        className="w-4/5 rounded-md h-4/5"
+                        className="w-full h-full rounded-md "
                         alt={`Poster de ${title}`}
                       />
                     </Link>
