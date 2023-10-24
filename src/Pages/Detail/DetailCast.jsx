@@ -1,22 +1,22 @@
 import React from "react";
 import { SwiperSlide } from "swiper/react";
-import SwiperCarouselDetail from "../../components/SwiperCarousel/SwiperCarouselDetail";
+import SwiperCarousel from "../../components/SwiperCarousel/SwiperCarousel";
 
 const DetailCast = ({ dataCredits }) => {
   return (
     <>
       {/* Movie cast - elenco de pelicula */}
-      <div className="w-full swiperElencoCont 2xl:w-3/5 lg:w-9/12 lg:m-auto lg:mt-12">
+      <div className="w-full swiperElencoCont lg:m-auto lg:mt-12">
         <span className="text-lg font-semibold underline font-cineFontFamily">
           Elenco:
         </span>
         <div className="select-none">
-          <SwiperCarouselDetail>
+          <SwiperCarousel>
             {dataCredits?.cast?.map((e) => (
               <SwiperSlide key={e.id}>
-                <div className="profile-container">
+                <div className="object-cover w-full">
                   <img
-                    className="rounded-lg imgPerson w-[230px] h-[345px] object-cover 1024:w-[200px] 1024:h-[285px]"
+                    className="w-full h-full rounded-md"
                     src={
                       e.profile_path
                         ? `https://image.tmdb.org/t/p/w200${e.profile_path}`
@@ -31,7 +31,7 @@ const DetailCast = ({ dataCredits }) => {
                 <span className="text-stone-500">{e.character}</span>
               </SwiperSlide>
             ))}
-          </SwiperCarouselDetail>
+          </SwiperCarousel>
         </div>
       </div>
     </>

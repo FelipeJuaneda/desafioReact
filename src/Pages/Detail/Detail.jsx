@@ -5,15 +5,12 @@ import AddToFavoriteButton from "../../components/AddToFavoriteButton/AddToFavor
 import "./Detail.css";
 
 const Detail = ({ dataDetail, dataCredits, dataVideos, type }) => {
-  //para guardar la navegacion y volver para atras
   const navigate = useNavigate();
-
-  //convirtiendo minutos en horas, y separando los minutos restantes
   const hours = Math.trunc(dataDetail.runtime / 60);
   const minutes = dataDetail.runtime % 60;
 
   return (
-    <div className="absolute top-0 left-0 right-0 z-50 flex flex-col items-center gap-10 overflow-y-auto detailFilmCont bg-verde-principal-50">
+    <div className="absolute top-0 left-0 right-0 z-50 flex flex-col items-center gap-10 overflow-y-auto 900:gap-5 detailFilmCont bg-verde-principal-50">
       <div
         id="backDrop"
         className="relative w-full bg-repeat bg-cover posterFilm h-128"

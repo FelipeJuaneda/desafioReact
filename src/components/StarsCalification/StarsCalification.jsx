@@ -1,19 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const StartCalification = ({ data, setFilteredData, setHasFilter }) => {
+const StarsCalification = ({ data, setFilteredData, setHasFilter }) => {
   const [currentValue, setCurrentValue] = useState(0);
   const [hoverValue, setHoverValue] = useState(undefined);
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const isMobileDevice = window.matchMedia("(max-width: 768px)").matches;
+    setIsMobile(isMobileDevice);
+  }, []);
 
   const handleStarClick = (value) => {
     if (value === currentValue) {
-      setCurrentValue(0);
-      setFilteredData([]);
-      setHasFilter(false);
+      clearFilters();
       return;
     }
     setCurrentValue(value);
-    const minRating = (value - 1) * 2;
-    const maxRating = minRating + 2;
+    const [minRating, maxRating] = calculateRatingRange(value);
     const filteredList = data.filter(
       (item) => item.vote_average > minRating && item.vote_average <= maxRating
     );
@@ -28,6 +30,18 @@ const StartCalification = ({ data, setFilteredData, setHasFilter }) => {
     setHoverValue(undefined);
   };
 
+  const clearFilters = () => {
+    setCurrentValue(0);
+    setFilteredData([]);
+    setHasFilter(false);
+  };
+
+  const calculateRatingRange = (value) => {
+    const minRating = (value - 1) * 2;
+    const maxRating = minRating + 2;
+    return [minRating, maxRating];
+  };
+
   return (
     <div style={styles.container}>
       <div style={styles.stars}>
@@ -40,7 +54,7 @@ const StartCalification = ({ data, setFilteredData, setHasFilter }) => {
             }`}
             key={value}
             onClick={() => handleStarClick(value)}
-            onMouseOver={() => handleStarHover(value)}
+            onMouseOver={() => (isMobile ? null : handleStarHover(value))}
             onMouseLeave={handleStarLeave}
           />
         ))}
@@ -54,7 +68,6 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    paddingBottom: "10px",
   },
   stars: {
     display: "flex",
@@ -62,4 +75,4 @@ const styles = {
   },
 };
 
-export default StartCalification;
+export default StarsCalification;

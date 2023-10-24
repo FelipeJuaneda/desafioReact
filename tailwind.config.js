@@ -20,10 +20,11 @@ module.exports = {
       },
       screens: {
         1024: { raw: "(max-width: 1024px)" },
-        550: { raw: "(max-width: 550px)" },
-        580: { raw: "(max-width: 580px)" },
+        900: { raw: "(max-width: 900px)" },
         768: { raw: "(max-width: 768px)" },
         640: { raw: "(max-width: 640px)" },
+        580: { raw: "(max-width: 580px)" },
+        550: { raw: "(max-width: 550px)" },
       },
     },
   },

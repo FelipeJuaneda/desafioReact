@@ -8,9 +8,7 @@ const PopularPeople = ({ typePopular }) => {
   const { pagination, goBack, buttonPagination, goNext } = usePagination();
   const { data, loading } = usePopularData(typePopular, pagination);
 
-  if (loading) {
-    return <Loading />;
-  }
+  if (loading) return <Loading />;
 
   return (
     <Element name="popularElement">
@@ -21,7 +19,7 @@ const PopularPeople = ({ typePopular }) => {
         <div className="flex flex-wrap justify-center gap-5">
           {data?.map((e) => {
             return (
-              <div key={e.id} className="">
+              <div key={e.id}>
                 <img
                   className="w-[235px] object-cover"
                   src={
@@ -29,9 +27,10 @@ const PopularPeople = ({ typePopular }) => {
                       ? "https://i.ibb.co/DLSk8bk/default-image.png"
                       : `https://www.themoviedb.org/t/p/w235_and_h235_face${e.profile_path}`
                   }
-                  alt="actor - actriz popular"
+                  alt={`Foto cara de ${e.name}`}
+                  loading="lazy"
                 />
-                <span className="">{e.name}</span>
+                <span>{e.name}</span>
               </div>
             );
           })}
