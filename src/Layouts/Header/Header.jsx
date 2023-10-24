@@ -17,7 +17,7 @@ const Header = () => {
   ];
 
   return (
-    <header className={"768:top-[-64px]"}>
+    <header>
       <Popover>
         <div className="relative px-4 640:py-3 sm:py-5 lg:py-7 sm:px-6 lg:px-8">
           <nav
@@ -72,7 +72,7 @@ const Header = () => {
                 <Link
                   to={"/login"}
                   onClick={handleLogOut}
-                  className="font-medium text-red hover:text-red-400"
+                  className="font-medium text-red hover:text-red-500"
                 >
                   Cerrar Sesión
                 </Link>
@@ -135,13 +135,12 @@ const Header = () => {
                   <Link
                     to={"/login"}
                     onClick={handleLogOut}
-                    className="block w-full px-2 py-2 font-medium text-center text-red hover:text-red-400 bg-gray-50 hover:bg-gray-100"
+                    className="block w-full px-2 py-2 font-medium text-center text-red hover:text-red-500 bg-gray-50 hover:bg-gray-100"
                   >
                     Cerrar Sesión
                   </Link>
                 )}
               </div>
-              <div></div>
             </div>
           </Popover.Panel>
         </Transition>

@@ -27,7 +27,7 @@ const FavoriteList = () => {
           {list.length > 0 ? (
             list.map((el) => (
               <SwiperSlide key={el.id}>
-                <div className="object-cover w-72 h-[432px]">
+                <div className="object-cover w-full">
                   <Link
                     to={`/${type === "Peliculas" ? "film" : "tvShow"}/${el.id}`}
                   >
@@ -35,11 +35,12 @@ const FavoriteList = () => {
                       src={
                         el.poster_path === null
                           ? "https://www.orbis.com.ar/wp-content/themes/barberry/images/placeholder.jpg"
-                          : "https://image.tmdb.org/t/p/original" +
+                          : "https://image.tmdb.org/t/p/w220_and_h330_face" +
                             el.poster_path
                       }
-                      className="relative w-4/5 rounded-md h-4/5"
+                      className="w-full h-full rounded-md"
                       alt={`poster de ${type.toLowerCase()} populares`}
+                      loading="lazy"
                     />
                   </Link>
                 </div>
@@ -54,7 +55,7 @@ const FavoriteList = () => {
             ))
           ) : (
             <p className="text-center">
-              No agregaste ninguna {type.toLowerCase()} a favorito!
+              No agregaste ninguna {type.toLowerCase().slice(0, -1)} a favorito!
             </p>
           )}
         </SwiperCarousel>
