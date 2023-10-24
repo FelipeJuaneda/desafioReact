@@ -6,10 +6,12 @@ const DetailCast = ({ dataCredits }) => {
   return (
     <>
       {/* Movie cast - elenco de pelicula */}
-      <div className="w-full swiperElencoCont lg:m-auto lg:mt-12">
-        <span className="text-lg font-semibold underline font-cineFontFamily">
-          Elenco:
-        </span>
+      <div className="w-full swiperElencoCont lg:mt-12">
+        <div className="w-9/12 m-auto 1024:w-full">
+          <span className="text-lg font-semibold underline font-cineFontFamily ">
+            Reparto principal
+          </span>
+        </div>
         <div className="select-none">
           <SwiperCarousel>
             {dataCredits?.cast?.map((e) => (

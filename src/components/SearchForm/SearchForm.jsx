@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const SearchForm = ({ getPopularData }) => {
+const SearchForm = ({ getPopularData, typeName }) => {
   const [searchKey, setSearchKey] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -11,12 +11,15 @@ const SearchForm = ({ getPopularData }) => {
   };
 
   return (
-    <form className="relative text-gray-600" onSubmit={handleSubmit}>
+    <form
+      className="relative text-gray-600 550:w-full w-80 768:w-60 "
+      onSubmit={handleSubmit}
+    >
       <input
-        className="h-10 px-5 pr-16 text-sm bg-white border-2 border-gray-300 rounded-lg focus:outline-none"
+        className="w-full h-10 px-5 py-5 pr-8 text-lg bg-white border-2 border-gray-300 rounded-lg focus:outline-none"
         type="search"
         name="search"
-        placeholder="Search"
+        placeholder={`Buscar ${typeName}`}
         value={searchKey}
         onChange={handleChange}
       />

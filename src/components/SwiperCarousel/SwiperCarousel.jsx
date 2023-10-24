@@ -8,7 +8,7 @@ import "swiper/css/navigation";
 import { FreeMode, Navigation } from "swiper";
 const SwiperCarousel = ({ children }) => {
   return (
-    <div className="flex flex-wrap items-center justify-center select-none gap-7 xl:w-3/4 xl:m-auto">
+    <div className="flex flex-wrap items-center justify-center select-none gap-7 lg:w-3/4 lg:m-auto ">
       <Swiper
         grabCursor={true}
         rewind={true}
@@ -20,13 +20,13 @@ const SwiperCarousel = ({ children }) => {
         spaceBetween={15}
         breakpoints={{
           0: {
-            slidesPerView: 2.8,
+            slidesPerView: 2.2,
           },
           480: {
-            slidesPerView: 4.3,
+            slidesPerView: 3.3,
           },
           768: {
-            slidesPerView: 5.4,
+            slidesPerView: 4.8,
           },
           1024: {
             slidesPerView: 4.5,

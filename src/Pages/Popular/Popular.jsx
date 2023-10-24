@@ -10,16 +10,15 @@ import Loading from "../../components/Loading/Loading";
 import { usePagination } from "../../hooks/usePagination";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
-const Popular = ({ typePopular, title, to }) => {
+const Popular = ({ typeData, typeName, title, to }) => {
   const { pagination, goBack, buttonPagination, goNext } = usePagination();
   const { data, loading, getPopularData } = usePopularData(
-    typePopular,
+    typeData,
     pagination
   );
   const [filteredData, setFilteredData] = useState([]);
   const [hasFilter, setHasFilter] = useState(false);
   const [starsList] = useAutoAnimate();
-  const [otro] = useAutoAnimate();
 
   const handleFilterData = (filteredData) => {
     setFilteredData(filteredData);
@@ -31,24 +30,24 @@ const Popular = ({ typePopular, title, to }) => {
   return (
     <div ref={starsList} id="popularMovieElement" className="text-center">
       <div className="bg-gray-100">
-        <div className="flex flex-row flex-wrap items-center 768:flex-col md:pb-5 md:pt-5 justify-evenly 768:pt-3 768:pb-3">
+        <div className="flex flex-row items-center md:pb-5 md:pt-5 justify-evenly 550:gap-3 550:flex-col 768:pt-3 768:pb-3">
           <StarsCalification
             data={data}
             setHasFilter={setHasFilter}
             setFilteredData={handleFilterData}
           />
-          <SearchForm getPopularData={getPopularData} />
+          <SearchForm typeName={typeName} getPopularData={getPopularData} />
         </div>
       </div>
 
       <div className="p-6 768:p-3">
-        <span className="text-4xl text-uppercase fs-2 font-monospace">
+        <span className="text-4xl 768:text-xl text-uppercase fs-2 font-monospace text-s">
           {title}
         </span>
       </div>
 
       {hasFilter && filteredData.length === 0 ? (
-        <p>{`No hay ${title.toLowerCase()} con esas estrellas en la pagina ${pagination}`}</p>
+        <p>{`No hay ${typeName.toLowerCase()} con esas estrellas en la pagina "${pagination}"`}</p>
       ) : (
         <SwiperCarousel>
           {(hasFilter ? filteredData : data)?.map((el) => {

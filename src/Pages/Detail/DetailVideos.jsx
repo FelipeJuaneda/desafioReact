@@ -3,7 +3,7 @@ import { Accordion, AccordionItem as Item } from "@szhsin/react-accordion";
 
 const DetailVideos = ({ dataVideos }) => {
   return (
-    <div className="w-full 2xl:w-3/5 lg:w-9/12 lg:m-auto">
+    <div className="w-full lg:w-9/12 lg:m-auto">
       <span className="text-lg font-semibold underline font-cineFontFamily">
         Trailers y videos
       </span>

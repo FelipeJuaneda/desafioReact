@@ -11,6 +11,10 @@ module.exports = {
         "verde-principal-300": "#88edbd",
         "verde-principal-200": "#bcf6d9",
         "verde-principal-50": "#f0fdf6",
+        "rojo-principal-800": "#a72509",
+        "rojo-principal-700": "#ce2d00",
+        "rojo-principal-600": "#f94100",
+        "rojo-principal-500": "#ff5e07",
       },
       spacing: {
         128: "32rem",
@@ -25,6 +29,7 @@ module.exports = {
         640: { raw: "(max-width: 640px)" },
         580: { raw: "(max-width: 580px)" },
         550: { raw: "(max-width: 550px)" },
+        420: { raw: "(max-width: 420px)" },
       },
     },
   },

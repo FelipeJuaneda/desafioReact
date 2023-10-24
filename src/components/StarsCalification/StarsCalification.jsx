@@ -47,7 +47,7 @@ const StarsCalification = ({ data, setFilteredData, setHasFilter }) => {
       <div style={styles.stars}>
         {[1, 2, 3, 4, 5].map((value) => (
           <i
-            className={`text-2xl ri-star-fill mr-2 cursor-pointer ${
+            className={`text-2xl ri-star-fill mr-2 cursor-pointer 768:text-xl ${
               (hoverValue || currentValue) >= value
                 ? "text-verde-principal-700"
                 : "text-gray-500"

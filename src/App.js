@@ -12,7 +12,7 @@ import FavoriteList from "./Pages/FavoriteList/FavoriteList";
 import GenreList from "./Pages/GenreList/GenreList";
 import PageNotFound from "./Pages/PageNotFound/PageNotFound";
 import Popular from "./Pages/Popular/Popular";
-import DetailCont from "./Pages/Detail/DetailCont";
+import DetailCont from "./Pages/Detail/DetailContainer";
 
 function App() {
   let location = useLocation();
@@ -37,7 +37,8 @@ function App() {
               path="/popularFilms"
               element={
                 <Popular
-                  typePopular="movie"
+                  typeData="movie"
+                  typeName="Peliculas"
                   title="Peliculas Populares"
                   to="film"
                 />
@@ -47,7 +48,8 @@ function App() {
               path="/popularTv"
               element={
                 <Popular
-                  typePopular="tv"
+                  typeData="tv"
+                  typeName="Series"
                   title="Series Populares"
                   to="tvShow"
                 />
