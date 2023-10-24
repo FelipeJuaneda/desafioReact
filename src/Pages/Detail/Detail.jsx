@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import DetailVideos from "./DetailVideos";
 import DetailCast from "./DetailCast";
 import AddToFavoriteButton from "../../components/AddToFavoriteButton/AddToFavoriteButton";
