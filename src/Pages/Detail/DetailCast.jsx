@@ -6,7 +6,7 @@ const DetailCast = ({ dataCredits }) => {
   return (
     <>
       {/* Movie cast - elenco de pelicula */}
-      <div className="w-full swiperElencoCont lg:mt-12">
+      <div className="w-full lg:mt-12">
         <div className="w-9/12 m-auto 1024:w-full">
           <span className="text-lg font-semibold underline font-cineFontFamily ">
             Reparto principal
