@@ -1,13 +1,13 @@
 import React from "react";
 import ReactPaginate from "react-paginate";
 
-const PaginationCont = ({ pagination, goBack, buttonPagination, goNext }) => {
+const PaginationCont = ({ currentPage, goBack, buttonPagination, goNext }) => {
   const handlePageChange = ({ selected }) => {
     buttonPagination(selected + 1);
   };
   const totalPages = 500;
-  const showNextButton = pagination < totalPages;
-  const showPrevButton = pagination > 1;
+  const showNextButton = currentPage < totalPages;
+  const showPrevButton = currentPage > 1;
 
   return (
     <ReactPaginate

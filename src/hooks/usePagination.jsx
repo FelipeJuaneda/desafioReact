@@ -1,16 +1,16 @@
 import { useState } from "react";
 
 export const usePagination = () => {
-  const [pagination, setPagination] = useState(1);
+  const [currentPage, setCurrenPage] = useState(1);
   const goBack = () => {
-    setPagination(pagination - 1);
+    setCurrenPage(currentPage - 1);
   };
   const buttonPagination = (element) => {
-    setPagination(element);
+    setCurrenPage(element);
   };
   const goNext = () => {
-    setPagination(pagination + 1);
+    setCurrenPage(currentPage + 1);
   };
 
-  return { pagination, goBack, buttonPagination, goNext };
+  return { currentPage, goBack, buttonPagination, goNext };
 };

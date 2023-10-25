@@ -31,7 +31,7 @@ const Detail = ({ dataDetail, dataCredits, dataVideos, type }) => {
                 alt={`Poster de ${dataDetail.title || dataDetail.name}`}
               />
             </div>
-            <div className="flex flex-col justify-end w-full ">
+            <div className="flex flex-col justify-end w-full md:justify-center xl:justify-end">
               <span className="text-3xl text-white underline uppercase underline-offset-4 decoration-sky-500 hover:decoration-sky-300 font-cineFontFamily">
                 {dataDetail.title || dataDetail.name}
               </span>

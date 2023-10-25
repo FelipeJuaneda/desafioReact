@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { baseUrl, apiKey } from "../utils/config";
 
-const usePopularData = (typePopular, pagination) => {
+const usePopularData = (typePopular, currentPage) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const getPopularData = async (searchKey) => {
@@ -10,7 +10,7 @@ const usePopularData = (typePopular, pagination) => {
       const dataFetch = await fetch(
         `${baseUrl}${
           typePopular === "person/popular" ? "" : type
-        }/${typePopular}?api_key=${apiKey}&language=es&query=${searchKey}&page=${pagination}`
+        }/${typePopular}?api_key=${apiKey}&language=es&query=${searchKey}&page=${currentPage}`
       );
       const dataJson = await dataFetch.json();
       setData(dataJson.results);
@@ -22,7 +22,7 @@ const usePopularData = (typePopular, pagination) => {
   };
   useEffect(() => {
     getPopularData();
-  }, [typePopular, pagination]);
+  }, [typePopular, currentPage]);
   return { data, loading, getPopularData };
 };
 

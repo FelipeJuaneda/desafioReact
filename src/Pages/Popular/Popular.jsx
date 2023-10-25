@@ -11,10 +11,10 @@ import { usePagination } from "../../hooks/usePagination";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 const Popular = ({ typeData, typeName, title, to }) => {
-  const { pagination, goBack, buttonPagination, goNext } = usePagination();
+  const { currentPage, goBack, buttonPagination, goNext } = usePagination();
   const { data, loading, getPopularData } = usePopularData(
     typeData,
-    pagination
+    currentPage
   );
   const [filteredData, setFilteredData] = useState([]);
   const [hasFilter, setHasFilter] = useState(false);
@@ -47,7 +47,7 @@ const Popular = ({ typeData, typeName, title, to }) => {
       </div>
 
       {hasFilter && filteredData.length === 0 ? (
-        <p>{`No hay ${typeName.toLowerCase()} con esas estrellas en la pagina "${pagination}"`}</p>
+        <p>{`No hay ${typeName.toLowerCase()} con esas estrellas en la pagina "${currentPage}"`}</p>
       ) : (
         <SwiperCarousel>
           {(hasFilter ? filteredData : data)?.map((el) => {
@@ -88,7 +88,7 @@ const Popular = ({ typeData, typeName, title, to }) => {
       )}
 
       <PaginationCont
-        pagination={pagination}
+        currentPage={currentPage}
         goBack={goBack}
         buttonPagination={buttonPagination}
         goNext={goNext}
