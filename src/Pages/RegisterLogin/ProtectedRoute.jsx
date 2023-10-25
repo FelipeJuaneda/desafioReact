@@ -1,16 +1,12 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
-import gifLoad from "../../images/pororoLoad.gif";
+import Loading from "../../components/Loading/Loading";
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuthContext();
 
-  if (loading)
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <img src={gifLoad} alt="cargando pagina peliculed" />
-      </div>
-    );
+  if (loading) <Loading />;
+
   if (!user) return <Navigate to={"/login"} />;
   return <>{children}</>;
 };

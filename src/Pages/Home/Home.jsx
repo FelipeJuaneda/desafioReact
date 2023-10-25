@@ -24,14 +24,6 @@ export default function Home() {
         "w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-verde-principal-700 bg-indigo-100 hover:bg-verde-principal-50  md:py-4 md:text-lg md:px-10",
     },
   ];
-  const imgsHome = [
-    "https://i.ibb.co/PZhq2YZ/fotoHome.jpg",
-    "https://i.ibb.co/pJ3gHF3/pexels-tima-miroshnichenko-7991158.jpg",
-    "https://i.ibb.co/2S1f1hW/pexels-pixabay-33129.jpg",
-    "https://i.ibb.co/wCWPRzq/pexels-martin-lopez-1117132.jpg",
-    "https://i.ibb.co/m5pxcRN/pexels-cottonbro-8263345.jpg",
-  ];
-  const randomImgs = imgsHome[Math.floor(imgsHome.length * Math.random())];
 
   if (loading) return <Loading />;
   return (
@@ -80,7 +72,9 @@ export default function Home() {
       <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
         <img
           className="object-cover w-full h-56 sm:h-72 md:h-96 lg:w-full lg:h-full"
-          src={randomImgs}
+          src={
+            "https://images.pexels.com/photos/7234226/pexels-photo-7234226.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          }
           alt="fotos home de peliculed"
         />
       </div>
