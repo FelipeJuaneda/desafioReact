@@ -1,5 +1,14 @@
-// jest-dom adds custom jest matchers for asserting on DOM nodes.
-// allows you to do things like:
-// expect(element).toHaveTextContent(/react/i)
-// learn more: https://github.com/testing-library/jest-dom
-import '@testing-library/jest-dom';
+// Adds jest-dom matchers (toBeInTheDocument, toHaveTextContent...) to Vitest's expect.
+import "@testing-library/jest-dom/vitest";
+import { cleanup } from "@testing-library/react";
+import { afterEach } from "vitest";
+
+// Testing Library only auto-cleans when test globals are enabled; unmount explicitly instead.
+afterEach(cleanup);
+
+// jsdom has no ResizeObserver; @formkit/auto-animate touches it at import time.
+globalThis.ResizeObserver ??= class {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+};
