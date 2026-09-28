@@ -1,6 +1,6 @@
 {
-  "name": "desafio-react",
-  "version": "0.1.0",
+  "name": "peliculed",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "@formkit/auto-animate": "^0.8.0",
