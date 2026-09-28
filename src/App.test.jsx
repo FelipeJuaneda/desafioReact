@@ -47,6 +47,17 @@ describe("App routing", () => {
     ).toBeInTheDocument();
   });
 
+  it("waits for the auth state before deciding to redirect", async () => {
+    const { onAuthStateChanged } = await import("firebase/auth");
+    onAuthStateChanged.mockImplementationOnce(() => () => {});
+    renderAt("/favoriteList");
+
+    expect(screen.getByAltText(/cargando/i)).toBeInTheDocument();
+    expect(
+      screen.queryByRole("heading", { name: /bienvenido de nuevo a peliculed/i })
+    ).not.toBeInTheDocument();
+  });
+
   it("shows the not-found page for unknown routes", () => {
     renderAt("/esta-ruta-no-existe");
     expect(screen.getByRole("heading", { name: "404" })).toBeInTheDocument();

@@ -5,7 +5,7 @@ import Loading from "../../components/Loading/Loading";
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuthContext();
 
-  if (loading) <Loading />;
+  if (loading) return <Loading />;
 
   if (!user) return <Navigate to={"/login"} />;
   return <>{children}</>;
