@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
 import { SwiperSlide } from "swiper/react";
-import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 import { useFavoriteContext } from "../../contexts/FavoriteContext";
 import SwiperCarousel from "../../components/SwiperCarousel/SwiperCarousel";
@@ -12,11 +11,10 @@ import "swiper/css/pagination";
 const FavoriteList = () => {
   const { favoritemovie, removeMovieToFavorite, removeTvToTvList, favoritetv } =
     useFavoriteContext();
-  const animationRef = useAutoAnimate();
 
   const generateFavoriteSection = (list, removeFunction, type) => {
     return (
-      <div ref={animationRef}>
+      <div>
         <div className="flex justify-center pt-4 pb-4">
           <span className="flex gap-2 text-3xl font-cineFontFamily ">
             <i className={`ri-heart-fill text-red-500`} /> {type} Favoritas{" "}
