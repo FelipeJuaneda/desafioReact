@@ -1,5 +1,8 @@
 import React from "react";
-import ReactPaginate from "react-paginate";
+import ReactPaginateModule from "react-paginate";
+
+// react-paginate ships only a UMD build; under Vite the default import is the module object.
+const ReactPaginate = ReactPaginateModule.default ?? ReactPaginateModule;
 
 const PaginationCont = ({ currentPage, goBack, buttonPagination, goNext }) => {
   const handlePageChange = ({ selected }) => {

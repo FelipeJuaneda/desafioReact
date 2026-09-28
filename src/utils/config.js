@@ -1,2 +1,2 @@
-export const baseUrl = process.env.REACT_APP_BASE_URL;
-export const apiKey = process.env.REACT_APP_API_KEY;
+export const baseUrl = import.meta.env.VITE_TMDB_BASE_URL;
+export const apiKey = import.meta.env.VITE_TMDB_API_KEY;

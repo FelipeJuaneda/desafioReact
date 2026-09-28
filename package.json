@@ -16,7 +16,6 @@
     "react-dom": "^18.2.0",
     "react-paginate": "^8.2.0",
     "react-router-dom": "^6.3.0",
-    "react-scripts": "5.0.1",
     "react-scroll": "^1.8.7",
     "remixicon": "^2.5.0",
     "sonner": "^1.0.3",
@@ -24,16 +23,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "start": "vite",
+    "build": "vite build",
+    "dev": "vite",
+    "preview": "vite preview"
   },
   "browserslist": {
     "production": [
@@ -48,8 +41,14 @@
     ]
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.1",
     "autoprefixer": "^10.4.7",
     "postcss": "^8.4.14",
-    "tailwindcss": "^3.1.5"
+    "tailwindcss": "^3.1.5",
+    "vite": "^8.3.1"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
   }
 }

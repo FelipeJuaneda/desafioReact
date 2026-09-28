@@ -10,6 +10,12 @@
 
 # production
 /build
+/dist
+
+# local tooling
+/.claude/launch.json
+/.impeccable/questions/
+/.impeccable/config.local.json
 
 # misc
 .DS_Store
