@@ -16,12 +16,9 @@ const SearchForm = ({ getPopularData, typeName }: SearchFormProps) => {
   };
 
   return (
-    <form
-      className="relative text-gray-600 550:w-full w-80 768:w-60 "
-      onSubmit={handleSubmit}
-    >
+    <form className="relative w-80 text-gray-600 550:w-full 768:w-60" onSubmit={handleSubmit}>
       <input
-        className="w-full h-10 px-5 py-5 pr-8 text-lg bg-white border-2 border-gray-300 rounded-lg focus:outline-none"
+        className="h-10 w-full rounded-lg border-2 border-gray-300 bg-white px-5 py-5 pr-8 text-lg focus:outline-none"
         type="search"
         name="search"
         placeholder={`Buscar ${typeName}`}

@@ -15,9 +15,7 @@ const GenreList = () => {
 
   useEffect(() => {
     const getFilmByGenre = async () => {
-      await fetch(
-        `${baseUrl}discover/movie?api_key=${apiKey}&with_genres=${genreId}&language=es`
-      )
+      await fetch(`${baseUrl}discover/movie?api_key=${apiKey}&with_genres=${genreId}&language=es`)
         .then((response) => response.json())
         .then((data) => setFilmByGenre(data));
     };
@@ -35,27 +33,24 @@ const GenreList = () => {
 
   return (
     <Element name="genreList" id="genreList">
-      <div className="w-full h-full">
+      <div className="h-full w-full">
         <div className="h-24 bg-[#a72509] py-4 px-5 1024:py-1 1024:px-2">
           {genderName.map((e) => (
-            <span
-              key={e.id}
-              className="text-3xl font-bold text-white font-cineFontFamily"
-            >
+            <span key={e.id} className="font-cineFontFamily text-3xl font-bold text-white">
               {e.name}
             </span>
           ))}
         </div>
 
-        <div className="flex flex-col px-10 py-8 gap-7 580:px-2">
+        <div className="flex flex-col gap-7 px-10 py-8 580:px-2">
           {filmByGenre ? (
             filmByGenre.results.map((e) => {
               return (
                 <div
-                  className="flex w-11/12 m-auto duration-500 shadow-2xl hover:shadow-xl 1024:w-full"
+                  className="m-auto flex w-11/12 shadow-2xl duration-500 hover:shadow-xl 1024:w-full"
                   key={e.id}
                 >
-                  <div className="min-w-[94px] w-[94px] h-[141px] rounded-[50px]">
+                  <div className="h-[141px] w-[94px] min-w-[94px] rounded-[50px]">
                     <Link to={`/film/${e.id}`}>
                       <img
                         className="rounded-l-lg"
@@ -65,10 +60,10 @@ const GenreList = () => {
                     </Link>
                   </div>
 
-                  <div className="w-full p-3 rounded-r-lg details bg-slate-200">
-                    <div className="flex flex-col titleAndDate">
+                  <div className="details w-full rounded-r-lg bg-slate-200 p-3">
+                    <div className="titleAndDate flex flex-col">
                       <Link to={`/film/${e.id}`}>
-                        <span className="text-lg font-semibold title hover:underline hover:text-stone-600">
+                        <span className="title text-lg font-semibold hover:text-stone-600 hover:underline">
                           {e.title}
                         </span>
                       </Link>

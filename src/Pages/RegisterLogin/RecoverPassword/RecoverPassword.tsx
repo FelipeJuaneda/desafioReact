@@ -17,27 +17,22 @@ const RecoverPassword = () => {
       await resetPassword(email);
     } catch (error) {
       const code = getErrorCode(error);
-      if (code === "auth/invalid-email")
-        return setError("Ingresa un Email valido");
-      if (code === "auth/user-not-found")
-        return setError("El Email ingresado no se encontro");
+      if (code === "auth/invalid-email") return setError("Ingresa un Email valido");
+      if (code === "auth/user-not-found") return setError("El Email ingresado no se encontro");
       setError(getErrorMessage(error));
     }
   };
   return (
-    <div className="max-w-screen-xl px-4 py-16 mx-auto sm:px-6 lg:px-8">
-      <div className="max-w-lg mx-auto text-center">
-        <h1 className="text-2xl font-bold sm:text-3xl">
-          Recupera tu contraseña
-        </h1>
+    <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-lg text-center">
+        <h1 className="text-2xl font-bold sm:text-3xl">Recupera tu contraseña</h1>
 
         <p className="mt-4 text-gray-500">
-          ¡Ingresa tu email, y te enviaremos los pasos para que puedas cambiar
-          tu contraseña!
+          ¡Ingresa tu email, y te enviaremos los pasos para que puedas cambiar tu contraseña!
         </p>
       </div>
       {error && <span>{error}</span>}
-      <form action="" className="max-w-md mx-auto mt-8 mb-0 space-y-4">
+      <form action="" className="mx-auto mt-8 mb-0 max-w-md space-y-4">
         <div>
           <label htmlFor="email" className="sr-only">
             Email
@@ -46,15 +41,15 @@ const RecoverPassword = () => {
           <div className="relative">
             <input
               type="email"
-              className="w-full p-4 pr-12 text-sm border-gray-200 rounded-lg shadow-sm"
+              className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
               placeholder="Enter email"
               onChange={handleChange}
             />
 
-            <span className="absolute inset-y-0 inline-flex items-center right-4">
+            <span className="absolute inset-y-0 right-4 inline-flex items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-5 h-5 text-gray-400"
+                className="h-5 w-5 text-gray-400"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -72,7 +67,7 @@ const RecoverPassword = () => {
 
         <button
           type="submit"
-          className="inline-block w-full px-5 py-3 text-sm font-medium text-white bg-blue-500 rounded-lg"
+          className="inline-block w-full rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
           onClick={handleResetPassword}
         >
           Enviar!

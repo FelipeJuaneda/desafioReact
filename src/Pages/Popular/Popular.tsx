@@ -22,10 +22,7 @@ interface PopularProps {
 
 const Popular = ({ typeData, typeName, title, to }: PopularProps) => {
   const { currentPage, goBack, buttonPagination, goNext } = usePagination();
-  const { data, loading, getPopularData } = usePopularData<Title>(
-    typeData,
-    currentPage
-  );
+  const { data, loading, getPopularData } = usePopularData<Title>(typeData, currentPage);
   const [filteredData, setFilteredData] = useState<Title[]>([]);
   const [hasFilter, setHasFilter] = useState(false);
   const [starsList] = useAutoAnimate<HTMLDivElement>();
@@ -40,7 +37,7 @@ const Popular = ({ typeData, typeName, title, to }: PopularProps) => {
   return (
     <div ref={starsList} id="popularMovieElement" className="text-center">
       <div className="bg-gray-100">
-        <div className="flex flex-row items-center md:pb-5 md:pt-5 justify-evenly 550:gap-3 550:flex-col 768:pt-3 768:pb-3">
+        <div className="flex flex-row items-center justify-evenly 550:flex-col 550:gap-3 768:pt-3 768:pb-3 md:pb-5 md:pt-5">
           <StarsCalification
             data={data}
             setHasFilter={setHasFilter}
@@ -51,7 +48,7 @@ const Popular = ({ typeData, typeName, title, to }: PopularProps) => {
       </div>
 
       <div className="p-6 768:p-3">
-        <span className="text-4xl 768:text-xl text-uppercase fs-2 font-monospace text-s">
+        <span className="text-uppercase fs-2 font-monospace text-s text-4xl 768:text-xl">
           {title}
         </span>
       </div>
@@ -79,14 +76,14 @@ const Popular = ({ typeData, typeName, title, to }: PopularProps) => {
 
             return (
               <SwiperSlide key={el.id}>
-                <div className="object-cover w-full">
+                <div className="w-full object-cover">
                   <Link to={`/${to}/${el.id}`}>
                     <img
                       src={imageUrl}
                       srcSet={srcset}
                       sizes={sizes}
                       loading="lazy"
-                      className="w-full h-full rounded-md "
+                      className="h-full w-full rounded-md"
                       alt={`Poster de ${title}`}
                     />
                   </Link>

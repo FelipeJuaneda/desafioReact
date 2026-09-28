@@ -13,12 +13,7 @@ interface PaginationContProps {
   goNext: () => void;
 }
 
-const PaginationCont = ({
-  currentPage,
-  goBack,
-  buttonPagination,
-  goNext,
-}: PaginationContProps) => {
+const PaginationCont = ({ currentPage, goBack, buttonPagination, goNext }: PaginationContProps) => {
   const handlePageChange = ({ selected }: { selected: number }) => {
     buttonPagination(selected + 1);
   };
@@ -34,7 +29,7 @@ const PaginationCont = ({
         showNextButton ? (
           <i
             onClick={goNext}
-            className="flex items-center justify-center w-10 h-10 rounded-lg 420:w-8 420:h-8 bg-verde-principal-700 ri-arrow-right-s-line"
+            className="ri-arrow-right-s-line flex h-10 w-10 items-center justify-center rounded-lg bg-verde-principal-700 420:h-8 420:w-8"
           />
         ) : null
       }
@@ -45,7 +40,7 @@ const PaginationCont = ({
         showPrevButton ? (
           <i
             onClick={goBack}
-            className="flex items-center justify-center w-10 h-10 rounded-lg 420:w-8 420:h-8 bg-verde-principal-700 ri-arrow-left-s-line"
+            className="ri-arrow-left-s-line flex h-10 w-10 items-center justify-center rounded-lg bg-verde-principal-700 420:h-8 420:w-8"
           />
         ) : null
       }

@@ -24,9 +24,7 @@ const favReducer = (state: FavoriteState, action: FavoriteAction): FavoriteState
     case "REMOVE_MOVIE_TO_FAVORITEMOVIE":
       return {
         ...state,
-        favoritemovie: state.favoritemovie.filter(
-          (movie) => movie.id !== action.payload
-        ),
+        favoritemovie: state.favoritemovie.filter((movie) => movie.id !== action.payload),
       };
     case "REMOVE_ALL_MOVIES_IN_FAVORITEMOVIE":
       return {

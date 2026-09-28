@@ -7,8 +7,8 @@ const DetailCast = ({ dataCredits }: { dataCredits: Credits | null }) => {
     <>
       {/* Movie cast - elenco de pelicula */}
       <div className="w-full lg:mt-12">
-        <div className="w-9/12 m-auto 1024:w-full">
-          <span className="text-lg font-semibold underline font-cineFontFamily ">
+        <div className="m-auto w-9/12 1024:w-full">
+          <span className="font-cineFontFamily text-lg font-semibold underline">
             Reparto principal
           </span>
         </div>
@@ -16,9 +16,9 @@ const DetailCast = ({ dataCredits }: { dataCredits: Credits | null }) => {
           <SwiperCarousel>
             {dataCredits?.cast?.map((e) => (
               <SwiperSlide key={e.id}>
-                <div className="object-cover w-full">
+                <div className="w-full object-cover">
                   <img
-                    className="w-full h-full rounded-md"
+                    className="h-full w-full rounded-md"
                     src={
                       e.profile_path
                         ? `https://image.tmdb.org/t/p/w200${e.profile_path}`

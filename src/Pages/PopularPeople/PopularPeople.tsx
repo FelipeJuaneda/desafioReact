@@ -13,7 +13,7 @@ const PopularPeople = ({ typePopular }: { typePopular: string }) => {
   return (
     <Element name="popularElement">
       <div>
-        <div className="text-center mt-7 mb-7">
+        <div className="mt-7 mb-7 text-center">
           <span className="text-2xl">Popular People</span>
         </div>
         <div className="flex flex-wrap justify-center gap-5">

@@ -1,16 +1,10 @@
-import {
-  Accordion,
-  AccordionItem as Item,
-  type AccordionItemProps,
-} from "@szhsin/react-accordion";
+import { Accordion, AccordionItem as Item, type AccordionItemProps } from "@szhsin/react-accordion";
 import type { Video, Videos } from "../../types/tmdb";
 
 const DetailVideos = ({ dataVideos }: { dataVideos: Videos | null }) => {
   return (
-    <div className="w-full lg:w-9/12 lg:m-auto">
-      <span className="text-lg font-semibold underline font-cineFontFamily">
-        Trailers y videos
-      </span>
+    <div className="w-full lg:m-auto lg:w-9/12">
+      <span className="font-cineFontFamily text-lg font-semibold underline">Trailers y videos</span>
       {dataVideos?.results && dataVideos.results.length > 0 ? (
         <Accordion transition transitionTimeout={200}>
           {dataVideos.results.map((e) => (
@@ -37,7 +31,7 @@ const VideoPlayer = ({ videoKey }: { videoKey: string }) => {
     <div>
       <iframe
         loading="lazy"
-        className="w-full h-128 580:h-80"
+        className="h-128 w-full 580:h-80"
         src={`https://www.youtube.com/embed/${videoKey}`}
         title="YouTube video player"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -56,7 +50,7 @@ const AccordionItem = ({ header, ...children }: StyledAccordionItemProps) => (
       <>
         {header}
         <i
-          className={`ri-arrow-up-s-line text-xl ml-auto transition-transform duration-200 ease-out ${
+          className={`ri-arrow-up-s-line ml-auto text-xl transition-transform duration-200 ease-out ${
             isEnter && "rotate-180"
           }`}
         />

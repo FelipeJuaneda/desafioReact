@@ -15,12 +15,12 @@ const FavoriteList = () => {
   const generateFavoriteSection = (
     list: Array<MovieDetail | TvDetail>,
     removeFunction: (id: number) => void,
-    type: "Peliculas" | "Series"
+    type: "Peliculas" | "Series",
   ) => {
     return (
       <div>
         <div className="flex justify-center pt-4 pb-4">
-          <span className="flex gap-2 text-3xl font-cineFontFamily ">
+          <span className="flex gap-2 font-cineFontFamily text-3xl">
             <i className={`ri-heart-fill text-red-500`} /> {type} Favoritas{" "}
             <i className={`ri-heart-fill text-red-500`} />
           </span>
@@ -29,18 +29,15 @@ const FavoriteList = () => {
           {list.length > 0 ? (
             list.map((el) => (
               <SwiperSlide key={el.id}>
-                <div className="object-cover w-full">
-                  <Link
-                    to={`/${type === "Peliculas" ? "film" : "tvShow"}/${el.id}`}
-                  >
+                <div className="w-full object-cover">
+                  <Link to={`/${type === "Peliculas" ? "film" : "tvShow"}/${el.id}`}>
                     <img
                       src={
                         el.poster_path === null
                           ? "https://www.orbis.com.ar/wp-content/themes/barberry/images/placeholder.jpg"
-                          : "https://image.tmdb.org/t/p/w220_and_h330_face" +
-                            el.poster_path
+                          : "https://image.tmdb.org/t/p/w220_and_h330_face" + el.poster_path
                       }
-                      className="w-full h-full rounded-md"
+                      className="h-full w-full rounded-md"
                       alt={`poster de ${type.toLowerCase()} populares`}
                       loading="lazy"
                     />
@@ -49,7 +46,7 @@ const FavoriteList = () => {
 
                 <button
                   onClick={() => removeFunction(el.id)}
-                  className="absolute top-0 left-0 flex items-center justify-center bg-red-500 w-9 h-9 btn"
+                  className="btn absolute top-0 left-0 flex h-9 w-9 items-center justify-center bg-red-500"
                 >
                   <i className="ri-dislike-fill" />
                 </button>
@@ -67,11 +64,7 @@ const FavoriteList = () => {
 
   return (
     <section>
-      {generateFavoriteSection(
-        favoritemovie,
-        removeMovieToFavorite,
-        "Peliculas"
-      )}
+      {generateFavoriteSection(favoritemovie, removeMovieToFavorite, "Peliculas")}
       {generateFavoriteSection(favoritetv, removeTvToTvList, "Series")}
     </section>
   );

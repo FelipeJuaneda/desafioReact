@@ -28,19 +28,19 @@ const Detail = ({ dataDetail, dataCredits, dataVideos, type }: DetailProps) => {
   const minutes = runtime % 60;
 
   return (
-    <div className="relative w-full h-full overflow-y-auto bg-verde-principal-50">
+    <div className="relative h-full w-full overflow-y-auto bg-verde-principal-50">
       <div
         id="backDrop"
-        className="relative w-full bg-center bg-cover posterFilm"
+        className="posterFilm relative w-full bg-cover bg-center"
         style={{
           backgroundImage: `url("https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${dataDetail.backdrop_path}")`,
         }}
       >
         <div id="gradientBackdrop">
-          <div className="flex w-full gap-6 p-4 pt-16 md:p-10 ">
-            <div className="hidden md:left-14 md:flex h-[450px] xl:min-w-[300px] w-[300px]">
+          <div className="flex w-full gap-6 p-4 pt-16 md:p-10">
+            <div className="hidden h-[450px] w-[300px] md:left-14 md:flex xl:min-w-[300px]">
               <img
-                className="w-full m-auto rounded drop-shadow-2xl"
+                className="m-auto w-full rounded drop-shadow-2xl"
                 loading="lazy"
                 src={
                   dataDetail.poster_path === null
@@ -50,18 +50,18 @@ const Detail = ({ dataDetail, dataCredits, dataVideos, type }: DetailProps) => {
                 alt={`Poster de ${title}`}
               />
             </div>
-            <div className="flex flex-col justify-end w-full md:justify-center xl:justify-end">
-              <span className="text-3xl text-white underline uppercase underline-offset-4 decoration-sky-500 hover:decoration-sky-300 font-cineFontFamily">
+            <div className="flex w-full flex-col justify-end md:justify-center xl:justify-end">
+              <span className="font-cineFontFamily text-3xl uppercase text-white underline decoration-sky-500 underline-offset-4 hover:decoration-sky-300">
                 {title}
               </span>
               <div
                 id="generosDuracion"
-                className="flex items-baseline gap-2 1024:text-sm 1024:flex 1024:flex-wrap 1024:justify-start"
+                className="flex items-baseline gap-2 1024:flex 1024:flex-wrap 1024:justify-start 1024:text-sm"
               >
                 {dataDetail.genres
                   ? dataDetail.genres.map((e) => (
                       <Link to={`/genre/${e.id}`} key={e.id}>
-                        <p className="cursor-pointer text-verde-principal-500 font-cineFontFamily">
+                        <p className="cursor-pointer font-cineFontFamily text-verde-principal-500">
                           {e.name}
                         </p>
                       </Link>
@@ -71,24 +71,21 @@ const Detail = ({ dataDetail, dataCredits, dataVideos, type }: DetailProps) => {
                   {type === "movie"
                     ? `° ${hours}h ${minutes}m`
                     : seasons === 1
-                    ? `${seasons} temporada`
-                    : `${seasons} temporadas`}
+                      ? `${seasons} temporada`
+                      : `${seasons} temporadas`}
                 </span>
               </div>
 
               <p
                 id="resumenParrafo"
-                className="w-full overflow-auto text-base 2xl:w-3/4 text-blue-50 font-cineFontFamily 1024:text-sm"
+                className="w-full overflow-auto font-cineFontFamily text-base text-blue-50 1024:text-sm 2xl:w-3/4"
               >
                 <span className="underline">Resumen:</span>
                 <br />
                 {dataDetail.overview}
               </p>
               <div className="text-start">
-                <p className="text-blue-50 decoration-8">
-                  Estreno:{" "}
-                  {releaseDate}
-                </p>
+                <p className="text-blue-50 decoration-8">Estreno: {releaseDate}</p>
                 <span className="text-blue-50 decoration-8">
                   Calificacion: {dataDetail.vote_average}
                 </span>

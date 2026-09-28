@@ -14,12 +14,7 @@ const DetailContainer = ({ type }: { type: MediaType }) => {
   if (loading || !dataDetail) return <Loading />;
 
   return (
-    <Detail
-      type={type}
-      dataDetail={dataDetail}
-      dataCredits={dataCredits}
-      dataVideos={dataVideos}
-    />
+    <Detail type={type} dataDetail={dataDetail} dataCredits={dataCredits} dataVideos={dataVideos} />
   );
 };
 

@@ -47,18 +47,10 @@ function App() {
             <Route
               path="/popularTv"
               element={
-                <Popular
-                  typeData="tv"
-                  typeName="Series"
-                  title="Series Populares"
-                  to="tvShow"
-                />
+                <Popular typeData="tv" typeName="Series" title="Series Populares" to="tvShow" />
               }
             />
-            <Route
-              path="/popularPeople"
-              element={<PopularPeople typePopular="person/popular" />}
-            />
+            <Route path="/popularPeople" element={<PopularPeople typePopular="person/popular" />} />
             <Route
               path="/favoriteList"
               element={
@@ -68,10 +60,7 @@ function App() {
               }
             />
 
-            <Route
-              path="film/:detailId"
-              element={<DetailCont type="movie" />}
-            />
+            <Route path="film/:detailId" element={<DetailCont type="movie" />} />
             <Route path="tvShow/:detailId" element={<DetailCont type="tv" />} />
             <Route path="genre/:genreId" element={<GenreList />} />
             <Route path="*" element={<PageNotFound />} />

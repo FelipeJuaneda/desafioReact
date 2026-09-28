@@ -36,9 +36,9 @@ const AddToFavoriteButton = ({ dataDetail }: AddToFavoriteButtonProps) => {
   const removedToast = () =>
     toast(
       <div className="flex flex-row gap-3">
-        <i className="text-base ri-delete-bin-line" />
+        <i className="ri-delete-bin-line text-base" />
         <span className="text-sm">{`"${title}" eliminado de favoritos`}</span>
-      </div>
+      </div>,
     );
 
   const handleToggleFavorite = (e: MouseEvent<HTMLButtonElement>) => {
@@ -66,13 +66,13 @@ const AddToFavoriteButton = ({ dataDetail }: AddToFavoriteButtonProps) => {
   return (
     <div className="flex gap-3 pt-3 pb-3">
       <button
-        className="p-2 rounded-full bg-verde-principal-500 hover:bg-verde-principal-400 focus:outline-none h-11 w-11"
+        className="h-11 w-11 rounded-full bg-verde-principal-500 p-2 hover:bg-verde-principal-400 focus:outline-none"
         onClick={handleToggleFavorite}
       >
         {isFavorite ? (
-          <i className="text-xl text-red-600 ri-heart-fill" />
+          <i className="ri-heart-fill text-xl text-red-600" />
         ) : (
-          <i className="text-xl ri-heart-line" />
+          <i className="ri-heart-line text-xl" />
         )}
       </button>
     </div>

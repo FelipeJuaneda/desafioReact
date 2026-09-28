@@ -25,7 +25,7 @@ const renderAt = (path: string) =>
   render(
     <MemoryRouter initialEntries={[path]}>
       <App />
-    </MemoryRouter>
+    </MemoryRouter>,
   );
 
 describe("App routing", () => {
@@ -36,14 +36,14 @@ describe("App routing", () => {
   it("sends signed-out visitors from the home page to the login page", () => {
     renderAt("/");
     expect(
-      screen.getByRole("heading", { name: /bienvenido de nuevo a peliculed/i })
+      screen.getByRole("heading", { name: /bienvenido de nuevo a peliculed/i }),
     ).toBeInTheDocument();
   });
 
   it("protects the favorites page behind login", () => {
     renderAt("/favoriteList");
     expect(
-      screen.getByRole("heading", { name: /bienvenido de nuevo a peliculed/i })
+      screen.getByRole("heading", { name: /bienvenido de nuevo a peliculed/i }),
     ).toBeInTheDocument();
   });
 
@@ -53,7 +53,7 @@ describe("App routing", () => {
 
     expect(screen.getByAltText(/cargando/i)).toBeInTheDocument();
     expect(
-      screen.queryByRole("heading", { name: /bienvenido de nuevo a peliculed/i })
+      screen.queryByRole("heading", { name: /bienvenido de nuevo a peliculed/i }),
     ).not.toBeInTheDocument();
   });
 
