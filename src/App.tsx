@@ -15,7 +15,7 @@ import Popular from "./Pages/Popular/Popular";
 import DetailCont from "./Pages/Detail/DetailContainer";
 
 function App() {
-  let location = useLocation();
+  const location = useLocation();
   return (
     <AuthProvider>
       <FavoriteContextProvider>
