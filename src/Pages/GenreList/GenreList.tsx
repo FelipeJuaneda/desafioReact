@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
-import { Element } from "react-scroll";
 import { baseUrl, apiKey } from "../../utils/config";
 import pororoLoad from "../../images/pororoLoad.gif";
 import type { Genre, MovieSummary, TmdbPage } from "../../types/tmdb";
@@ -32,7 +31,7 @@ const GenreList = () => {
   const genderName = genreList.filter((e) => e.id === Number(genreId));
 
   return (
-    <Element name="genreList" id="genreList">
+    <div id="genreList">
       <div className="h-full w-full">
         <div className="h-24 bg-[#a72509] py-4 px-5 1024:py-1 1024:px-2">
           {genderName.map((e) => (
@@ -83,7 +82,7 @@ const GenreList = () => {
           )}
         </div>
       </div>
-    </Element>
+    </div>
   );
 };
 

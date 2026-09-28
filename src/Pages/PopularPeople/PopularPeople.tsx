@@ -1,4 +1,3 @@
-import { Element } from "react-scroll";
 import PaginationCont from "../../components/Pagination/PaginationCont";
 import usePopularData from "../../hooks/usePopularData";
 import Loading from "../../components/Loading/Loading";
@@ -11,7 +10,7 @@ const PopularPeople = ({ typePopular }: { typePopular: string }) => {
   if (loading) return <Loading />;
 
   return (
-    <Element name="popularElement">
+    <div>
       <div>
         <div className="mt-7 mb-7 text-center">
           <span className="text-2xl">Popular People</span>
@@ -42,7 +41,7 @@ const PopularPeople = ({ typePopular }: { typePopular: string }) => {
           currentPage={currentPage}
         />
       </div>
-    </Element>
+    </div>
   );
 };
 

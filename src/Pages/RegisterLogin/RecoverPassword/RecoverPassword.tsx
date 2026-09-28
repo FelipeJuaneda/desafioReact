@@ -6,7 +6,6 @@ const RecoverPassword = () => {
   const [error, setError] = useState<string>();
   const { resetPassword } = useAuthContext();
   const [email, setEmail] = useState<string>();
-  console.log(email);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
