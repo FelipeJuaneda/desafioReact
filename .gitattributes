@@ -1,0 +1,7 @@
+# Store and check out text files with LF so Windows and CI see identical bytes.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
