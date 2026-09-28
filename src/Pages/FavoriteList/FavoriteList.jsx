@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { SwiperSlide } from "swiper/react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 

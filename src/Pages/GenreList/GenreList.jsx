@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router";
 import { Element } from "react-scroll";
 import { baseUrl, apiKey } from "../../utils/config";
 import pororoLoad from "../../images/pororoLoad.gif";

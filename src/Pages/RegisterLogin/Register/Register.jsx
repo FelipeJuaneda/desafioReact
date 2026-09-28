@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router";
 import { useAuthContext } from "../../../contexts/AuthContext";
 import imgRegister from "../../../images/imgRegister.jpg";
 import logo from "../../../images/iconoPororo.png";

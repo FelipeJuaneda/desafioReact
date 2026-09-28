@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router";
 import AuthProvider from "./contexts/AuthContext";
 import FavoriteContextProvider from "./contexts/FavoriteContext";
 import Header from "./Layouts/Header/Header";

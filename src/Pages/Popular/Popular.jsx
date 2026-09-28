@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import PaginationCont from "../../components/Pagination/PaginationCont";
 import StarsCalification from "../../components/StarsCalification/StarsCalification";
 import { SwiperSlide } from "swiper/react";

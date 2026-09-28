@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import useDetail from "../../hooks/useDetail";
 import Detail from "./Detail";
 import Loading from "../../components/Loading/Loading";
