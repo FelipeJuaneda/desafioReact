@@ -5,8 +5,8 @@ import usePopularData from "../../hooks/usePopularData";
 import Loading from "../../components/Loading/Loading";
 import { usePagination } from "../../hooks/usePagination";
 const PopularPeople = ({ typePopular }) => {
-  const { pagination, goBack, buttonPagination, goNext } = usePagination();
-  const { data, loading } = usePopularData(typePopular, pagination);
+  const { currentPage, goBack, buttonPagination, goNext } = usePagination();
+  const { data, loading } = usePopularData(typePopular, currentPage);
 
   if (loading) return <Loading />;
 
@@ -39,7 +39,7 @@ const PopularPeople = ({ typePopular }) => {
           goBack={goBack}
           buttonPagination={buttonPagination}
           goNext={goNext}
-          pagination={pagination}
+          currentPage={currentPage}
         />
       </div>
     </Element>

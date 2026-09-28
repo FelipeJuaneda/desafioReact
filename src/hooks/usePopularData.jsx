@@ -6,11 +6,12 @@ const usePopularData = (typePopular, currentPage) => {
   const [loading, setLoading] = useState(true);
   const getPopularData = async (searchKey) => {
     const type = searchKey ? "search" : "discover";
+    const path =
+      typePopular === "person/popular" ? typePopular : `${type}/${typePopular}`;
+    const query = searchKey ? `&query=${encodeURIComponent(searchKey)}` : "";
     try {
       const dataFetch = await fetch(
-        `${baseUrl}${
-          typePopular === "person/popular" ? "" : type
-        }/${typePopular}?api_key=${apiKey}&language=es&query=${searchKey}&page=${currentPage}`
+        `${baseUrl}${path}?api_key=${apiKey}&language=es${query}&page=${currentPage}`
       );
       const dataJson = await dataFetch.json();
       setData(dataJson.results);
