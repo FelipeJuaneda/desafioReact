@@ -49,13 +49,16 @@ const SignInPage = () => {
 
   return (
     <AuthLayout
-      title="Ingresar"
-      lead="Entrá a tu cuenta para guardar títulos en Mi lista."
+      documentTitle="Ingresar"
+      title="Volvé a la sala"
+      lead="Ingresá para guardar títulos en Mi lista y encontrarlos en cualquier dispositivo."
+      scene="Ingresar"
+      take={attempt + 1}
       footer={
         <p>
-          ¿No tenés cuenta?{" "}
+          ¿Primera función?{" "}
           <Link to={withReturnTo(paths.signUp, returnTo)} className={authLinkClass}>
-            Creá una
+            Creá tu cuenta
           </Link>
         </p>
       }
@@ -63,7 +66,6 @@ const SignInPage = () => {
       <form ref={formRef} noValidate onSubmit={submit} className="grid gap-5">
         <FormAlert>{formError}</FormAlert>
         <Field
-          tone="lighttable"
           label="Email"
           type="email"
           name="email"
@@ -89,7 +91,7 @@ const SignInPage = () => {
             ¿Olvidaste tu contraseña?
           </Link>
         </div>
-        <Button type="submit" tone="lighttable" disabled={pending}>
+        <Button type="submit" disabled={pending}>
           {pending ? "Ingresando…" : "Ingresar"}
         </Button>
         <GoogleButton disabled={pending} onClick={() => void run(loginWithGoogle)} />

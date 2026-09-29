@@ -12,13 +12,11 @@ export const PasswordField = (props: PasswordFieldProps) => {
   return (
     <Field
       {...props}
-      tone="lighttable"
       type={visible ? "text" : "password"}
       trailing={
         <Button
           variant="ghost"
           size="sm"
-          tone="lighttable"
           iconOnly
           aria-label="Mostrar contraseña"
           aria-pressed={visible}

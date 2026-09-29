@@ -79,6 +79,20 @@
       background-color: var(--color-frameline);
     }
   }
+  /* Poster wall on the account screens: columns drifting like a reel on the take-up spool */
+  --animate-drift-up: drift-up 120s linear infinite;
+  --animate-drift-down: drift-up 150s linear infinite reverse;
+  --animate-drift-left: drift-left 90s linear infinite;
+  @keyframes drift-up {
+    to {
+      transform: translateY(-50%);
+    }
+  }
+  @keyframes drift-left {
+    to {
+      transform: translateX(-50%);
+    }
+  }
   @keyframes expose-light {
     to {
       background-color: var(--color-lt-ground);

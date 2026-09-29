@@ -8,11 +8,21 @@ test.beforeEach(async ({ page }) => {
 
 /** WCAG 2.2 A/AA rules only; posters are aborted on purpose, so image-alt noise is not ours. */
 const expectNoA11yViolations = async (page: Page) => {
+  // Entrances fade text in, and measuring contrast mid-fade reports false failures. Under
+  // automation Motion jumps to final states (see MotionProvider) once its features have loaded:
+  // wait for that, plus two frames for the final styles to be written.
+  await page.locator("html[data-motion='ready']").waitFor({ state: "attached" });
+  await page.evaluate(
+    () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))),
+  );
   const { violations } = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
     .analyze();
   expect(
-    violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(", ")}`),
+    violations.map(
+      (v) =>
+        `${v.id}: ${v.nodes.map((n) => `${n.target.join(" ")} (${n.failureSummary ?? ""})`).join(", ")}`,
+    ),
   ).toEqual([]);
 };
 

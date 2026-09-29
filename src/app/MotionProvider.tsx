@@ -1,7 +1,17 @@
-import { LazyMotion, MotionConfig } from "motion/react";
+import { LazyMotion, MotionConfig, MotionGlobalConfig } from "motion/react";
 import type { ReactNode } from "react";
 
-const loadFeatures = () => import("@/app/motionFeatures").then((module) => module.default);
+// Automated browsers (e2e, audits) get final states at once, so nothing is measured mid-fade.
+if (typeof navigator !== "undefined" && navigator.webdriver) {
+  MotionGlobalConfig.skipAnimations = true;
+}
+
+const loadFeatures = () =>
+  import("@/app/motionFeatures").then((module) => {
+    // Lets tests know entrances can run (until now `m` elements sit in their initial state).
+    document.documentElement.dataset.motion = "ready";
+    return module.default;
+  });
 
 /**
  * Motion for the whole app. Features load lazily (`m` components only), so the animation engine

@@ -60,8 +60,11 @@ const SignUpPage = () => {
 
   return (
     <AuthLayout
-      title="Crear cuenta"
-      lead="Con una cuenta, lo que guardás en Mi lista te sigue a cualquier dispositivo."
+      documentTitle="Crear cuenta"
+      title="Tu butaca te espera"
+      lead="Creá tu cuenta y armá tu lista de películas y series: te sigue a cualquier dispositivo."
+      scene="Registro"
+      take={attempt + 1}
       footer={
         <p>
           ¿Ya tenés cuenta?{" "}
@@ -74,7 +77,6 @@ const SignUpPage = () => {
       <form ref={formRef} noValidate onSubmit={submit} className="grid gap-5">
         <FormAlert>{formError}</FormAlert>
         <Field
-          tone="lighttable"
           label="Email"
           type="email"
           name="email"
@@ -101,7 +103,7 @@ const SignUpPage = () => {
           onChange={(event) => setConfirmation(event.target.value)}
           error={errors.confirmation}
         />
-        <Button type="submit" tone="lighttable" disabled={pending}>
+        <Button type="submit" disabled={pending}>
           {pending ? "Creando tu cuenta…" : "Crear cuenta"}
         </Button>
         <GoogleButton disabled={pending} onClick={() => void run(loginWithGoogle)} />
