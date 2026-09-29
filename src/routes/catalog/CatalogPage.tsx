@@ -149,6 +149,8 @@ export const CatalogPage = ({ mediaType }: { mediaType: MediaType }) => {
       )}
 
       <div className="pt-8">
+        {/* Names the grid for heading navigation (cards are h3) without repeating it on screen. */}
+        <h2 className="sr-only">{SORTS.find((option) => option.value === sort)?.label}</h2>
         {catalog.isPending ? (
           <TitleGridSkeleton />
         ) : catalog.isError ? (

@@ -48,6 +48,16 @@ test("title page: canonical URL, cast, facts and trailer", async ({ page }) => {
   await expect(dialog).toBeHidden();
 });
 
+test("catalog sorts through the URL and keeps a valid heading outline", async ({ page }) => {
+  await page.goto("/peliculas");
+  await expect(page.getByRole("heading", { name: "Más populares", level: 2 })).toBeAttached();
+  await expect(page.getByRole("heading", { name: "Matrix", level: 3 })).toBeVisible();
+  await expectNoA11yViolations(page);
+
+  await page.getByLabel("Ordenar por").selectOption("puntuadas");
+  await expect(page).toHaveURL(/\/peliculas\?orden=puntuadas$/);
+});
+
 test("search keeps the query in the URL", async ({ page }) => {
   await page.goto("/buscar");
   await page.getByRole("searchbox", { name: /Buscar películas, series y personas/ }).fill("matrix");
