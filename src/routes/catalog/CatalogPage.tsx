@@ -1,3 +1,4 @@
+import { RiArrowDownSLine } from "@remixicon/react";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { Link, useSearchParams } from "react-router";
 import { Button, ButtonLink } from "@/components/ui/Button";
@@ -85,27 +86,33 @@ export const CatalogPage = ({ mediaType }: { mediaType: MediaType }) => {
         </div>
         <label className="grid gap-1.5 text-small font-semibold text-emulsion-muted">
           Ordenar por
-          <select
-            value={sort}
-            onChange={(event) =>
-              setParams(
-                (current) => {
-                  const next = new URLSearchParams(current);
-                  if (event.target.value === "populares") next.delete("orden");
-                  else next.set("orden", event.target.value);
-                  return next;
-                },
-                { preventScrollReset: true },
-              )
-            }
-            className="min-h-11 rounded-aperture border border-control-line bg-acetate py-2 pr-9 pl-3 text-body font-normal text-emulsion focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-edge"
-          >
-            {SORTS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+          <span className="relative grid">
+            <select
+              value={sort}
+              onChange={(event) =>
+                setParams(
+                  (current) => {
+                    const next = new URLSearchParams(current);
+                    if (event.target.value === "populares") next.delete("orden");
+                    else next.set("orden", event.target.value);
+                    return next;
+                  },
+                  { preventScrollReset: true },
+                )
+              }
+              className="min-h-11 appearance-none rounded-aperture border border-control-line bg-acetate py-2 pr-10 pl-3 text-body font-normal text-emulsion hover:border-emulsion-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-edge"
+            >
+              {SORTS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <RiArrowDownSLine
+              aria-hidden
+              className="pointer-events-none absolute top-1/2 right-2.5 size-5 -translate-y-1/2 text-emulsion-muted"
+            />
+          </span>
         </label>
       </div>
 

@@ -1,25 +1,8 @@
-/* Legacy font for screens not redesigned yet; removed with the last legacy screen (phase 3). */
-@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;600;700&display=swap")
-layer(base);
-
 @import "tailwindcss";
 @import "./tokens.css";
-@import "./legacy.css";
 
 @layer base {
-  /*
-    Tailwind 4 changed the default border color to currentcolor; keep v3's gray-200 so legacy
-    screens look the same. Redesigned components always set an explicit border color.
-  */
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
-  }
-
-  /* Browser surfaces follow the projection ground too. */
+  /* Browser surfaces follow the projection ground. */
   html {
     color-scheme: dark;
     background-color: var(--color-leader);

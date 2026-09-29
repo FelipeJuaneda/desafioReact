@@ -4,6 +4,7 @@ import { paths } from "@/app/paths";
 import { RedirectWithId } from "@/app/redirects";
 import RequireAuth from "@/features/auth/RequireAuth";
 import { AppLayout } from "@/layouts/AppLayout";
+import NotFoundPage from "@/routes/errors/NotFoundPage";
 import { RouteError } from "@/routes/errors/RouteError";
 
 /** Route-level code splitting: each screen is its own chunk. */
@@ -71,7 +72,7 @@ export const routes: RouteObject[] = [
             element: <RedirectWithId to={(id) => `${paths.movies}?genero=${id}`} />,
           },
 
-          { path: "*", lazy: defaultPage(() => import("@/routes/errors/NotFoundPage")) },
+          { path: "*", element: <NotFoundPage /> },
         ],
       },
     ],

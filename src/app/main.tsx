@@ -2,7 +2,6 @@ import "@fontsource-variable/sofia-sans";
 import "@fontsource-variable/sofia-sans-extra-condensed";
 import "@fontsource-variable/martian-mono/wdth.css";
 import "@/styles/index.css";
-import "remixicon/fonts/remixicon.css";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
