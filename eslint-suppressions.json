@@ -1,21 +1,5 @@
 {
-  "src/Pages/RegisterLogin/Login/Login.tsx": {
-    "jsx-a11y-x/click-events-have-key-events": {
-      "count": 1
-    },
-    "jsx-a11y-x/label-has-associated-control": {
-      "count": 1
-    },
-    "jsx-a11y-x/no-static-element-interactions": {
-      "count": 1
-    }
-  },
-  "src/components/AddToFavoriteButton/AddToFavoriteButton.tsx": {
-    "react-hooks/set-state-in-effect": {
-      "count": 1
-    }
-  },
-  "src/components/Pagination/PaginationCont.tsx": {
+  "src/components/ui/Pagination.tsx": {
     "jsx-a11y-x/click-events-have-key-events": {
       "count": 2
     },
@@ -23,7 +7,7 @@
       "count": 2
     }
   },
-  "src/components/StarsCalification/StarsCalification.tsx": {
+  "src/features/catalog/StarsCalification.tsx": {
     "jsx-a11y-x/click-events-have-key-events": {
       "count": 1
     },
@@ -37,23 +21,29 @@
       "count": 1
     }
   },
-  "src/contexts/AuthContext.tsx": {
-    "react-refresh/only-export-components": {
-      "count": 1
-    }
-  },
-  "src/contexts/FavoriteContext.tsx": {
-    "react-refresh/only-export-components": {
-      "count": 1
-    }
-  },
-  "src/hooks/useDetail.ts": {
+  "src/features/catalog/usePopularData.ts": {
     "react-hooks/set-state-in-effect": {
       "count": 1
     }
   },
-  "src/hooks/usePopularData.ts": {
+  "src/features/favorites/AddToFavoriteButton.tsx": {
     "react-hooks/set-state-in-effect": {
+      "count": 1
+    }
+  },
+  "src/features/title/useDetail.ts": {
+    "react-hooks/set-state-in-effect": {
+      "count": 1
+    }
+  },
+  "src/routes/auth/LoginPage.tsx": {
+    "jsx-a11y-x/click-events-have-key-events": {
+      "count": 1
+    },
+    "jsx-a11y-x/label-has-associated-control": {
+      "count": 1
+    },
+    "jsx-a11y-x/no-static-element-interactions": {
       "count": 1
     }
   }

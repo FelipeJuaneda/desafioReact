@@ -1,0 +1,81 @@
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { MemoryRouter } from "react-router";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import App from "@/app/App";
+
+vi.mock("@/services/firebase/app", () => ({ app: {}, auth: {} }));
+
+vi.mock("firebase/auth", () => ({
+  onAuthStateChanged: vi.fn((_auth, callback) => {
+    callback(null);
+    return () => {};
+  }),
+  signInWithEmailAndPassword: vi.fn(),
+  createUserWithEmailAndPassword: vi.fn(),
+  signInWithPopup: vi.fn(),
+  sendPasswordResetEmail: vi.fn(),
+  signOut: vi.fn(),
+  GoogleAuthProvider: vi.fn(),
+  FacebookAuthProvider: vi.fn(),
+}));
+
+const renderAt = (path: string) =>
+  render(
+    <MemoryRouter initialEntries={[path]}>
+      <App />
+    </MemoryRouter>,
+  );
+
+describe("App routing", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("sends signed-out visitors from the home page to the login page", () => {
+    renderAt("/");
+    expect(
+      screen.getByRole("heading", { name: /bienvenido de nuevo a peliculed/i }),
+    ).toBeInTheDocument();
+  });
+
+  it("protects the favorites page behind login", () => {
+    renderAt("/favoriteList");
+    expect(
+      screen.getByRole("heading", { name: /bienvenido de nuevo a peliculed/i }),
+    ).toBeInTheDocument();
+  });
+
+  it("waits for the auth state before deciding to redirect", async () => {
+    vi.mocked(onAuthStateChanged).mockImplementationOnce(() => () => {});
+    renderAt("/favoriteList");
+
+    expect(screen.getByAltText(/cargando/i)).toBeInTheDocument();
+    expect(
+      screen.queryByRole("heading", { name: /bienvenido de nuevo a peliculed/i }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("shows the not-found page for unknown routes", () => {
+    renderAt("/esta-ruta-no-existe");
+    expect(screen.getByRole("heading", { name: "404" })).toBeInTheDocument();
+  });
+});
+
+describe("Login", () => {
+  it("translates a user-not-found error from Firebase", async () => {
+    vi.mocked(signInWithEmailAndPassword).mockRejectedValueOnce({
+      code: "auth/user-not-found",
+    });
+    const user = userEvent.setup();
+    renderAt("/login");
+
+    await user.type(screen.getByPlaceholderText(/ingresa tu email/i), "nadie@ejemplo.com");
+    await user.type(screen.getByPlaceholderText(/ingresa contraseña/i), "secreto");
+    await user.click(screen.getByRole("button", { name: /ingresar/i }));
+
+    expect(await screen.findByText("Usuario no encontrado")).toBeInTheDocument();
+    expect(signInWithEmailAndPassword).toHaveBeenCalledWith({}, "nadie@ejemplo.com", "secreto");
+  });
+});

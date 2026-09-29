@@ -20,8 +20,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    // Swiper 8 ships swiper.d.ts but omits it from its "exports" map. Removed with Swiper.
     "paths": {
+      "@/*": ["./src/*"],
+      // Swiper 8 ships swiper.d.ts but omits it from its "exports" map. Removed with Swiper.
       "swiper": ["./node_modules/swiper/swiper.d.ts"]
     }
   },
