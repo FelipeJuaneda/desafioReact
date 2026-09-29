@@ -1,27 +1,33 @@
-import { QueryClientProvider } from "@tanstack/react-query";
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router";
-import App from "@/app/App";
-import { queryClient } from "@/app/queryClient";
 import "@fontsource-variable/sofia-sans";
 import "@fontsource-variable/sofia-sans-extra-condensed";
 import "@fontsource-variable/martian-mono/wdth.css";
 import "@/styles/index.css";
 import "remixicon/fonts/remixicon.css";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { createBrowserRouter } from "react-router";
+import { RouterProvider } from "react-router/dom";
 import { Toaster } from "sonner";
+import { queryClient } from "@/app/queryClient";
+import { routes } from "@/app/routes";
+import AuthProvider from "@/features/auth/AuthProvider";
+import FavoritesProvider from "@/features/favorites/FavoritesProvider";
 
 const container = document.getElementById("root");
 if (!container) throw new Error("Missing #root element in index.html");
 
-const root = ReactDOM.createRoot(container);
-root.render(
-  <React.StrictMode>
+const router = createBrowserRouter(routes);
+
+createRoot(container).render(
+  <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Toaster expand={false} closeButton richColors />
-        <App />
-      </BrowserRouter>
+      <AuthProvider>
+        <FavoritesProvider>
+          <Toaster theme="dark" position="bottom-center" closeButton />
+          <RouterProvider router={router} />
+        </FavoritesProvider>
+      </AuthProvider>
     </QueryClientProvider>
-  </React.StrictMode>,
+  </StrictMode>,
 );
