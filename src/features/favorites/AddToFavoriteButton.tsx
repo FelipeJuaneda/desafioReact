@@ -48,7 +48,7 @@ const AddToFavoriteButton = ({ mediaType, item }: AddToFavoriteButtonProps) => {
         type="button"
         aria-pressed={saved}
         aria-label={saved ? `Quitar "${input.title}" de favoritos` : `Guardar "${input.title}"`}
-        className="h-11 w-11 rounded-full bg-verde-principal-500 p-2 hover:bg-verde-principal-400 focus:outline-none"
+        className="h-11 w-11 rounded-full bg-verde-principal-500 p-2 hover:bg-verde-principal-400 focus:outline-hidden"
         onClick={handleToggleFavorite}
       >
         {saved ? (

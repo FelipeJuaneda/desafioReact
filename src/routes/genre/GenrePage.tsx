@@ -17,7 +17,7 @@ const GenreList = () => {
   return (
     <div id="genreList">
       <div className="h-full w-full">
-        <div className="h-24 bg-[#a72509] py-4 px-5 1024:py-1 1024:px-2">
+        <div className="h-24 bg-[#a72509] px-5 py-4 1024:px-2 1024:py-1">
           {genderName.map((e) => (
             <span key={e.id} className="font-cineFontFamily text-3xl font-bold text-white">
               {e.name}

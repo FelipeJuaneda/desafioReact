@@ -70,7 +70,7 @@ const Register = () => {
 
         <main
           aria-label="Main"
-          className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:py-12 lg:px-16 xl:col-span-6"
+          className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6"
         >
           <div className="max-w-xl lg:max-w-3xl">
             <div className="relative -mt-16 block lg:hidden">
@@ -109,7 +109,7 @@ const Register = () => {
                   type="text"
                   id="FirstName"
                   name="first_name"
-                  className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                  className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-xs"
                 />
               </div>
 
@@ -122,7 +122,7 @@ const Register = () => {
                   type="text"
                   id="LastName"
                   name="last_name"
-                  className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                  className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-xs"
                 />
               </div>
 
@@ -135,7 +135,7 @@ const Register = () => {
                   type="email"
                   id="Email"
                   name="email"
-                  className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                  className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-xs"
                   onChange={handleChange}
                 />
               </div>
@@ -149,7 +149,7 @@ const Register = () => {
                   type="password"
                   id="Password"
                   name="password"
-                  className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                  className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-xs"
                   onChange={handleChange}
                 />
               </div>
@@ -166,7 +166,7 @@ const Register = () => {
                   type="password"
                   id="PasswordConfirmation"
                   name="password_confirmation"
-                  className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                  className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-xs"
                   onChange={handleChange}
                 />
               </div>

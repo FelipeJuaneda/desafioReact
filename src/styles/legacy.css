@@ -1,0 +1,31 @@
+/*
+  Legacy theme from the pre-redesign UI (was tailwind.config.cjs).
+  Only screens that have not been redesigned use these. Delete this file with the last of them.
+*/
+@plugin "@tailwindcss/forms";
+
+@theme {
+  --color-verde-principal-700: #198754;
+  --color-verde-principal-600: #19a061;
+  --color-verde-principal-500: #25c279;
+  --color-verde-principal-400: #4ddb98;
+  --color-verde-principal-300: #88edbd;
+  --color-verde-principal-200: #bcf6d9;
+  --color-verde-principal-50: #f0fdf6;
+  --color-rojo-principal-800: #a72509;
+  --color-rojo-principal-700: #ce2d00;
+  --color-rojo-principal-600: #f94100;
+  --color-rojo-principal-500: #ff5e07;
+
+  --spacing-128: 32rem;
+  --font-cineFontFamily: "Raleway", sans-serif;
+}
+
+/* Desktop-first max-width breakpoints the old screens were written against (1024:, 768:, …). */
+@custom-variant 1024 (@media (max-width: 1024px));
+@custom-variant 900 (@media (max-width: 900px));
+@custom-variant 768 (@media (max-width: 768px));
+@custom-variant 640 (@media (max-width: 640px));
+@custom-variant 580 (@media (max-width: 580px));
+@custom-variant 550 (@media (max-width: 550px));
+@custom-variant 420 (@media (max-width: 420px));

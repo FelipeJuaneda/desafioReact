@@ -9,7 +9,7 @@ export default function Home() {
     {
       id: 1,
       title: "Peliculas Populares",
-      divFather: "mt-3 shadow",
+      divFather: "mt-3 shadow-sm",
       to: "/popularFilms",
       linkClass:
         "w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-verde-principal-700 hover:bg-verde-principal-600 md:py-4 md:text-lg md:px-10",

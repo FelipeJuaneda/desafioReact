@@ -1,4 +1,5 @@
 import { fileURLToPath } from "node:url";
+import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { loadEnv, type ProxyOptions } from "vite";
 import { defineConfig } from "vitest/config";
@@ -18,7 +19,7 @@ export default defineConfig(({ mode }) => {
   };
 
   return {
-    plugins: [react()],
+    plugins: [react(), tailwindcss()],
     resolve: {
       alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) },
     },

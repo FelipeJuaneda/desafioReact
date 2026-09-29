@@ -1,8 +1,24 @@
-@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;600;700&display=swap");
+/* Legacy font for screens not redesigned yet; removed with the last legacy screen (phase 3). */
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@200;400;600;700&display=swap")
+layer(base);
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "./tokens.css";
+@import "./legacy.css";
+
+/*
+  Tailwind 4 changed the default border color to currentcolor; keep v3's gray-200 so legacy
+  screens look the same. Redesigned components always set an explicit border color.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 ::-webkit-scrollbar-track {
   border: 1px solid black;

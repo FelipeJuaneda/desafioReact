@@ -8,7 +8,7 @@ import "swiper/css/navigation";
 import { FreeMode, Navigation } from "swiper";
 const SwiperCarousel = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="flex select-none flex-wrap items-center justify-center gap-7 lg:m-auto lg:w-3/4">
+    <div className="flex flex-wrap items-center justify-center gap-7 select-none lg:m-auto lg:w-3/4">
       <Swiper
         grabCursor={true}
         rewind={true}

@@ -84,7 +84,7 @@ const Login = () => {
               <input
                 name="email"
                 type="email"
-                className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+                className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-xs"
                 placeholder="Ingresa tu email"
                 onChange={handleChange}
               />
@@ -103,7 +103,7 @@ const Login = () => {
               <input
                 name="password"
                 type={viewPassword ? "text" : "password"}
-                className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+                className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-xs"
                 placeholder="Ingresa contraseña"
                 onChange={handleChange}
               />
@@ -155,7 +155,7 @@ const Login = () => {
         </div>
       </div>
 
-      <div className="relative h-64 w-full 1024:mt-5 sm:h-96 lg:h-full lg:w-1/2">
+      <div className="relative h-64 w-full sm:h-96 lg:h-full lg:w-1/2 1024:mt-5">
         <img
           alt="Pagina login de peliculed"
           src={imgLogin}

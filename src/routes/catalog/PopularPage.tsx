@@ -37,7 +37,7 @@ const Popular = ({ typeData, typeName, title, to }: PopularProps) => {
   return (
     <div ref={starsList} id="popularMovieElement" className="text-center">
       <div className="bg-gray-100">
-        <div className="flex flex-row items-center justify-evenly 550:flex-col 550:gap-3 768:pt-3 768:pb-3 md:pb-5 md:pt-5">
+        <div className="flex flex-row items-center justify-evenly md:pt-5 md:pb-5 768:pt-3 768:pb-3 550:flex-col 550:gap-3">
           <StarsCalification
             data={data}
             setHasFilter={setHasFilter}

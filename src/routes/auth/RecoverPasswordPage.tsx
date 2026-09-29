@@ -22,7 +22,7 @@ const RecoverPassword = () => {
     }
   };
   return (
-    <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-(--breakpoint-xl) px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-lg text-center">
         <h1 className="text-2xl font-bold sm:text-3xl">Recupera tu contraseña</h1>
 
@@ -40,7 +40,7 @@ const RecoverPassword = () => {
           <div className="relative">
             <input
               type="email"
-              className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+              className="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-xs"
               placeholder="Enter email"
               onChange={handleChange}
             />

@@ -40,7 +40,7 @@ const Detail = ({ dataDetail, dataCredits, dataVideos, type }: DetailProps) => {
           <div className="flex w-full gap-6 p-4 pt-16 md:p-10">
             <div className="hidden h-[450px] w-[300px] md:left-14 md:flex xl:min-w-[300px]">
               <img
-                className="m-auto w-full rounded drop-shadow-2xl"
+                className="m-auto w-full rounded-sm drop-shadow-2xl"
                 loading="lazy"
                 src={
                   dataDetail.poster_path === null
@@ -51,7 +51,7 @@ const Detail = ({ dataDetail, dataCredits, dataVideos, type }: DetailProps) => {
               />
             </div>
             <div className="flex w-full flex-col justify-end md:justify-center xl:justify-end">
-              <span className="font-cineFontFamily text-3xl uppercase text-white underline decoration-sky-500 underline-offset-4 hover:decoration-sky-300">
+              <span className="font-cineFontFamily text-3xl text-white uppercase underline decoration-sky-500 underline-offset-4 hover:decoration-sky-300">
                 {title}
               </span>
               <div
@@ -78,7 +78,7 @@ const Detail = ({ dataDetail, dataCredits, dataVideos, type }: DetailProps) => {
 
               <p
                 id="resumenParrafo"
-                className="w-full overflow-auto font-cineFontFamily text-base text-blue-50 1024:text-sm 2xl:w-3/4"
+                className="w-full overflow-auto font-cineFontFamily text-base text-blue-50 2xl:w-3/4 1024:text-sm"
               >
                 <span className="underline">Resumen:</span>
                 <br />
