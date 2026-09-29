@@ -21,11 +21,6 @@
       "count": 1
     }
   },
-  "src/features/favorites/AddToFavoriteButton.tsx": {
-    "react-hooks/set-state-in-effect": {
-      "count": 1
-    }
-  },
   "src/routes/auth/LoginPage.tsx": {
     "jsx-a11y-x/click-events-have-key-events": {
       "count": 1

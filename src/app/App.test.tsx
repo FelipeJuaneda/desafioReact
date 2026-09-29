@@ -5,7 +5,7 @@ import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import App from "@/app/App";
 import { renderWithProviders } from "@/test/render";
 
-vi.mock("@/services/firebase/app", () => ({ app: {}, auth: {} }));
+vi.mock("@/services/firebase/app", () => ({ app: {}, auth: {}, db: {} }));
 
 vi.mock("firebase/auth", () => ({
   onAuthStateChanged: vi.fn((_auth, callback) => {

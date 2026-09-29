@@ -1,63 +1,87 @@
-import { useEffect, useReducer, type ReactNode } from "react";
-import FavReducer, { type FavoriteState } from "@/features/favorites/favoritesReducer";
-import { FavoriteContext } from "@/features/favorites/useFavoriteContext";
-import type { MovieDetail, TvDetail } from "@/types/tmdb";
+import { useEffect, useState, type ReactNode } from "react";
+import { toast } from "sonner";
+import { useAuthContext } from "@/features/auth/useAuthContext";
+import { favoriteId, type Favorite, type FavoriteInput } from "@/features/favorites/favorite";
+import * as repository from "@/features/favorites/favoritesRepository";
+import { clearLegacyFavorites, readLegacyFavorites } from "@/features/favorites/legacyFavorites";
+import {
+  FavoriteContext,
+  type FavoriteContextValue,
+  type FavoritesStatus,
+} from "@/features/favorites/useFavoriteContext";
+import type { MediaType } from "@/types/tmdb";
 
-const readStoredList = <T,>(key: string): T[] => {
-  const stored = localStorage.getItem(key);
-  return stored ? (JSON.parse(stored) as T[]) : [];
+interface Snapshot {
+  uid: string;
+  favorites: Favorite[];
+  error: Error | null;
+}
+
+/** Moves favorites saved on this device (pre-accounts) into the user's list, once. */
+const importDeviceFavorites = async (uid: string, current: Favorite[]) => {
+  const legacy = readLegacyFavorites();
+  if (legacy.length === 0) return;
+  const existing = new Set(current.map((f) => f.id));
+  const pending = legacy.filter((f) => !existing.has(favoriteId(f.mediaType, f.tmdbId)));
+  try {
+    await repository.importFavorites(uid, pending);
+    clearLegacyFavorites();
+    if (pending.length > 0) {
+      toast.success(`Pasamos ${pending.length} títulos guardados en este dispositivo a tu lista.`);
+    }
+  } catch {
+    // Keep the device copy so the import can be retried on the next sign-in.
+    toast.error("No pudimos pasar tus favoritos de este dispositivo a tu cuenta.");
+  }
 };
 
-const FavoriteContextProvider = ({ children }: { children: ReactNode }) => {
-  //estado donde guarda las lista de favs
-  const initialState: FavoriteState = {
-    favoritemovie: readStoredList<MovieDetail>("favoritemovie"),
-    favoritetv: readStoredList<TvDetail>("favoritetv"),
-  };
-  //use reduce para agregar a favorito peliculas
-  const [state, dispatch] = useReducer(FavReducer, initialState);
+const FavoritesProvider = ({ children }: { children: ReactNode }) => {
+  const { user } = useAuthContext();
+  const [snapshot, setSnapshot] = useState<Snapshot | null>(null);
 
   useEffect(() => {
-    localStorage.setItem("favoritemovie", JSON.stringify(state.favoritemovie));
-    localStorage.setItem("favoritetv", JSON.stringify(state.favoritetv));
-  }, [state]);
+    if (!user) return;
+    let imported = false;
+    return repository.subscribeToFavorites(
+      user.uid,
+      (favorites) => {
+        setSnapshot({ uid: user.uid, favorites, error: null });
+        if (!imported) {
+          imported = true;
+          void importDeviceFavorites(user.uid, favorites);
+        }
+      },
+      (error) => setSnapshot({ uid: user.uid, favorites: [], error }),
+    );
+  }, [user]);
 
-  //AGREGANDO FAVORITE LIST CON USE REDUCE
-  const addMovieToFavorite = (movie: MovieDetail) => {
-    dispatch({ type: "ADD_MOVIE_TO_FAVORITEMOVIE", payload: movie });
-  };
-  const removeMovieToFavorite = (id: number) => {
-    dispatch({ type: "REMOVE_MOVIE_TO_FAVORITEMOVIE", payload: id });
-  };
-  const removeAllMoviesInFavorite = () => {
-    dispatch({ type: "REMOVE_ALL_MOVIES_IN_FAVORITEMOVIE" });
+  // Ignore a snapshot that belongs to a previous session.
+  const current = user && snapshot?.uid === user.uid ? snapshot : null;
+  const favorites = current?.favorites ?? [];
+  const status: FavoritesStatus = !user
+    ? "signed-out"
+    : !current
+      ? "loading"
+      : current.error
+        ? "error"
+        : "ready";
+
+  const requireUid = () => {
+    if (!user) throw new Error("Sign in to save favorites");
+    return user.uid;
   };
 
-  const addTvToTvList = (tv: TvDetail) => {
-    dispatch({ type: "ADD_TV_TO_TVLIST", payload: tv });
+  const value: FavoriteContextValue = {
+    favorites,
+    status,
+    isFavorite: (mediaType: MediaType, tmdbId: number) =>
+      favorites.some((f) => f.id === favoriteId(mediaType, tmdbId)),
+    addFavorite: (input: FavoriteInput) => repository.addFavorite(requireUid(), input),
+    removeFavorite: (mediaType: MediaType, tmdbId: number) =>
+      repository.removeFavorite(requireUid(), mediaType, tmdbId),
   };
-  const removeTvToTvList = (id: number) => {
-    dispatch({ type: "REMOVE_TV_TO_TVLIST", payload: id });
-  };
-  const removeAllTvInTvList = () => {
-    dispatch({ type: "REMOVE_ALL_TV_IN_TVLIST" });
-  };
-  return (
-    <FavoriteContext.Provider
-      value={{
-        favoritemovie: state.favoritemovie,
-        favoritetv: state.favoritetv,
-        addMovieToFavorite,
-        removeMovieToFavorite,
-        removeAllMoviesInFavorite,
-        addTvToTvList,
-        removeTvToTvList,
-        removeAllTvInTvList,
-      }}
-    >
-      {children}
-    </FavoriteContext.Provider>
-  );
+
+  return <FavoriteContext.Provider value={value}>{children}</FavoriteContext.Provider>;
 };
 
-export default FavoriteContextProvider;
+export default FavoritesProvider;

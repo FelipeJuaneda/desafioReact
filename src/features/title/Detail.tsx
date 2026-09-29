@@ -92,7 +92,7 @@ const Detail = ({ dataDetail, dataCredits, dataVideos, type }: DetailProps) => {
               </div>
 
               {/* Aquí van los botones de favoritos */}
-              <AddToFavoriteButton dataDetail={dataDetail} />
+              <AddToFavoriteButton mediaType={type} item={dataDetail} />
             </div>
           </div>
         </div>

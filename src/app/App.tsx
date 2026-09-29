@@ -1,6 +1,6 @@
 import { Routes, Route, useLocation } from "react-router";
 import AuthProvider from "@/features/auth/AuthProvider";
-import FavoriteContextProvider from "@/features/favorites/FavoritesProvider";
+import FavoritesProvider from "@/features/favorites/FavoritesProvider";
 import Header from "@/layouts/Header";
 import ProtectedRoute from "@/features/auth/ProtectedRoute";
 import Login from "@/routes/auth/LoginPage";
@@ -18,7 +18,7 @@ function App() {
   const location = useLocation();
   return (
     <AuthProvider>
-      <FavoriteContextProvider>
+      <FavoritesProvider>
         <div className="App">
           {location.pathname !== "/" && <Header />}
           <Routes>
@@ -66,7 +66,7 @@ function App() {
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </div>
-      </FavoriteContextProvider>
+      </FavoritesProvider>
     </AuthProvider>
   );
 }

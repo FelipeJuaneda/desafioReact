@@ -1,22 +1,22 @@
 import { Link } from "react-router";
 import { SwiperSlide } from "swiper/react";
 
-import { useFavoriteContext } from "@/features/favorites/useFavoriteContext";
+import Loading from "@/components/ui/Loading";
 import SwiperCarousel from "@/components/ui/SwiperCarousel";
+import type { Favorite } from "@/features/favorites/favorite";
+import { useFavoriteContext } from "@/features/favorites/useFavoriteContext";
+import type { MediaType } from "@/types/tmdb";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
-import type { MovieDetail, TvDetail } from "@/types/tmdb";
 
 const FavoriteList = () => {
-  const { favoritemovie, removeMovieToFavorite, removeTvToTvList, favoritetv } =
-    useFavoriteContext();
+  const { favorites, status, removeFavorite } = useFavoriteContext();
 
-  const generateFavoriteSection = (
-    list: Array<MovieDetail | TvDetail>,
-    removeFunction: (id: number) => void,
-    type: "Peliculas" | "Series",
-  ) => {
+  if (status === "loading") return <Loading />;
+
+  const generateFavoriteSection = (mediaType: MediaType, type: "Peliculas" | "Series") => {
+    const list: Favorite[] = favorites.filter((f) => f.mediaType === mediaType);
     return (
       <div>
         <div className="flex justify-center pt-4 pb-4">
@@ -30,25 +30,27 @@ const FavoriteList = () => {
             list.map((el) => (
               <SwiperSlide key={el.id}>
                 <div className="w-full object-cover">
-                  <Link to={`/${type === "Peliculas" ? "film" : "tvShow"}/${el.id}`}>
+                  <Link to={`/${mediaType === "movie" ? "film" : "tvShow"}/${el.tmdbId}`}>
                     <img
                       src={
-                        el.poster_path === null
+                        el.posterPath === null
                           ? "https://www.orbis.com.ar/wp-content/themes/barberry/images/placeholder.jpg"
-                          : "https://image.tmdb.org/t/p/w220_and_h330_face" + el.poster_path
+                          : "https://image.tmdb.org/t/p/w220_and_h330_face" + el.posterPath
                       }
                       className="h-full w-full rounded-md"
-                      alt={`poster de ${type.toLowerCase()} populares`}
+                      alt={`Afiche de ${el.title}`}
                       loading="lazy"
                     />
                   </Link>
                 </div>
 
                 <button
-                  onClick={() => removeFunction(el.id)}
+                  type="button"
+                  aria-label={`Quitar "${el.title}" de favoritos`}
+                  onClick={() => void removeFavorite(el.mediaType, el.tmdbId)}
                   className="btn absolute top-0 left-0 flex h-9 w-9 items-center justify-center bg-red-500"
                 >
-                  <i className="ri-dislike-fill" />
+                  <i className="ri-dislike-fill" aria-hidden="true" />
                 </button>
               </SwiperSlide>
             ))
@@ -64,8 +66,13 @@ const FavoriteList = () => {
 
   return (
     <section>
-      {generateFavoriteSection(favoritemovie, removeMovieToFavorite, "Peliculas")}
-      {generateFavoriteSection(favoritetv, removeTvToTvList, "Series")}
+      {status === "error" && (
+        <p role="alert" className="pt-4 text-center">
+          No pudimos cargar tu lista. Revisá tu conexión y recargá la página.
+        </p>
+      )}
+      {generateFavoriteSection("movie", "Peliculas")}
+      {generateFavoriteSection("tv", "Series")}
     </section>
   );
 };

@@ -1,0 +1,38 @@
+rules_version = '2';
+
+// Deny by default. The only data the app stores is each user's list of saved titles:
+// users/{uid}/favorites/{mediaType}-{tmdbId}
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    function isValidFavorite(favoriteId) {
+      let data = request.resource.data;
+      return data.keys().hasOnly(['tmdbId', 'mediaType', 'title', 'posterPath', 'releaseDate', 'voteAverage', 'addedAt'])
+        && data.keys().hasAll(['tmdbId', 'mediaType', 'title', 'posterPath', 'releaseDate', 'voteAverage', 'addedAt'])
+        && data.tmdbId is int && data.tmdbId > 0
+        && data.mediaType in ['movie', 'tv']
+        && favoriteId == data.mediaType + '-' + string(data.tmdbId)
+        && data.title is string && data.title.size() > 0 && data.title.size() <= 300
+        && (data.posterPath == null || (data.posterPath is string && data.posterPath.size() <= 200))
+        && (data.releaseDate == null || (data.releaseDate is string && data.releaseDate.size() <= 10))
+        && data.voteAverage is number && data.voteAverage >= 0 && data.voteAverage <= 10
+        // Written with serverTimestamp(): clients cannot backdate or forge it.
+        && data.addedAt == request.time;
+    }
+
+    match /users/{userId}/favorites/{favoriteId} {
+      allow read, delete: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidFavorite(favoriteId);
+      // Favorites are immutable snapshots: re-saving deletes and recreates.
+      allow update: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
