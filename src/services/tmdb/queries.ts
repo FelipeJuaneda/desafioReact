@@ -1,5 +1,5 @@
 // Query definitions for every TMDB resource: one place for cache keys and fetchers.
-import { queryOptions } from "@tanstack/react-query";
+import { infiniteQueryOptions, queryOptions } from "@tanstack/react-query";
 import { tmdbFetch } from "@/services/tmdb/client";
 import type {
   Credits,
@@ -71,4 +71,41 @@ export const topRatedQuery = <T extends MovieSummary | TvSummary>(type: MediaTyp
     page: 1,
     sort_by: "vote_average.desc",
     "vote_count.gte": 1500,
+  });
+
+export type CatalogSort = "populares" | "puntuadas" | "recientes";
+
+/** TMDB discover params for each sort, with vote floors so rankings are not driven by 3 votes. */
+const sortParams = (type: MediaType, sort: CatalogSort): Record<string, string | number> => {
+  const today = new Date().toISOString().slice(0, 10);
+  const dateField = type === "movie" ? "primary_release_date" : "first_air_date";
+  switch (sort) {
+    case "puntuadas":
+      return { sort_by: "vote_average.desc", "vote_count.gte": type === "movie" ? 1000 : 300 };
+    case "recientes":
+      return { sort_by: `${dateField}.desc`, [`${dateField}.lte`]: today, "vote_count.gte": 30 };
+    default:
+      return { sort_by: "popularity.desc" };
+  }
+};
+
+/** TMDB never serves past page 500 of any list. */
+const TMDB_MAX_PAGE = 500;
+
+/** Browsable catalog with "load more": pages accumulate in one cache entry. */
+export const catalogQuery = <T extends MovieSummary | TvSummary>(
+  type: MediaType,
+  { genre, sort }: { genre?: string; sort: CatalogSort },
+) =>
+  infiniteQueryOptions({
+    queryKey: [...tmdbKeys.all, "catalog", type, { genre, sort }],
+    queryFn: ({ pageParam, signal }) =>
+      tmdbFetch<TmdbPage<T>>(
+        `discover/${type}`,
+        { ...sortParams(type, sort), with_genres: genre, page: pageParam },
+        signal,
+      ),
+    initialPageParam: 1,
+    getNextPageParam: (last) =>
+      last.page < Math.min(last.total_pages, TMDB_MAX_PAGE) ? last.page + 1 : undefined,
   });

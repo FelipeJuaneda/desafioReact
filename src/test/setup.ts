@@ -6,7 +6,7 @@ import { afterEach } from "vitest";
 // Testing Library only auto-cleans when test globals are enabled; unmount explicitly instead.
 afterEach(cleanup);
 
-// jsdom has no ResizeObserver; @formkit/auto-animate touches it at import time.
+// jsdom has no ResizeObserver; Headless UI (floating-ui anchoring) uses it.
 globalThis.ResizeObserver ??= class {
   observe() {}
   unobserve() {}

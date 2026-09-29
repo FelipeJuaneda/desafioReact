@@ -1,26 +1,4 @@
 {
-  "src/components/ui/Pagination.tsx": {
-    "jsx-a11y-x/click-events-have-key-events": {
-      "count": 2
-    },
-    "jsx-a11y-x/no-static-element-interactions": {
-      "count": 2
-    }
-  },
-  "src/features/catalog/StarsCalification.tsx": {
-    "jsx-a11y-x/click-events-have-key-events": {
-      "count": 1
-    },
-    "jsx-a11y-x/mouse-events-have-key-events": {
-      "count": 1
-    },
-    "jsx-a11y-x/no-static-element-interactions": {
-      "count": 1
-    },
-    "react-hooks/set-state-in-effect": {
-      "count": 1
-    }
-  },
   "src/routes/auth/LoginPage.tsx": {
     "jsx-a11y-x/click-events-have-key-events": {
       "count": 1

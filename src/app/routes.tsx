@@ -12,7 +12,7 @@ const page =
 
 const defaultPage = (load: () => Promise<{ default: ComponentType }>) => page(load, "default");
 
-const legacy = (name: "LegacyMovies" | "LegacySeries" | "LegacyMovieTitle" | "LegacySeriesTitle") =>
+const legacy = (name: "LegacyMovieTitle" | "LegacySeriesTitle") =>
   page(() => import("@/app/legacyScreens"), name);
 
 const MyListPage = defaultPage(() => import("@/routes/my-list/FavoritesPage"));
@@ -24,8 +24,8 @@ export const routes: RouteObject[] = [
     hydrateFallbackElement: <div className="min-h-dvh bg-leader" />,
     children: [
       { index: true, lazy: defaultPage(() => import("@/routes/home/HomePage")) },
-      { path: "peliculas", lazy: legacy("LegacyMovies") },
-      { path: "series", lazy: legacy("LegacySeries") },
+      { path: "peliculas", lazy: defaultPage(() => import("@/routes/catalog/MoviesPage")) },
+      { path: "series", lazy: defaultPage(() => import("@/routes/catalog/SeriesPage")) },
       { path: "pelicula/:detailId", lazy: legacy("LegacyMovieTitle") },
       { path: "serie/:detailId", lazy: legacy("LegacySeriesTitle") },
       {
