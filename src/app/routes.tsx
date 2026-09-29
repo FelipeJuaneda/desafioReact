@@ -25,6 +25,7 @@ export const routes: RouteObject[] = [
       { path: "series", lazy: defaultPage(() => import("@/routes/catalog/SeriesPage")) },
       { path: "pelicula/:slug", lazy: defaultPage(() => import("@/routes/title/MovieTitlePage")) },
       { path: "serie/:slug", lazy: defaultPage(() => import("@/routes/title/SeriesTitlePage")) },
+      { path: "persona/:slug", lazy: defaultPage(() => import("@/routes/person/PersonPage")) },
       { path: "buscar", lazy: defaultPage(() => import("@/routes/search/SearchPage")) },
       {
         path: "mi-lista",
