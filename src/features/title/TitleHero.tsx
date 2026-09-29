@@ -48,9 +48,9 @@ export const TitleHero = ({ mediaType, title, onPlayTrailer }: TitleHeroProps) =
           path={title.poster_path}
           title={name}
           alt={`Afiche de ${name}`}
-          sizes="(min-width: 1024px) 240px, (min-width: 768px) 208px, 45vw"
+          sizes="(min-width: 1024px) 240px, (min-width: 768px) 208px, 112px"
           priority
-          className="w-[45%] max-w-60 md:-mt-24 md:w-full lg:-mt-32"
+          className="relative -mt-20 ml-3 w-28 md:-mt-24 md:ml-0 md:w-full lg:-mt-32"
         />
         <div className="grid content-start gap-4">
           <h1
