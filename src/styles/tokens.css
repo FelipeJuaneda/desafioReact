@@ -1,0 +1,116 @@
+/*
+  PelicuLed design tokens: "Borde de 35 mm" (see docs/redesign/PLAN.md).
+  Contrast ratios are measured against the lightest surface each color sits on.
+  Every token becomes a Tailwind utility: bg-leader, text-emulsion, font-display, rounded-aperture…
+*/
+@theme {
+  /* Projection ground (browse, detail, search) */
+  --color-leader: #0e0d0b;
+  --color-acetate: #171511;
+  --color-acetate-raised: #211e19;
+  --color-frameline: #3a352d; /* decorative lines only */
+  --color-control-line: #756c5b; /* control borders: 3.2:1 */
+  --color-emulsion: #ede6d6; /* body text: 13.4:1 */
+  --color-emulsion-muted: #a89f8c; /* secondary text: 6.3:1 */
+  --color-emulsion-subtle: #948b78; /* placeholders, tertiary: 4.9:1 */
+
+  /* The only accent: edge-code amber (focus, active nav, counters, primary action) */
+  --color-edge: #eaa53c; /* 7.9:1 */
+  --color-edge-hover: #f2b659;
+  --color-on-edge: #1a1206; /* text on amber: 8.8:1 */
+
+  --color-danger: #f07058; /* 5.7:1 */
+  --color-success: #8cc382; /* 8.1:1 */
+  --color-info: #7fb3a8; /* 7.1:1 */
+
+  /* Light table ground (my list, auth) */
+  --color-lt-ground: #f1ebdd;
+  --color-lt-surface: #fbf7ee;
+  --color-lt-ink: #1b1813; /* 14.9:1 */
+  --color-lt-muted: #5b5345; /* 6.4:1 */
+  --color-lt-line: #cfc5b0; /* decorative lines only */
+  --color-lt-control-line: #877e69; /* 3.4:1 */
+  --color-lt-edge-ink: #87560a; /* accent as text on light: 5.3:1 */
+  --color-lt-danger: #b3321d; /* 5.2:1 */
+
+  /* Type: can labels, reading, edge code */
+  --font-display: "Sofia Sans Extra Condensed Variable", "Sofia Sans Variable", sans-serif;
+  --font-body: "Sofia Sans Variable", system-ui, sans-serif;
+  --font-code: "Martian Mono Variable", ui-monospace, monospace;
+
+  --text-display-xl: clamp(2.75rem, 1.4rem + 4.6vw, 6rem);
+  --text-display-xl--line-height: 0.9;
+  --text-display-lg: clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem);
+  --text-display-lg--line-height: 1;
+  --text-display-md: 1.625rem;
+  --text-display-md--line-height: 1;
+  --text-title: 1.125rem;
+  --text-title--line-height: 1.2;
+  --text-body-lg: 1.0625rem;
+  --text-body-lg--line-height: 1.55;
+  --text-body: 1rem;
+  --text-body--line-height: 1.55;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.45;
+  --text-code: 0.75rem;
+  --text-code--line-height: 1.35;
+  --text-code--letter-spacing: 0.06em;
+
+  /* Shape: film perforation, projector aperture, sheets */
+  --radius-perf: 2px;
+  --radius-aperture: 4px;
+  --radius-sheet: 8px;
+
+  /* Depth: none on the projection ground; soft lift on the light table */
+  --shadow-strip: 0 1px 2px rgb(27 24 19 / 0.1), 0 10px 24px -12px rgb(27 24 19 / 0.22);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --spacing-gutter: clamp(1rem, 0.5rem + 2.5vw, 3rem);
+  --container-reel: 90rem;
+
+  /* Skeletons: unexposed frames slowly catching light */
+  --animate-expose: expose 1.4s var(--ease-in-out) infinite alternate;
+  --animate-expose-light: expose-light 1.4s var(--ease-in-out) infinite alternate;
+  @keyframes expose {
+    to {
+      background-color: var(--color-frameline);
+    }
+  }
+  /* Poster wall on the account screens: columns drifting like a reel on the take-up spool */
+  --animate-drift-up: drift-up 120s linear infinite;
+  --animate-drift-down: drift-up 150s linear infinite reverse;
+  --animate-drift-left: drift-left 90s linear infinite;
+  @keyframes drift-up {
+    to {
+      transform: translateY(-50%);
+    }
+  }
+  @keyframes drift-left {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes expose-light {
+    to {
+      background-color: var(--color-lt-ground);
+    }
+  }
+}
+
+:root {
+  --duration-fast: 140ms;
+  --duration-base: 220ms;
+  --duration-slow: 360ms;
+  --duration-develop: 700ms;
+
+  --z-raised: 1;
+  --z-sticky: 20;
+  --z-tabbar: 30;
+  --z-popover: 40;
+  --z-overlay: 50;
+  --z-dialog: 60;
+  --z-toast: 70;
+}

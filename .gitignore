@@ -10,14 +10,26 @@
 
 # production
 /build
+/dist
+
+# local tooling
+/.claude/launch.json
+/.claude/settings.local.json
+/.impeccable/questions/
+/.impeccable/config.local.json
+
+# environment: never commit real values, only the documented example
+.env
+.env.*
+!.env.example
 
 # misc
 .DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
 
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# e2e artifacts
+/test-results
+/playwright-report

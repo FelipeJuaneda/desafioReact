@@ -1,0 +1,41 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+@layer base {
+  /* Browser surfaces follow the projection ground. */
+  html {
+    color-scheme: dark;
+    background-color: var(--color-leader);
+    scrollbar-color: var(--color-frameline) var(--color-leader);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: var(--font-body);
+    caret-color: var(--color-edge);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--color-edge);
+    color: var(--color-on-edge);
+  }
+
+  a {
+    text-underline-offset: 0.2em;
+  }
+}
+
+/* Signature motion: the poster frame opens into the projected backdrop (title pages). */
+::view-transition-group(title-art) {
+  animation-duration: var(--duration-slow);
+  animation-timing-function: var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

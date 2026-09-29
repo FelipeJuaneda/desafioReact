@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PelicuLed</title>
+    <meta
+      name="description"
+      content="Catálogo de películas y series para decidir qué ver: lo que está en cartelera, lo más visto de la semana y tu propia lista, con datos de TMDB."
+    />
+    <meta name="theme-color" content="#0e0d0b" />
+    <meta name="color-scheme" content="dark" />
+
+    <!-- Posters and backdrops come from TMDB's CDN: open the connection while JS loads. -->
+    <link rel="preconnect" href="https://image.tmdb.org" />
+    <!--
+      Home only: ask for this week's trending films while the JS downloads, and preload the
+      featured backdrop as soon as its path is known. The URL, srcset and sizes must match
+      tmdbFetch (src/services/tmdb/client.ts) and FeaturedTitle so both are reused, not repeated.
+    -->
+    <script>
+      if (location.pathname === "/") {
+        var key = "/api/tmdb/trending/movie/week?language=es&page=1";
+        window.__early = {};
+        window.__early[key] = fetch(key)
+          .then(function (r) {
+            return r.ok ? r.json() : null;
+          })
+          .then(function (data) {
+            var hit =
+              data &&
+              data.results.find(function (m) {
+                return m.backdrop_path;
+              });
+            if (hit) {
+              var img = "https://image.tmdb.org/t/p/";
+              var link = document.createElement("link");
+              link.rel = "preload";
+              link.as = "image";
+              link.fetchPriority = "high";
+              link.imageSrcset = [780, 1280]
+                .map(function (w) {
+                  return img + "w" + w + hit.backdrop_path + " " + w + "w";
+                })
+                .join(", ");
+              link.imageSizes = "(min-width: 90rem) 84rem, 94vw";
+              document.head.appendChild(link);
+            }
+            return data;
+          })
+          .catch(function () {
+            return null;
+          });
+      }
+    </script>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!--
+      Link previews (WhatsApp, Slack, X…) read these without running JavaScript, so they
+      describe the site as a whole. Each screen sets its own <title> and description in React.
+    -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="PelicuLed" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:title" content="PelicuLed · Qué ver esta semana" />
+    <meta
+      property="og:description"
+      content="Cartelera, lo más visto de la semana y tu propia lista de películas y series."
+    />
+    <!-- Scrapers need absolute URLs: update if the site moves to another domain. -->
+    <meta property="og:url" content="https://desafio-react-pi.vercel.app/" />
+    <meta property="og:image" content="https://desafio-react-pi.vercel.app/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Logo de PelicuLed: un cuadro de película con perforaciones ámbar."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <noscript>PelicuLed necesita JavaScript activado para funcionar.</noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/app/main.tsx"></script>
+  </body>
+</html>

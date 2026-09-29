@@ -1,0 +1,8 @@
+dist
+build
+coverage
+package-lock.json
+public
+docs/redesign/lamina-35mm.html
+.impeccable
+eslint-suppressions.json
