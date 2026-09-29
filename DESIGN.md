@@ -138,7 +138,7 @@ Fuente de verdad de los tokens: [`src/styles/tokens.css`](src/styles/tokens.css)
 
 El catálogo es un rollo de copia de 35 mm. Cada título es un cuadro; sus datos (tipo, año, duración, géneros, puntaje) se imprimen como el **código de borde** de la película: monoespaciada condensada, cifras tabulares, filetes finos entre campos. La escena de uso es de noche, con el celular en un cuarto oscuro: la interfaz es el negro de cola de proyección y la imagen del título es lo único que brilla.
 
-Hay dos suelos y cada pantalla vive en uno solo. **Proyección** (negro cálido) para explorar, ver fichas y buscar. **Mesa de luz** (crema iluminado) para lo que es tuyo: Mi lista y la cuenta, donde "apoyás" los cuadros que guardaste. El ámbar del código de borde es el único acento y siempre significa algo: foco, sección activa, contadores, acción principal.
+Hay dos suelos y cada pantalla vive en uno solo. **Proyección** (negro cálido) para explorar, ver fichas y buscar. **Mesa de luz** (crema iluminado) para Mi lista, donde "apoyás" los cuadros que guardaste. Las pantallas de cuenta son un **set de rodaje** sobre proyección: el formulario va escrito en una claqueta. El ámbar del código de borde es el único acento y siempre significa algo: foco, sección activa, contadores, acción principal.
 
 Rechazos explícitos: hero a sangre con filas neutras infinitas al estilo streaming; la tira de película como borde decorativo (las perforaciones y el código de borde aparecen solo donde llevan estado); gradientes violetas, glassmorphism, glows o neón; cards dentro de cards; emojis como íconos; texto gris sobre color; Inter por defecto.
 
@@ -232,14 +232,21 @@ Las tres son variables y self-hosted con Fontsource. Las dos Sofia Sans se preca
 - **Field** (`Field.tsx`): label visible siempre, hint o error debajo vinculados con `aria-describedby`, `aria-invalid` con borde de error e ícono. `PasswordField` suma un toggle "Mostrar contraseña" como botón real con `aria-pressed`.
 - **Poster** (`Poster.tsx`): marco 2:3 en `acetate-raised`, efecto de revelado, `srcset` con el ancho justo; si no hay imagen, muestra el título sobre un cuadro sin exponer.
 - **EdgeCode** (`EdgeCode.tsx`): la línea de metadatos; descarta campos vacíos.
-- **Rail** (`Rail.tsx`): riel horizontal con 4 perforaciones por cuadro que marcan la posición, contador y botones anterior/siguiente.
+- **Rail** (`Rail.tsx`, columnas en `railColumns.ts`): cuadros enteros por vista (2 a 6 pósters, 3 a 8 retratos). El ancho de columna sale del ancho del riel, así que nunca se corta un cuadro. Encima, una barra lisa con un tramo ámbar que marca lo visible y se arrastra para recorrer el riel; contador de rango (`01–06 / 20`) y botones anterior/siguiente.
 - **TitleCard / TitleGrid**: póster + título (h3) + código de borde; la tarjeta que se abre recibe `view-transition-name: title-art`.
 - **StatePanel** (`StatePanel.tsx`): vacío, error y "no encontrado": título, una oración, una salida. Borde discontinuo. `role="alert"` solo en errores.
 - **Dialog** (`Dialog.tsx`, Headless UI): hoja `sheet` sobre scrim `leader/85`, foco atrapado, Escape y botón "Cerrar".
 - **Skeleton**: mismas cajas que el contenido real (medidas en `lh` del tipo real), pulso `expose` / `expose-light`. Un skeleton que no coincide es un bug de CLS.
 - **Strip** (Mi lista): póster chico + título display-md + código de borde + fecha de guardado + "Quitar" (con deshacer).
+- **Claqueta** (`features/auth/AuthLayout.tsx`): pantallas de cuenta. Barras rayadas crema y negro (el único lugar con contraste puro), campos de tiza PROD. / ESCENA / TOMA / FECHA y el formulario adentro. Cada envío cierra la barra superior y la vuelve a abrir; un intento fallido sube la TOMA. Al lado, el muro de afiches de la semana (`PosterWall.tsx`) derivando en columnas atenuadas; en mobile, una tira.
 
-**Movimiento.** Duraciones 140 / 220 / 360 ms y 700 ms para el revelado; easing `ease-out` rápido. La firma es la **transición de ventanilla**: el póster se expande hasta el backdrop proyectado al abrir un título (View Transitions). Con `prefers-reduced-motion` todo pasa a corte o fundido.
+**Movimiento.** Duraciones 140 / 220 / 360 ms y 700 ms para el revelado; easing `ease-out` rápido. La firma es la **transición de ventanilla**: el póster se expande hasta el backdrop proyectado al abrir un título (View Transitions). El resto usa **Motion** (`motion/react` con `LazyMotion`, tokens en `src/lib/motion.ts`):
+
+- Las pantallas entran con una subida corta de 10 px, solo en navegación interna (nunca en la carga inicial ni encima de la transición de ventanilla).
+- Grillas y rieles se revelan al entrar en pantalla, escalonados por columna; la primera fila se pinta de una.
+- El marcador de guardado hace un pulso; el contador del riel rueda; las tiras de Mi lista se reacomodan con layout animations; la claqueta golpea en cada envío.
+
+Con `prefers-reduced-motion`, Motion deja solo fundidos y las derivas en CSS se detienen. En navegadores automatizados (e2e, auditorías) Motion salta directo al estado final.
 
 ## Do's and Don'ts
 
