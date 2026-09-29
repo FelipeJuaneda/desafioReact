@@ -86,8 +86,8 @@ describe("MyListPage", () => {
     expect(screen.getByRole("heading", { level: 1 })).toHaveFocus();
 
     const [, options] = vi.mocked(toast).mock.calls.at(-1)!;
-    const action = options?.action as { onClick: () => void };
-    action.onClick();
+    const action = options?.action as { onClick: (event: unknown) => void };
+    action.onClick(undefined);
     expect(context.addFavorite).toHaveBeenCalledWith(
       expect.objectContaining({ tmdbId: 550, mediaType: "movie", title: "El club de la lucha" }),
     );
