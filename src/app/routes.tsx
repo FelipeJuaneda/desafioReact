@@ -12,7 +12,7 @@ const page =
 
 const defaultPage = (load: () => Promise<{ default: ComponentType }>) => page(load, "default");
 
-const MyListPage = defaultPage(() => import("@/routes/my-list/FavoritesPage"));
+const MyListPage = defaultPage(() => import("@/routes/my-list/MyListPage"));
 
 export const routes: RouteObject[] = [
   {

@@ -8,6 +8,7 @@ type ButtonProps = ButtonStyleProps &
 export const Button = ({
   variant,
   size,
+  tone,
   iconOnly,
   className,
   type = "button",
@@ -15,7 +16,7 @@ export const Button = ({
 }: ButtonProps) => (
   <button
     type={type}
-    className={buttonClasses({ variant, size, iconOnly, className })}
+    className={buttonClasses({ variant, size, tone, iconOnly, className })}
     {...props}
   />
 );
@@ -24,9 +25,10 @@ export const Button = ({
 export const ButtonLink = ({
   variant,
   size,
+  tone,
   iconOnly,
   className,
   ...props
 }: ButtonStyleProps & LinkProps) => (
-  <Link className={buttonClasses({ variant, size, iconOnly, className })} {...props} />
+  <Link className={buttonClasses({ variant, size, tone, iconOnly, className })} {...props} />
 );

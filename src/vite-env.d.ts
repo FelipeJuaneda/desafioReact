@@ -10,7 +10,3 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
-
-// Side-effect stylesheet imports from packages without their own declarations.
-declare module "swiper/css";
-declare module "swiper/css/*";

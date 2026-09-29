@@ -45,7 +45,10 @@ describe("routing", () => {
   it("waits for Firebase to restore the session before redirecting", async () => {
     vi.mocked(onAuthStateChanged).mockImplementationOnce(() => () => {});
     const { router } = renderApp("/mi-lista");
-    expect(await screen.findByAltText(/cargando/i)).toBeInTheDocument();
+    expect(await screen.findByLabelText(/verificando tu sesión/i)).toHaveAttribute(
+      "aria-busy",
+      "true",
+    );
     expect(location(router)).toBe("/mi-lista");
   });
 
