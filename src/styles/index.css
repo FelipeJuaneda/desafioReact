@@ -26,16 +26,6 @@
   }
 }
 
-/*
-  Film perforations as a mask: 10×8 px holes with 2 px corners, repeated with `space` so the
-  track always ends on a whole hole, whatever its width. The element's background is the color.
-*/
-@utility perf-track {
-  --perf: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='8'%3E%3Crect width='10' height='8' rx='2'/%3E%3C/svg%3E");
-  mask: var(--perf) left center / 10px 8px space no-repeat;
-  -webkit-mask: var(--perf) left center / 10px 8px space no-repeat;
-}
-
 /* Signature motion: the poster frame opens into the projected backdrop (title pages). */
 ::view-transition-group(title-art) {
   animation-duration: var(--duration-slow);

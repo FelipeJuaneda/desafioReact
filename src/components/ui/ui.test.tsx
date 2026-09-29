@@ -67,7 +67,8 @@ describe("Rail", () => {
     expect(screen.getByRole("button", { name: "Anteriores en En cartel" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Siguientes en En cartel" })).toBeEnabled();
     expect(screen.getAllByRole("listitem")).toHaveLength(3);
-    expect(screen.getByText(/Mostrando/).parentElement).toHaveTextContent("Mostrando 01 / de 03");
+    // jsdom has no layout: only the first frame counts as visible there.
+    expect(screen.getByText(/Mostrando/)).toHaveTextContent("Mostrando 1 a 1 de 3");
   });
 });
 

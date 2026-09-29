@@ -137,21 +137,23 @@ export const Rail = <T,>({
         </div>
         <div className="flex items-center gap-3">
           <p className="font-code text-[0.8125rem] font-semibold tracking-[0.08em] whitespace-nowrap text-emulsion-muted [font-stretch:75%] tabular-nums">
-            <span className="sr-only">Mostrando </span>
-            {/* The frame number rolls up like a footage counter when it changes. */}
-            <span className="inline-flex overflow-hidden align-bottom text-edge">
+            {/* The visible range, "01–06 / 20"; it rolls up like a footage counter when it moves. */}
+            <span className="sr-only">
+              Mostrando {first + 1} a {last + 1} de {items.length}
+            </span>
+            <span aria-hidden className="inline-flex overflow-hidden align-bottom">
               <m.span
-                key={first}
+                key={`${first}-${last}`}
+                className="text-edge"
                 initial={{ y: "70%", opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: DURATION.base, ease: EASE_OUT }}
               >
                 {pad(first + 1)}
+                {last > first && `–${pad(last + 1)}`}
               </m.span>
+              <span>&nbsp;/ {pad(items.length)}</span>
             </span>
-            <span aria-hidden> / </span>
-            <span className="sr-only"> de </span>
-            {pad(items.length)}
           </p>
           <div className="flex gap-2">
             <Button
@@ -179,7 +181,7 @@ export const Rail = <T,>({
       </div>
 
       {/*
-        Perforations span the rail exactly (whole holes only); amber marks the stretch in view.
+        A plain scrub bar across the rail; the amber thumb is the stretch of the reel in view.
         Dragging it scrubs the reel. It is a pointer shortcut only: keyboard and screen-reader
         users have the buttons and the list's native scrolling, so it stays out of the a11y tree.
       */}
@@ -190,16 +192,19 @@ export const Rail = <T,>({
         onPointerUp={endScrub}
         onPointerCancel={endScrub}
         className={cn(
-          "-my-2 touch-none py-2 select-none",
+          "group/scrub -my-2.5 touch-none py-2.5 select-none",
           scrubbing ? "cursor-grabbing" : "cursor-grab",
         )}
       >
-        <div className="relative h-2">
-          <div className="absolute inset-0 bg-acetate-raised perf-track" />
+        <div className="relative h-1 rounded-perf bg-acetate-raised transition-[height] duration-(--duration-fast) group-hover/scrub:h-1.5">
           <div
-            className="absolute inset-0 bg-edge perf-track"
+            className={cn(
+              "absolute inset-y-0 rounded-perf bg-edge",
+              scrubbing ? "bg-edge-hover" : "group-hover/scrub:bg-edge-hover",
+            )}
             style={{
-              clipPath: `inset(0 ${(1 - view.end) * 100}% 0 ${view.start * 100}%)`,
+              left: `${view.start * 100}%`,
+              width: `${Math.max(view.end - view.start, 0.02) * 100}%`,
             }}
           />
         </div>
