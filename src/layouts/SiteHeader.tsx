@@ -92,7 +92,15 @@ export const SiteHeader = () => {
         </nav>
         <SearchForm />
         <div className="ml-auto flex min-w-11 justify-end md:ml-0">
-          {loading ? null : user ? (
+          {loading ? (
+            // Holds the width of "Ingresar" while the session is restored, so nothing shifts.
+            <span
+              aria-hidden
+              className={cn(buttonClasses({ variant: "ghost", size: "sm" }), "invisible")}
+            >
+              Ingresar
+            </span>
+          ) : user ? (
             <Suspense fallback={<span aria-hidden className="size-11" />}>
               <AccountMenu />
             </Suspense>

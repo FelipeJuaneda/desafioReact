@@ -12,14 +12,21 @@ import { titleDetailQuery, trendingQuery } from "@/services/tmdb/queries";
 import type { MovieDetail, MovieSummary } from "@/types/tmdb";
 
 const SCREEN = "aspect-[4/3] sm:aspect-video lg:aspect-[2.39/1]";
+// Runtime and genres arrive a moment later and wrap the edge code to two lines on phones.
+const EDGE_LINES = "h-[calc(2lh+0.25rem)] sm:h-[1lh]";
 
+// Same boxes as the loaded section (title, edge code, three lines of synopsis, actions),
+// sized in `lh` units of the real type, so nothing moves when the data arrives.
 const FeaturedSkeleton = () => (
-  <div aria-hidden className="grid gap-6">
+  <div aria-hidden>
     <Skeleton className={`${SCREEN} w-full rounded-aperture`} />
-    <div className="grid gap-3 border-b border-frameline pb-10">
-      <Skeleton className="h-14 w-3/4 max-w-2xl" />
-      <Skeleton className="h-3.5 w-80 max-w-full" />
-      <Skeleton className="h-4 w-full max-w-[60ch]" />
+    <div className="grid gap-y-6 border-b border-frameline pt-7 pb-10">
+      <div>
+        <Skeleton className="mb-3.5 h-[1lh] w-3/4 max-w-2xl text-display-xl" />
+        <Skeleton className={`w-80 max-w-full text-code ${EDGE_LINES}`} />
+        <Skeleton className="mt-4 h-[3lh] w-full max-w-[60ch] text-body-lg" />
+      </div>
+      <Skeleton className="h-12 w-64" />
     </div>
   </div>
 );
@@ -77,6 +84,7 @@ export const FeaturedTitle = () => {
             {featured.title}
           </h2>
           <EdgeCode
+            className="content-start max-sm:min-h-[calc(2lh+0.25rem)]"
             items={[
               { label: "Película", emphasis: true },
               { label: formatYear(featured.release_date) },

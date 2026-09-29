@@ -15,6 +15,20 @@ export class TmdbError extends Error {
 
 type QueryParams = Record<string, string | number | undefined>;
 
+declare global {
+  interface Window {
+    /** Requests index.html starts before the app loads, keyed by path + query (see there). */
+    __early?: Record<string, Promise<unknown>>;
+  }
+}
+
+/** Hands over a response the HTML already asked for, once; later calls fetch normally. */
+const takeEarlyResponse = (key: string) => {
+  const early = window.__early?.[key];
+  if (early) delete window.__early![key];
+  return early;
+};
+
 export async function tmdbFetch<T>(
   path: string,
   params: QueryParams = {},
@@ -24,6 +38,12 @@ export async function tmdbFetch<T>(
   url.searchParams.set("language", TMDB_LANGUAGE);
   for (const [name, value] of Object.entries(params)) {
     if (value !== undefined && value !== "") url.searchParams.set(name, String(value));
+  }
+
+  const early = takeEarlyResponse(url.pathname + url.search);
+  if (early) {
+    const data = await early;
+    if (data) return data as T;
   }
 
   const response = await fetch(url, { signal });

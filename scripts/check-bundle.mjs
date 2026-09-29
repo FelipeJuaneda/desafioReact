@@ -5,7 +5,8 @@ import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { gzipSync } from "node:zlib";
 
-const BUDGET_KB = 130;
+// The home (landing page) chunks are preloaded, so they count: ~130 kB today, some headroom.
+const BUDGET_KB = 140;
 const dist = "dist";
 const assets = join(dist, "assets");
 

@@ -11,6 +11,48 @@
     <meta name="theme-color" content="#0e0d0b" />
     <meta name="color-scheme" content="dark" />
 
+    <!-- Posters and backdrops come from TMDB's CDN: open the connection while JS loads. -->
+    <link rel="preconnect" href="https://image.tmdb.org" />
+    <!--
+      Home only: ask for this week's trending films while the JS downloads, and preload the
+      featured backdrop as soon as its path is known. The URL, srcset and sizes must match
+      tmdbFetch (src/services/tmdb/client.ts) and FeaturedTitle so both are reused, not repeated.
+    -->
+    <script>
+      if (location.pathname === "/") {
+        var key = "/api/tmdb/trending/movie/week?language=es&page=1";
+        window.__early = {};
+        window.__early[key] = fetch(key)
+          .then(function (r) {
+            return r.ok ? r.json() : null;
+          })
+          .then(function (data) {
+            var hit =
+              data &&
+              data.results.find(function (m) {
+                return m.backdrop_path;
+              });
+            if (hit) {
+              var img = "https://image.tmdb.org/t/p/";
+              var link = document.createElement("link");
+              link.rel = "preload";
+              link.as = "image";
+              link.fetchPriority = "high";
+              link.imageSrcset = [780, 1280]
+                .map(function (w) {
+                  return img + "w" + w + hit.backdrop_path + " " + w + "w";
+                })
+                .join(", ");
+              link.imageSizes = "(min-width: 90rem) 84rem, 94vw";
+              document.head.appendChild(link);
+            }
+            return data;
+          })
+          .catch(function () {
+            return null;
+          });
+      }
+    </script>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
