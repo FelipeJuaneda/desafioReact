@@ -59,7 +59,7 @@ describe("App routing", () => {
 });
 
 describe("Login", () => {
-  it("translates a user-not-found error from Firebase", async () => {
+  it("shows a clear Spanish message for Firebase credential errors", async () => {
     vi.mocked(signInWithEmailAndPassword).mockRejectedValueOnce({
       code: "auth/user-not-found",
     });
@@ -70,7 +70,7 @@ describe("Login", () => {
     await user.type(screen.getByPlaceholderText(/ingresa contraseña/i), "secreto");
     await user.click(screen.getByRole("button", { name: /ingresar/i }));
 
-    expect(await screen.findByText("Usuario no encontrado")).toBeInTheDocument();
+    expect(await screen.findByText(/El email o la contraseña no coinciden/)).toBeInTheDocument();
     expect(signInWithEmailAndPassword).toHaveBeenCalledWith({}, "nadie@ejemplo.com", "secreto");
   });
 });

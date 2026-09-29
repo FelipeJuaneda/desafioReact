@@ -1,7 +1,7 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router";
 import { useAuthContext } from "@/features/auth/useAuthContext";
-import { getErrorCode, getErrorMessage } from "@/lib/errors";
+import { authErrorMessage } from "@/features/auth/authErrors";
 import imgRegister from "@/assets/images/imgRegister.jpg";
 import logo from "@/assets/images/iconoPororo.png";
 
@@ -31,13 +31,7 @@ const Register = () => {
         return;
       }
     } catch (error) {
-      const code = getErrorCode(error);
-      if (code === "auth/invalid-email") return setError("Ingresa un Email valido");
-      if (code === "auth/user-not-found") return setError("Usuario no encontrado");
-      if (code === "auth/wrong-password") return setError("Contraseña incorrecta");
-      if (code === "auth/weak-password")
-        return setError("La contraseña debe tener al menos 6 caracteres");
-      setError(getErrorMessage(error));
+      setError(authErrorMessage(error));
     }
   };
 

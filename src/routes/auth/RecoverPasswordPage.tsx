@@ -1,6 +1,6 @@
 import { useState, type ChangeEvent, type MouseEvent } from "react";
 import { useAuthContext } from "@/features/auth/useAuthContext";
-import { getErrorCode, getErrorMessage } from "@/lib/errors";
+import { authErrorMessage } from "@/features/auth/authErrors";
 
 const RecoverPassword = () => {
   const [error, setError] = useState<string>();
@@ -15,10 +15,7 @@ const RecoverPassword = () => {
     try {
       await resetPassword(email);
     } catch (error) {
-      const code = getErrorCode(error);
-      if (code === "auth/invalid-email") return setError("Ingresa un Email valido");
-      if (code === "auth/user-not-found") return setError("El Email ingresado no se encontro");
-      setError(getErrorMessage(error));
+      setError(authErrorMessage(error));
     }
   };
   return (

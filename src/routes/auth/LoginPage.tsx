@@ -1,7 +1,7 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router";
 import { useAuthContext } from "@/features/auth/useAuthContext";
-import { getErrorCode, getErrorMessage } from "@/lib/errors";
+import { authErrorMessage } from "@/features/auth/authErrors";
 import imgLogin from "@/assets/images/imgLogin.jpg";
 
 const Login = () => {
@@ -24,11 +24,7 @@ const Login = () => {
       await login(user.email, user.password);
       navigate("/");
     } catch (error) {
-      const code = getErrorCode(error);
-      if (code === "auth/invalid-email") return setError("Ingresa un Email valido");
-      if (code === "auth/user-not-found") return setError("Usuario no encontrado");
-      if (code === "auth/wrong-password") return setError("Contraseña incorrecta");
-      setError(getErrorMessage(error));
+      setError(authErrorMessage(error));
     }
   };
   const handleGoogleSignIn = async () => {
@@ -36,9 +32,7 @@ const Login = () => {
       await loginWithGoogle();
       navigate("/");
     } catch (error) {
-      if (getErrorCode(error) === "auth/popup-closed-by-user")
-        return setError("Pestaña cerrada por el usuario");
-      setError(getErrorMessage(error));
+      setError(authErrorMessage(error));
     }
   };
   const handleFacebookSignIn = async () => {
@@ -46,11 +40,7 @@ const Login = () => {
       await loginWithFacebook();
       navigate("/");
     } catch (error) {
-      const code = getErrorCode(error);
-      if (code === "auth/popup-closed-by-user") return setError("Pestaña cerrada por el usuario");
-      if (code === "auth/account-exists-with-different-credential")
-        return setError("Cuenta existente con diferente credencial");
-      setError(getErrorMessage(error));
+      setError(authErrorMessage(error));
     }
   };
 
