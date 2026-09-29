@@ -1,9 +1,9 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MemoryRouter } from "react-router";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import App from "@/app/App";
+import { renderWithProviders } from "@/test/render";
 
 vi.mock("@/services/firebase/app", () => ({ app: {}, auth: {} }));
 
@@ -21,12 +21,7 @@ vi.mock("firebase/auth", () => ({
   FacebookAuthProvider: vi.fn(),
 }));
 
-const renderAt = (path: string) =>
-  render(
-    <MemoryRouter initialEntries={[path]}>
-      <App />
-    </MemoryRouter>,
-  );
+const renderAt = (route: string) => renderWithProviders(<App />, { route });
 
 describe("App routing", () => {
   beforeEach(() => {

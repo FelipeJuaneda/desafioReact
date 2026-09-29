@@ -1,30 +1,15 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router";
-import { tmdbFetch } from "@/services/tmdb/client";
+import { genresQuery, moviesByGenreQuery } from "@/services/tmdb/queries";
 import pororoLoad from "@/assets/images/pororoLoad.gif";
-import type { Genre, MovieSummary, TmdbPage } from "@/types/tmdb";
 import "@/routes/genre/GenrePage.css";
 const GenreList = () => {
-  const { genreId } = useParams();
+  const { genreId = "" } = useParams();
 
-  //peliculas segun genero guardado aca
-  const [filmByGenre, setFilmByGenre] = useState<TmdbPage<MovieSummary>>();
+  //peliculas segun genero
+  const { data: filmByGenre } = useQuery(moviesByGenreQuery(genreId));
   //lista de generos con id y nombre
-  const [genreList, setGenreList] = useState<Genre[]>([]);
-
-  useEffect(() => {
-    const getFilmByGenre = async () => {
-      setFilmByGenre(
-        await tmdbFetch<TmdbPage<MovieSummary>>("discover/movie", { with_genres: genreId }),
-      );
-    };
-    getFilmByGenre();
-    const getGenreList = async () => {
-      const data = await tmdbFetch<{ genres: Genre[] }>("genre/movie/list");
-      setGenreList(data.genres);
-    };
-    getGenreList();
-  }, [genreId]);
+  const { data: genreList = [] } = useQuery(genresQuery("movie"));
 
   //filtrando de la lista de generos el nombre seleccionado
   const genderName = genreList.filter((e) => e.id === Number(genreId));

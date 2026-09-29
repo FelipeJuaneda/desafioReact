@@ -1,47 +1,24 @@
-import { useEffect, useState } from "react";
-import { tmdbFetch } from "@/services/tmdb/client";
-import type { Credits, MediaType, TitleDetail, Videos } from "@/types/tmdb";
-
-interface DetailData {
-  dataDetail: TitleDetail | null;
-  dataCredits: Credits | null;
-  dataVideos: Videos | null;
-}
+import { useQuery } from "@tanstack/react-query";
+import { titleCreditsQuery, titleDetailQuery, titleVideosQuery } from "@/services/tmdb/queries";
+import type { MediaType } from "@/types/tmdb";
 
 interface UseDetailParams {
   detailId: string | undefined;
   type: MediaType;
 }
 
-const useDetail = ({ detailId, type }: UseDetailParams) => {
-  const [data, setData] = useState<DetailData>({
-    dataDetail: null,
-    dataCredits: null,
-    dataVideos: null,
-  });
-  const [loading, setLoading] = useState(true);
+const useDetail = ({ detailId = "", type }: UseDetailParams) => {
+  const enabled = detailId !== "";
+  const detail = useQuery({ ...titleDetailQuery(type, detailId), enabled });
+  const credits = useQuery({ ...titleCreditsQuery(type, detailId), enabled });
+  const videos = useQuery({ ...titleVideosQuery(type, detailId), enabled });
 
-  const fetchData = async <K extends keyof DetailData>(path: string, key: K) => {
-    try {
-      const data = await tmdbFetch<DetailData[K]>(path);
-      setData((prevData) => ({
-        ...prevData,
-        [key]: data,
-      }));
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
+  return {
+    dataDetail: detail.data ?? null,
+    dataCredits: credits.data ?? null,
+    dataVideos: videos.data ?? null,
+    loading: detail.isPending,
   };
-
-  useEffect(() => {
-    fetchData(`${type}/${detailId}`, "dataDetail");
-    fetchData(`${type}/${detailId}/credits`, "dataCredits");
-    fetchData(`${type}/${detailId}/videos`, "dataVideos");
-  }, [detailId, type]);
-
-  return { ...data, loading };
 };
 
 export default useDetail;

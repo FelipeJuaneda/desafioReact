@@ -1,29 +1,23 @@
-import { useEffect, useState } from "react";
-import { tmdbFetch } from "@/services/tmdb/client";
-import type { TmdbPage } from "@/types/tmdb";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { listQuery } from "@/services/tmdb/queries";
 
 const usePopularData = <T>(typePopular: string, currentPage: number) => {
-  const [data, setData] = useState<T[]>([]);
-  const [loading, setLoading] = useState(true);
-  const getPopularData = async (searchKey?: string) => {
-    const type = searchKey ? "search" : "discover";
-    const path = typePopular === "person/popular" ? typePopular : `${type}/${typePopular}`;
-    try {
-      const dataJson = await tmdbFetch<Partial<TmdbPage<T>>>(path, {
-        query: searchKey,
-        page: currentPage,
-      });
-      setData(dataJson.results ?? []);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+  const [searchKey, setSearchKey] = useState("");
+  const type = searchKey ? "search" : "discover";
+  const path = typePopular === "person/popular" ? typePopular : `${type}/${typePopular}`;
+
+  const { data, isPending } = useQuery({
+    ...listQuery<T>(path, { page: currentPage, query: searchKey || undefined }),
+    // Keep showing the current page while the next one loads.
+    placeholderData: keepPreviousData,
+  });
+
+  return {
+    data: data?.results ?? [],
+    loading: isPending,
+    getPopularData: (key?: string) => setSearchKey(key?.trim() ?? ""),
   };
-  useEffect(() => {
-    getPopularData();
-  }, [typePopular, currentPage]);
-  return { data, loading, getPopularData };
 };
 
 export default usePopularData;

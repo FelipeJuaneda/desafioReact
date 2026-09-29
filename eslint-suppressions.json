@@ -21,17 +21,7 @@
       "count": 1
     }
   },
-  "src/features/catalog/usePopularData.ts": {
-    "react-hooks/set-state-in-effect": {
-      "count": 1
-    }
-  },
   "src/features/favorites/AddToFavoriteButton.tsx": {
-    "react-hooks/set-state-in-effect": {
-      "count": 1
-    }
-  },
-  "src/features/title/useDetail.ts": {
     "react-hooks/set-state-in-effect": {
       "count": 1
     }
