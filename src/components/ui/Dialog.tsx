@@ -1,4 +1,9 @@
-import { Dialog as HeadlessDialog, DialogPanel, DialogTitle } from "@headlessui/react";
+import {
+  DialogBackdrop,
+  DialogPanel,
+  DialogTitle,
+  Dialog as HeadlessDialog,
+} from "@headlessui/react";
 import { RiCloseLine } from "@remixicon/react";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/Button";
@@ -15,9 +20,9 @@ interface DialogProps {
 /** Modal with focus trap, Escape to close and scroll lock (Headless UI), in the projection world. */
 export const Dialog = ({ open, onClose, title, children, className }: DialogProps) => (
   <HeadlessDialog open={open} onClose={onClose} className="relative z-(--z-dialog)">
-    <div
-      aria-hidden
-      className="fixed inset-0 bg-leader/85 transition-opacity duration-(--duration-slow) data-closed:opacity-0"
+    <DialogBackdrop
+      transition
+      className="fixed inset-0 bg-leader/85 transition-opacity duration-(--duration-slow) data-closed:opacity-0 motion-reduce:transition-none"
     />
     <div className="fixed inset-0 grid place-items-center p-(--spacing-gutter)">
       <DialogPanel

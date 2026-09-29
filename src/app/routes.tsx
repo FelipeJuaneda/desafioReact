@@ -12,9 +12,6 @@ const page =
 
 const defaultPage = (load: () => Promise<{ default: ComponentType }>) => page(load, "default");
 
-const legacy = (name: "LegacyMovieTitle" | "LegacySeriesTitle") =>
-  page(() => import("@/app/legacyScreens"), name);
-
 const MyListPage = defaultPage(() => import("@/routes/my-list/FavoritesPage"));
 
 export const routes: RouteObject[] = [
@@ -26,8 +23,8 @@ export const routes: RouteObject[] = [
       { index: true, lazy: defaultPage(() => import("@/routes/home/HomePage")) },
       { path: "peliculas", lazy: defaultPage(() => import("@/routes/catalog/MoviesPage")) },
       { path: "series", lazy: defaultPage(() => import("@/routes/catalog/SeriesPage")) },
-      { path: "pelicula/:detailId", lazy: legacy("LegacyMovieTitle") },
-      { path: "serie/:detailId", lazy: legacy("LegacySeriesTitle") },
+      { path: "pelicula/:slug", lazy: defaultPage(() => import("@/routes/title/MovieTitlePage")) },
+      { path: "serie/:slug", lazy: defaultPage(() => import("@/routes/title/SeriesTitlePage")) },
       { path: "buscar", lazy: defaultPage(() => import("@/routes/search/SearchPage")) },
       {
         path: "mi-lista",

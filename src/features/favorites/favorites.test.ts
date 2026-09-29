@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { favoriteId, toFavoriteInput } from "@/features/favorites/favorite";
 import { clearLegacyFavorites, readLegacyFavorites } from "@/features/favorites/legacyFavorites";
-import type { MovieDetail, TvDetail } from "@/types/tmdb";
+import type { MovieSummary, TvSummary } from "@/types/tmdb";
 
-const movie: MovieDetail = {
+const movie: MovieSummary = {
   id: 550,
   title: "El club de la lucha",
   release_date: "1999-10-15",
@@ -11,11 +11,9 @@ const movie: MovieDetail = {
   poster_path: "/poster.jpg",
   backdrop_path: null,
   vote_average: 8.4,
-  genres: [],
-  runtime: 139,
 };
 
-const series: TvDetail = {
+const series: TvSummary = {
   id: 1399,
   name: "Juego de tronos",
   first_air_date: "",
@@ -23,8 +21,6 @@ const series: TvDetail = {
   poster_path: null,
   backdrop_path: null,
   vote_average: 8.5,
-  genres: [],
-  number_of_seasons: 8,
 };
 
 describe("toFavoriteInput", () => {

@@ -1,5 +1,6 @@
 import { RiArrowRightLine } from "@remixicon/react";
 import { useQuery } from "@tanstack/react-query";
+import { useViewTransitionState } from "react-router";
 import { paths } from "@/app/paths";
 import { ButtonLink } from "@/components/ui/Button";
 import { EdgeCode } from "@/components/ui/EdgeCode";
@@ -34,6 +35,8 @@ export const FeaturedTitle = () => {
     ...titleDetailQuery("movie", String(featured?.id ?? "")),
     enabled: Boolean(featured),
   });
+  const href = featured ? paths.title("movie", featured.id, featured.title) : paths.home;
+  const opening = useViewTransitionState(href);
 
   if (!featured) {
     return (
@@ -48,7 +51,6 @@ export const FeaturedTitle = () => {
     .slice(0, 3)
     .map((genre) => genre.name)
     .join(" · ");
-  const href = paths.title("movie", featured.id, featured.title);
 
   return (
     <section
@@ -63,7 +65,7 @@ export const FeaturedTitle = () => {
           alt=""
           fetchPriority="high"
           className="size-full object-cover"
-          style={{ viewTransitionName: `backdrop-${featured.id}` }}
+          style={opening ? { viewTransitionName: "title-art" } : undefined}
         />
       </div>
       <div className="grid items-end gap-x-12 gap-y-6 border-b border-frameline pt-7 pb-10 lg:grid-cols-[minmax(0,1fr)_auto]">

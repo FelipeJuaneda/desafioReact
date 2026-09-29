@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useViewTransitionState } from "react-router";
 import { paths } from "@/app/paths";
 import { EdgeCode } from "@/components/ui/EdgeCode";
 import { Poster } from "@/components/ui/Poster";
@@ -19,11 +19,14 @@ export const TitleCard = ({ mediaType, item, sizes, priority }: TitleCardProps) 
   const title = getTitle(item);
   const year = formatYear("release_date" in item ? item.release_date : item.first_air_date);
   const rating = formatRating(item.vote_average);
+  const href = paths.title(mediaType, item.id, title);
+  // Only the frame being opened carries the shared name, so duplicates across rails never clash.
+  const opening = useViewTransitionState(href);
 
   return (
     <article className="group relative">
       <Link
-        to={paths.title(mediaType, item.id, title)}
+        to={href}
         viewTransition
         className="grid gap-2.5 rounded-aperture focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-edge"
       >
@@ -32,6 +35,7 @@ export const TitleCard = ({ mediaType, item, sizes, priority }: TitleCardProps) 
           title={title}
           sizes={sizes}
           priority={priority}
+          viewTransitionName={opening ? "title-art" : undefined}
           className="transition-transform duration-(--duration-slow) ease-out group-hover:scale-[1.02] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
         />
         <h3 className="text-body leading-tight font-semibold text-balance text-emulsion decoration-edge decoration-2 underline-offset-4 group-hover:underline">

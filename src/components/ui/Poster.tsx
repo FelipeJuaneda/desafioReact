@@ -12,6 +12,8 @@ interface PosterProps {
   alt?: string;
   /** Above-the-fold posters load eagerly with high priority. */
   priority?: boolean;
+  /** Names the frame for a view transition (the poster-to-backdrop morph). */
+  viewTransitionName?: string;
   className?: string;
 }
 
@@ -19,12 +21,21 @@ interface PosterProps {
  * A 2:3 poster in a projector-aperture frame. The image "develops" from low-contrast gray to
  * full color when it loads; missing or broken images show the title on an unexposed frame.
  */
-export const Poster = ({ path, title, sizes, alt = "", priority, className }: PosterProps) => {
+export const Poster = ({
+  path,
+  title,
+  sizes,
+  alt = "",
+  priority,
+  viewTransitionName,
+  className,
+}: PosterProps) => {
   const [status, setStatus] = useState<"loading" | "loaded" | "error">("loading");
   const showImage = path !== null && status !== "error";
 
   return (
     <div
+      style={viewTransitionName ? { viewTransitionName } : undefined}
       className={cn(
         "relative aspect-2/3 overflow-hidden rounded-aperture bg-acetate-raised",
         "outline outline-1 -outline-offset-1 outline-frameline",

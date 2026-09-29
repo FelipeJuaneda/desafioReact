@@ -38,14 +38,23 @@ export interface PersonSummary {
   profile_path: string | null;
 }
 
-export interface MovieDetail extends MovieSummary {
+interface DetailExtras {
   genres: Genre[];
-  runtime: number | null;
+  tagline?: string;
+  vote_count: number;
+  original_language: string;
 }
 
-export interface TvDetail extends TvSummary {
-  genres: Genre[];
+export interface MovieDetail extends MovieSummary, DetailExtras {
+  runtime: number | null;
+  original_title: string;
+}
+
+export interface TvDetail extends TvSummary, DetailExtras {
   number_of_seasons: number;
+  number_of_episodes: number;
+  original_name: string;
+  created_by?: Array<{ id: number; name: string }>;
 }
 
 export type TitleDetail = MovieDetail | TvDetail;
@@ -57,9 +66,16 @@ export interface CastMember {
   profile_path: string | null;
 }
 
+export interface CrewMember {
+  id: number;
+  name: string;
+  job: string;
+}
+
 export interface Credits {
   id: number;
   cast: CastMember[];
+  crew: CrewMember[];
 }
 
 export interface Video {
