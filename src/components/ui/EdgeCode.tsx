@@ -8,7 +8,8 @@ export interface EdgeCodeItem {
 }
 
 interface EdgeCodeProps {
-  items: Array<EdgeCodeItem | null | false | undefined>;
+  /** Falsy entries and items without a label are skipped, so optional fields can be inlined. */
+  items: Array<EdgeCodeItem | null | false | undefined | "">;
   tone?: "projection" | "lighttable";
   className?: string;
 }
@@ -18,7 +19,10 @@ interface EdgeCodeProps {
  * condensed monospace, tabular figures, thin rules between fields.
  */
 export const EdgeCode = ({ items, tone = "projection", className }: EdgeCodeProps) => {
-  const visible = items.filter((item): item is EdgeCodeItem => Boolean(item));
+  const visible = items.filter(
+    (item): item is EdgeCodeItem =>
+      typeof item === "object" && item !== null && item.label != null && item.label !== "",
+  );
   return (
     <p
       className={cn(

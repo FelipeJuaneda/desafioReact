@@ -59,7 +59,7 @@ export const SiteHeader = () => {
   const { user, loading } = useAuthContext();
 
   return (
-    <header className="sticky top-0 z-(--z-sticky) border-b border-frameline bg-leader/95 backdrop-blur-sm supports-[backdrop-filter]:bg-leader/85">
+    <header className="sticky top-0 z-(--z-sticky) border-b border-frameline bg-leader">
       <div className="mx-auto flex max-w-(--container-reel) items-center gap-4 px-(--spacing-gutter) py-2 md:gap-8">
         <Wordmark />
         <nav aria-label="Principal" className="hidden md:block">

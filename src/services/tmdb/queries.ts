@@ -8,6 +8,7 @@ import type {
   MovieSummary,
   TitleDetail,
   TmdbPage,
+  TvSummary,
   Videos,
 } from "@/types/tmdb";
 
@@ -56,3 +57,18 @@ export const genresQuery = (type: MediaType) =>
 
 export const moviesByGenreQuery = (genreId: string) =>
   listQuery<MovieSummary>("discover/movie", { page: 1, with_genres: genreId });
+
+/** Titles people are watching this week. */
+export const trendingQuery = <T extends MovieSummary | TvSummary>(type: MediaType) =>
+  listQuery<T>(`trending/${type}/week`, { page: 1 });
+
+export const nowPlayingQuery = () =>
+  listQuery<MovieSummary>("movie/now_playing", { page: 1, region: "AR" });
+
+/** Best rated with enough votes to mean something (TMDB's top_rated lets 20-vote titles in). */
+export const topRatedQuery = <T extends MovieSummary | TvSummary>(type: MediaType) =>
+  listQuery<T>(`discover/${type}`, {
+    page: 1,
+    sort_by: "vote_average.desc",
+    "vote_count.gte": 1500,
+  });
