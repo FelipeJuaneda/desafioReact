@@ -1,6 +1,6 @@
 # PelicuLed: plan de rediseño
 
-Estado: **Fase 1 entregada, esperando aprobación** (2026-09-28). Rama: `redesign`.
+Estado: **Fases 0 a 4 completas** (2026-09-29). Rama: `redesign`. Sistema visual final: [`DESIGN.md`](../../DESIGN.md).
 Contexto de producto: [`PRODUCT.md`](../../PRODUCT.md). Lámina visual: [`lamina-35mm.html`](./lamina-35mm.html).
 
 ## Decisiones confirmadas
