@@ -2,7 +2,7 @@ import { fileURLToPath } from "node:url";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { loadEnv, type ProxyOptions } from "vite";
-import { defineConfig } from "vitest/config";
+import { configDefaults, defineConfig } from "vitest/config";
 
 export default defineConfig(({ mode }) => {
   // Load every variable (not only VITE_*): the TMDB token stays in the Node process.
@@ -28,6 +28,8 @@ export default defineConfig(({ mode }) => {
     test: {
       environment: "jsdom",
       setupFiles: ["./src/test/setup.ts"],
+      // Browser flows live in e2e/ and run with Playwright.
+      exclude: [...configDefaults.exclude, "e2e/**"],
     },
   };
 });
