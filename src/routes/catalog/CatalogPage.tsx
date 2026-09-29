@@ -1,12 +1,15 @@
 import { RiArrowDownSLine } from "@remixicon/react";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { m } from "motion/react";
 import { Link, useSearchParams } from "react-router";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { EdgeCode } from "@/components/ui/EdgeCode";
+import { Skeleton } from "@/components/ui/Skeleton";
 import { StatePanel } from "@/components/ui/StatePanel";
 import { TitleGrid, TitleGridSkeleton } from "@/features/catalog/TitleGrid";
 import { cn } from "@/lib/cn";
 import { formatCount } from "@/lib/format";
+import { DURATION } from "@/lib/motion";
 import { catalogQuery, genresQuery, type CatalogSort } from "@/services/tmdb/queries";
 import type { MediaType, MovieSummary, TvSummary } from "@/types/tmdb";
 
@@ -37,6 +40,8 @@ const chipClasses = (active: boolean) =>
       ? "border-edge bg-acetate-raised text-emulsion shadow-[inset_0_-2px_0_var(--color-edge)]"
       : "border-frameline bg-acetate text-emulsion-muted hover:border-control-line hover:text-emulsion",
   );
+
+const TMDB_TOTAL_CAP = 20_000;
 
 export const CatalogPage = ({ mediaType }: { mediaType: MediaType }) => {
   const [params, setParams] = useSearchParams();
@@ -77,12 +82,34 @@ export const CatalogPage = ({ mediaType }: { mediaType: MediaType }) => {
           <h1 className="font-display text-display-xl font-extrabold text-balance uppercase">
             {heading}
           </h1>
-          {total > 0 && (
-            <EdgeCode
-              className="mt-3"
-              items={[{ label: `${formatCount(total)} ${copy.noun}`, emphasis: true }]}
-            />
-          )}
+          {/* The count keeps its line while a new filter loads, so the header never jumps. */}
+          <div className="mt-3 h-[1lh] text-code leading-(--text-code--line-height)">
+            {catalog.isPending ? (
+              <Skeleton className="h-full w-36" />
+            ) : (
+              total > 0 && (
+                <m.div
+                  key={`${genre}-${sort}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: DURATION.base }}
+                >
+                  <EdgeCode
+                    items={[
+                      {
+                        // TMDB's discover caps totals at 20,001: past that the exact figure lies.
+                        label:
+                          total > TMDB_TOTAL_CAP
+                            ? `Más de ${formatCount(TMDB_TOTAL_CAP)} ${copy.noun}`
+                            : `${formatCount(total)} ${copy.noun}`,
+                        emphasis: true,
+                      },
+                    ]}
+                  />
+                </m.div>
+              )
+            )}
+          </div>
         </div>
         <label className="grid gap-1.5 text-small font-semibold text-emulsion-muted">
           Ordenar por
