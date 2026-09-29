@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { baseUrl, apiKey } from "@/services/tmdb/config";
+import { tmdbFetch } from "@/services/tmdb/client";
 import type { Credits, MediaType, TitleDetail, Videos } from "@/types/tmdb";
 
 interface DetailData {
@@ -21,10 +21,9 @@ const useDetail = ({ detailId, type }: UseDetailParams) => {
   });
   const [loading, setLoading] = useState(true);
 
-  const fetchData = async <K extends keyof DetailData>(url: string, key: K) => {
+  const fetchData = async <K extends keyof DetailData>(path: string, key: K) => {
     try {
-      const response = await fetch(url);
-      const data = (await response.json()) as DetailData[K];
+      const data = await tmdbFetch<DetailData[K]>(path);
       setData((prevData) => ({
         ...prevData,
         [key]: data,
@@ -37,13 +36,9 @@ const useDetail = ({ detailId, type }: UseDetailParams) => {
   };
 
   useEffect(() => {
-    const detailUrl = `${baseUrl}${type}/${detailId}?api_key=${apiKey}&language=es`;
-    const creditsUrl = `${baseUrl}${type}/${detailId}/credits?api_key=${apiKey}&language=es`;
-    const videosUrl = `${baseUrl}${type}/${detailId}/videos?api_key=${apiKey}&language=es`;
-
-    fetchData(detailUrl, "dataDetail");
-    fetchData(creditsUrl, "dataCredits");
-    fetchData(videosUrl, "dataVideos");
+    fetchData(`${type}/${detailId}`, "dataDetail");
+    fetchData(`${type}/${detailId}/credits`, "dataCredits");
+    fetchData(`${type}/${detailId}/videos`, "dataVideos");
   }, [detailId, type]);
 
   return { ...data, loading };

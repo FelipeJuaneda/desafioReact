@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
-import { baseUrl, apiKey } from "@/services/tmdb/config";
+import { tmdbFetch } from "@/services/tmdb/client";
 import pororoLoad from "@/assets/images/pororoLoad.gif";
 import type { Genre, MovieSummary, TmdbPage } from "@/types/tmdb";
 import "@/routes/genre/GenrePage.css";
@@ -14,15 +14,14 @@ const GenreList = () => {
 
   useEffect(() => {
     const getFilmByGenre = async () => {
-      await fetch(`${baseUrl}discover/movie?api_key=${apiKey}&with_genres=${genreId}&language=es`)
-        .then((response) => response.json())
-        .then((data) => setFilmByGenre(data));
+      setFilmByGenre(
+        await tmdbFetch<TmdbPage<MovieSummary>>("discover/movie", { with_genres: genreId }),
+      );
     };
     getFilmByGenre();
     const getGenreList = async () => {
-      await fetch(`${baseUrl}genre/movie/list?api_key=${apiKey}&language=es`)
-        .then((response) => response.json())
-        .then((data) => setGenreList(data.genres));
+      const data = await tmdbFetch<{ genres: Genre[] }>("genre/movie/list");
+      setGenreList(data.genres);
     };
     getGenreList();
   }, [genreId]);
