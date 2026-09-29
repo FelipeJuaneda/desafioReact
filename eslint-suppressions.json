@@ -1,13 +1,2 @@
 {
-  "src/routes/auth/LoginPage.tsx": {
-    "jsx-a11y-x/click-events-have-key-events": {
-      "count": 1
-    },
-    "jsx-a11y-x/label-has-associated-control": {
-      "count": 1
-    },
-    "jsx-a11y-x/no-static-element-interactions": {
-      "count": 1
-    }
-  }
 }

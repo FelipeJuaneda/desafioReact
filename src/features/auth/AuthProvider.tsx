@@ -1,62 +1,42 @@
-import { useEffect, useState, type ReactNode } from "react";
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
   GoogleAuthProvider,
-  FacebookAuthProvider,
-  signInWithPopup,
+  onAuthStateChanged,
   sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
   type User,
 } from "firebase/auth";
-import { AuthContext } from "@/features/auth/useAuthContext";
+import { useEffect, useState, type ReactNode } from "react";
+import { AuthContext, type AuthContextValue } from "@/features/auth/useAuthContext";
 import { auth } from "@/services/firebase/app";
+
+// Stable for the app's lifetime: plain functions over the Firebase SDK.
+const actions = {
+  signUp: (email: string, password: string) =>
+    createUserWithEmailAndPassword(auth, email, password),
+  login: (email: string, password: string) => signInWithEmailAndPassword(auth, email, password),
+  loginWithGoogle: () => signInWithPopup(auth, new GoogleAuthProvider()),
+  resetPassword: (email: string) => sendPasswordResetEmail(auth, email),
+  logout: () => signOut(auth),
+};
 
 function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const signUp = (email: string, password: string) =>
-    createUserWithEmailAndPassword(auth, email, password);
 
-  const login = (email: string, password: string) =>
-    signInWithEmailAndPassword(auth, email, password);
-
-  const loginWithGoogle = () => {
-    const googleProvider = new GoogleAuthProvider();
-    return signInWithPopup(auth, googleProvider);
-  };
-  const loginWithFacebook = () => {
-    const facebookProvider = new FacebookAuthProvider();
-    return signInWithPopup(auth, facebookProvider);
-  };
-
-  const resetPassword = (email: string) => sendPasswordResetEmail(auth, email);
-  const logout = () => signOut(auth);
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
-    });
-    return () => unsubscribe();
-  }, []);
-
-  return (
-    <AuthContext.Provider
-      value={{
-        signUp,
-        login,
-        user,
-        logout,
-        loading,
-        loginWithGoogle,
-        loginWithFacebook,
-        resetPassword,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+  useEffect(
+    () =>
+      onAuthStateChanged(auth, (currentUser) => {
+        setUser(currentUser);
+        setLoading(false);
+      }),
+    [],
   );
+
+  const value: AuthContextValue = { user, loading, ...actions };
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export default AuthProvider;

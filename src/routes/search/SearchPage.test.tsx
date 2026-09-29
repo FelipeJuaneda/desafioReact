@@ -11,7 +11,6 @@ vi.mock("firebase/auth", () => ({
   }),
   signOut: vi.fn(),
   GoogleAuthProvider: vi.fn(),
-  FacebookAuthProvider: vi.fn(),
 }));
 
 const page = (results: unknown[]) =>

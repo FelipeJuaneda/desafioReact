@@ -5,6 +5,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { renderApp } from "@/test/render";
 
 vi.mock("@/services/firebase/app", () => ({ app: {}, auth: {}, db: {} }));
+// Signed-in cases would open a Firestore listener; the list itself is tested elsewhere.
+vi.mock("@/features/favorites/favoritesRepository", () => ({
+  subscribeToFavorites: () => () => {},
+}));
 
 vi.mock("firebase/auth", () => ({
   onAuthStateChanged: vi.fn((_auth, callback) => {
@@ -17,7 +21,6 @@ vi.mock("firebase/auth", () => ({
   sendPasswordResetEmail: vi.fn(),
   signOut: vi.fn(),
   GoogleAuthProvider: vi.fn(),
-  FacebookAuthProvider: vi.fn(),
 }));
 
 beforeEach(() => {
@@ -78,11 +81,46 @@ describe("sign in", () => {
     const user = userEvent.setup();
     renderApp("/ingresar");
 
-    await user.type(await screen.findByPlaceholderText(/ingresa tu email/i), "nadie@ejemplo.com");
-    await user.type(screen.getByPlaceholderText(/ingresa contraseña/i), "secreto");
+    await user.type(await screen.findByLabelText("Email"), "nadie@ejemplo.com");
+    await user.type(screen.getByLabelText("Contraseña"), "secreto");
     await user.click(screen.getByRole("button", { name: "Ingresar" }));
 
-    expect(await screen.findByText(/El email o la contraseña no coinciden/)).toBeInTheDocument();
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      /El email o la contraseña no coinciden/,
+    );
     expect(signInWithEmailAndPassword).toHaveBeenCalledWith({}, "nadie@ejemplo.com", "secreto");
+  });
+
+  it("validates in Spanish before calling Firebase and focuses the first problem", async () => {
+    const user = userEvent.setup();
+    renderApp("/ingresar");
+
+    await user.type(await screen.findByLabelText("Email"), "nadie");
+    await user.click(screen.getByRole("button", { name: "Ingresar" }));
+
+    expect(screen.getByLabelText("Email")).toHaveFocus();
+    expect(screen.getByLabelText("Email")).toHaveAccessibleDescription(/no parece válido/);
+    expect(screen.getByLabelText("Contraseña")).toHaveAccessibleDescription(
+      "Ingresá tu contraseña.",
+    );
+    expect(signInWithEmailAndPassword).not.toHaveBeenCalled();
+  });
+
+  it("sends a signed-in visitor back to where they were going", async () => {
+    vi.mocked(onAuthStateChanged).mockImplementationOnce((_auth, callback) => {
+      (callback as (user: unknown) => void)({ uid: "u1" });
+      return () => {};
+    });
+    const { router } = renderApp("/ingresar?volver=%2Fbuscar");
+    await waitFor(() => expect(location(router)).toBe("/buscar"));
+  });
+
+  it("ignores return paths that leave the site", async () => {
+    vi.mocked(onAuthStateChanged).mockImplementationOnce((_auth, callback) => {
+      (callback as (user: unknown) => void)({ uid: "u1" });
+      return () => {};
+    });
+    const { router } = renderApp("/ingresar?volver=%2F%2Fevil.com");
+    await waitFor(() => expect(location(router)).toBe("/"));
   });
 });

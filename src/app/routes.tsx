@@ -40,9 +40,9 @@ export const routes: RouteObject[] = [
           };
         },
       },
-      { path: "ingresar", lazy: defaultPage(() => import("@/routes/auth/LoginPage")) },
-      { path: "registro", lazy: defaultPage(() => import("@/routes/auth/RegisterPage")) },
-      { path: "recuperar", lazy: defaultPage(() => import("@/routes/auth/RecoverPasswordPage")) },
+      { path: "ingresar", lazy: defaultPage(() => import("@/routes/auth/SignInPage")) },
+      { path: "registro", lazy: defaultPage(() => import("@/routes/auth/SignUpPage")) },
+      { path: "recuperar", lazy: defaultPage(() => import("@/routes/auth/RecoverPage")) },
 
       // Old English URLs, kept alive for shared links and bookmarks.
       { path: "popularFilms", element: <Navigate to={paths.movies} replace /> },
