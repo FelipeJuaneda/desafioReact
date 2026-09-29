@@ -52,9 +52,9 @@
   --text-body--line-height: 1.55;
   --text-small: 0.875rem;
   --text-small--line-height: 1.45;
-  --text-edge: 0.75rem;
-  --text-edge--line-height: 1.35;
-  --text-edge--letter-spacing: 0.06em;
+  --text-code: 0.75rem;
+  --text-code--line-height: 1.35;
+  --text-code--letter-spacing: 0.06em;
 
   /* Shape: film perforation, projector aperture, sheets */
   --radius-perf: 2px;

@@ -22,7 +22,7 @@ export const EdgeCode = ({ items, tone = "projection", className }: EdgeCodeProp
   return (
     <p
       className={cn(
-        "flex flex-wrap items-center gap-x-2.5 gap-y-1 font-code font-medium text-edge uppercase [font-stretch:75%] tabular-nums",
+        "flex flex-wrap items-center gap-x-2.5 gap-y-1 font-code font-medium text-code uppercase [font-stretch:75%] tabular-nums",
         tone === "projection" ? "text-emulsion-muted" : "text-lt-muted",
         className,
       )}

@@ -57,7 +57,7 @@ export const Poster = ({ path, title, sizes, alt = "", priority, className }: Po
           <span className="font-display text-2xl leading-[0.95] font-extrabold text-emulsion uppercase">
             {title}
           </span>
-          <span className="font-code text-edge text-emulsion-muted uppercase [font-stretch:75%]">
+          <span className="font-code text-code text-emulsion-muted uppercase [font-stretch:75%]">
             Sin afiche
           </span>
         </div>
