@@ -25,7 +25,8 @@
     "typecheck": "tsc -b",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "size": "node scripts/check-bundle.mjs"
   },
   "browserslist": {
     "production": [

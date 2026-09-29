@@ -1,10 +1,15 @@
 import { RiSearchLine } from "@remixicon/react";
+import { lazy, Suspense } from "react";
 import { Link, NavLink, useLocation, useNavigate, useSearchParams } from "react-router";
 import { paths } from "@/app/paths";
 import { buttonClasses } from "@/components/ui/buttonClasses";
 import { useAuthContext } from "@/features/auth/useAuthContext";
-import { AccountMenu } from "@/layouts/AccountMenu";
 import { cn } from "@/lib/cn";
+
+// Guests never see the account menu: its Headless UI code loads only after signing in.
+const AccountMenu = lazy(() =>
+  import("@/layouts/AccountMenu").then((module) => ({ default: module.AccountMenu })),
+);
 
 const NAV = [
   { to: paths.home, label: "Inicio", end: true },
@@ -88,7 +93,9 @@ export const SiteHeader = () => {
         <SearchForm />
         <div className="ml-auto flex min-w-11 justify-end md:ml-0">
           {loading ? null : user ? (
-            <AccountMenu />
+            <Suspense fallback={<span aria-hidden className="size-11" />}>
+              <AccountMenu />
+            </Suspense>
           ) : (
             <Link to={paths.signIn} className={buttonClasses({ variant: "ghost", size: "sm" })}>
               Ingresar
