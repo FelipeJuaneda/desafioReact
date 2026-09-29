@@ -65,7 +65,7 @@ export default defineConfig(({ mode }) => {
   // Load every variable (not only VITE_*): the TMDB token stays in the Node process.
   const env = loadEnv(mode, process.cwd(), "");
 
-  // Local stand-in for api/tmdb/[...path].ts so `npm run dev` never ships the token to the browser.
+  // Local stand-in for the api/tmdb.ts function so `npm run dev` never ships the token to the browser.
   const tmdbProxy: Record<string, ProxyOptions> = {
     "/api/tmdb": {
       target: "https://api.themoviedb.org/3",

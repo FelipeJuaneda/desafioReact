@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { GET } from "./[...path]";
+import { GET } from "./tmdbProxy";
 
 const fetchMock = vi.fn();
 
@@ -29,6 +29,25 @@ describe("TMDB proxy", () => {
     );
     expect(init.headers).toMatchObject({ Authorization: "Bearer test-token" });
     expect(response.headers.get("cache-control")).toContain("s-maxage");
+  });
+
+  it("accepts the rewritten form Vercel sends (?path=…) without forwarding `path`", async () => {
+    const response = await GET(
+      new Request("https://peliculed.test/api/tmdb?path=trending/movie/week&language=es&page=1"),
+    );
+    expect(response.status).toBe(200);
+    const [upstream] = fetchMock.mock.calls[0] as [URL];
+    expect(upstream.toString()).toBe(
+      "https://api.themoviedb.org/3/trending/movie/week?language=es&page=1",
+    );
+  });
+
+  it("rejects traversal in the rewritten form too", async () => {
+    const response = await GET(
+      new Request("https://peliculed.test/api/tmdb?path=movie/../account"),
+    );
+    expect(response.status).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it("drops an api_key sent by the client", async () => {
