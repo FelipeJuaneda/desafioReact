@@ -10,22 +10,21 @@ const GRID_POSTER_SIZES =
   "(min-width: 1440px) 216px, (min-width: 1280px) 16vw, (min-width: 1024px) 19vw, (min-width: 768px) 23vw, (min-width: 640px) 31vw, 47vw";
 
 interface TitleGridProps {
-  mediaType: MediaType;
+  /** One type for the whole grid, or per item for mixed results (search). */
+  mediaType: MediaType | ((item: MovieSummary | TvSummary) => MediaType);
   items: Array<MovieSummary | TvSummary>;
 }
 
 export const TitleGrid = ({ mediaType, items }: TitleGridProps) => (
   <ul className={GRID}>
-    {items.map((item, index) => (
-      <li key={item.id}>
-        <TitleCard
-          mediaType={mediaType}
-          item={item}
-          sizes={GRID_POSTER_SIZES}
-          priority={index < 6}
-        />
-      </li>
-    ))}
+    {items.map((item, index) => {
+      const type = typeof mediaType === "function" ? mediaType(item) : mediaType;
+      return (
+        <li key={`${type}-${item.id}`}>
+          <TitleCard mediaType={type} item={item} sizes={GRID_POSTER_SIZES} priority={index < 6} />
+        </li>
+      );
+    })}
   </ul>
 );
 

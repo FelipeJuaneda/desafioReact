@@ -6,6 +6,7 @@ import type {
   Genre,
   MediaType,
   MovieSummary,
+  MultiSearchResult,
   TitleDetail,
   TmdbPage,
   TvSummary,
@@ -108,4 +109,20 @@ export const catalogQuery = <T extends MovieSummary | TvSummary>(
     initialPageParam: 1,
     getNextPageParam: (last) =>
       last.page < Math.min(last.total_pages, TMDB_MAX_PAGE) ? last.page + 1 : undefined,
+  });
+
+/** Titles and people matching a free-text query, page by page. */
+export const searchQuery = (query: string) =>
+  infiniteQueryOptions({
+    queryKey: [...tmdbKeys.all, "search", query],
+    queryFn: ({ pageParam, signal }) =>
+      tmdbFetch<TmdbPage<MultiSearchResult>>(
+        "search/multi",
+        { query, page: pageParam, include_adult: "false" },
+        signal,
+      ),
+    initialPageParam: 1,
+    getNextPageParam: (last) =>
+      last.page < Math.min(last.total_pages, TMDB_MAX_PAGE) ? last.page + 1 : undefined,
+    enabled: query.length > 0,
   });

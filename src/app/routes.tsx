@@ -28,6 +28,7 @@ export const routes: RouteObject[] = [
       { path: "series", lazy: defaultPage(() => import("@/routes/catalog/SeriesPage")) },
       { path: "pelicula/:detailId", lazy: legacy("LegacyMovieTitle") },
       { path: "serie/:detailId", lazy: legacy("LegacySeriesTitle") },
+      { path: "buscar", lazy: defaultPage(() => import("@/routes/search/SearchPage")) },
       {
         path: "mi-lista",
         lazy: async () => {

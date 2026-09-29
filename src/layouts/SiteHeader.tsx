@@ -1,5 +1,5 @@
 import { RiSearchLine } from "@remixicon/react";
-import { Link, NavLink, useNavigate, useSearchParams } from "react-router";
+import { Link, NavLink, useLocation, useNavigate, useSearchParams } from "react-router";
 import { paths } from "@/app/paths";
 import { buttonClasses } from "@/components/ui/buttonClasses";
 import { useAuthContext } from "@/features/auth/useAuthContext";
@@ -24,8 +24,11 @@ export const Wordmark = () => (
 );
 
 const SearchForm = () => {
+  const { pathname } = useLocation();
   const navigate = useNavigate();
   const [params] = useSearchParams();
+  // The search page has its own, larger field.
+  if (pathname === paths.search()) return null;
   return (
     <form
       role="search"

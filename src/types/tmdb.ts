@@ -77,3 +77,9 @@ export interface Videos {
 
 export const getTitle = (item: MovieSummary | TvSummary): string =>
   "title" in item ? item.title : item.name;
+
+/** search/multi mixes titles and people; each result says what it is. */
+export type MultiSearchResult =
+  | (MovieSummary & { media_type: "movie" })
+  | (TvSummary & { media_type: "tv" })
+  | (PersonSummary & { media_type: "person"; known_for_department?: string });
