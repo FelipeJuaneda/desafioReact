@@ -73,9 +73,15 @@
 
   /* Skeletons: unexposed frames slowly catching light */
   --animate-expose: expose 1.4s var(--ease-in-out) infinite alternate;
+  --animate-expose-light: expose-light 1.4s var(--ease-in-out) infinite alternate;
   @keyframes expose {
     to {
       background-color: var(--color-frameline);
+    }
+  }
+  @keyframes expose-light {
+    to {
+      background-color: var(--color-lt-ground);
     }
   }
 }

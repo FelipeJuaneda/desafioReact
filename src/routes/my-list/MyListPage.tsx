@@ -80,10 +80,10 @@ const StripSkeleton = () => (
     aria-hidden
     className="grid grid-cols-[4.5rem_minmax(0,1fr)] items-center gap-4 rounded-aperture bg-lt-surface p-3 shadow-strip sm:grid-cols-[5.5rem_minmax(0,1fr)]"
   >
-    <div className="aspect-2/3 rounded-aperture bg-lt-line motion-safe:animate-expose" />
+    <div className="aspect-2/3 rounded-aperture bg-lt-line motion-safe:animate-expose-light" />
     <div className="grid gap-2.5">
-      <div className="h-6 w-3/4 rounded-perf bg-lt-line motion-safe:animate-expose" />
-      <div className="h-3 w-40 rounded-perf bg-lt-line motion-safe:animate-expose" />
+      <div className="h-6 w-3/4 rounded-perf bg-lt-line motion-safe:animate-expose-light" />
+      <div className="h-3 w-40 rounded-perf bg-lt-line motion-safe:animate-expose-light" />
     </div>
   </div>
 );

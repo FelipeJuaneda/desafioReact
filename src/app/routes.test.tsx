@@ -40,6 +40,17 @@ const location = (router: ReturnType<typeof renderApp>["router"]) =>
   router.state.location.pathname + router.state.location.search;
 
 describe("routing", () => {
+  it("shows the end of the reel for unknown URLs", async () => {
+    renderApp("/no-existe");
+    expect(
+      await screen.findByRole("heading", { name: "Esta página no está en el rollo" }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Buscar un título" })).toHaveAttribute(
+      "href",
+      "/buscar",
+    );
+  });
+
   it("sends guests from Mi lista to sign in, remembering where to come back", async () => {
     const { router } = renderApp("/mi-lista");
     await waitFor(() => expect(location(router)).toBe("/ingresar?volver=%2Fmi-lista"));
@@ -65,11 +76,6 @@ describe("routing", () => {
   ])("redirects the old URL %s to %s", async (from, to) => {
     const { router } = renderApp(from);
     await waitFor(() => expect(location(router)).toBe(to));
-  });
-
-  it("shows the not-found page for unknown routes", async () => {
-    renderApp("/esta-ruta-no-existe");
-    expect(await screen.findByRole("heading", { name: "404" })).toBeInTheDocument();
   });
 });
 
