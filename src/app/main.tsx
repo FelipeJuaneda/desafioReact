@@ -8,6 +8,7 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import { Toaster } from "sonner";
+import { MotionProvider } from "@/app/MotionProvider";
 import { queryClient } from "@/app/queryClient";
 import { routes } from "@/app/routes";
 import AuthProvider from "@/features/auth/AuthProvider";
@@ -23,8 +24,10 @@ createRoot(container).render(
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <FavoritesProvider>
-          <Toaster theme="dark" position="bottom-center" closeButton />
-          <RouterProvider router={router} />
+          <MotionProvider>
+            <Toaster theme="dark" position="bottom-center" closeButton />
+            <RouterProvider router={router} />
+          </MotionProvider>
         </FavoritesProvider>
       </AuthProvider>
     </QueryClientProvider>

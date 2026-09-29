@@ -5,8 +5,9 @@ import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { gzipSync } from "node:zlib";
 
-// The home (landing page) chunks are preloaded, so they count: ~130 kB today, some headroom.
-const BUDGET_KB = 140;
+// The home (landing page) chunks are preloaded, so they count. ~144 kB today: ~130 kB of app
+// plus ~14 kB of Motion's runtime (its animation features, 27 kB, load after first render).
+const BUDGET_KB = 150;
 const dist = "dist";
 const assets = join(dist, "assets");
 

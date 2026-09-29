@@ -1,4 +1,5 @@
 import { RiBookmarkFill, RiBookmarkLine } from "@remixicon/react";
+import { m } from "motion/react";
 import { useLocation, useNavigate } from "react-router";
 import { toast } from "sonner";
 import { paths } from "@/app/paths";
@@ -8,6 +9,26 @@ import { toFavoriteInput } from "@/features/favorites/favorite";
 import { useFavoriteContext } from "@/features/favorites/useFavoriteContext";
 import { cn } from "@/lib/cn";
 import type { MediaType, MovieSummary, TvSummary } from "@/types/tmdb";
+
+/**
+ * The bookmark swells briefly when a title is saved: confirmation where the finger is,
+ * before the toast is read. `initial={false}` keeps it still on first render.
+ */
+const BookmarkMark = ({ saved, className }: { saved: boolean; className?: string }) => {
+  const Icon = saved ? RiBookmarkFill : RiBookmarkLine;
+  return (
+    <m.span
+      aria-hidden
+      className="inline-grid place-items-center"
+      initial={false}
+      animate={{ scale: saved ? [1, 1.28, 1] : 1 }}
+      // Keyframes need a tween (springs take two values): quick swell, slower settle.
+      transition={{ duration: 0.42, times: [0, 0.3, 1], ease: "easeOut" }}
+    >
+      <Icon className={className} />
+    </m.span>
+  );
+};
 
 interface SaveButtonProps {
   mediaType: MediaType;
@@ -25,7 +46,6 @@ export const SaveButton = ({ mediaType, item, variant = "full", className }: Sav
   const location = useLocation();
   const input = toFavoriteInput(mediaType, item);
   const saved = isFavorite(mediaType, item.id);
-  const Icon = saved ? RiBookmarkFill : RiBookmarkLine;
 
   const toggle = async () => {
     if (!user) {
@@ -62,14 +82,14 @@ export const SaveButton = ({ mediaType, item, variant = "full", className }: Sav
           className,
         )}
       >
-        <Icon aria-hidden className="size-5" />
+        <BookmarkMark saved={saved} className="size-5" />
       </button>
     );
   }
 
   return (
     <Button variant="secondary" aria-pressed={saved} onClick={toggle} className={className}>
-      <Icon aria-hidden />
+      <BookmarkMark saved={saved} />
       {saved ? "Guardada" : "Guardar"}
     </Button>
   );

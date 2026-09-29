@@ -28,6 +28,8 @@ export const TitleCard = ({ mediaType, item, sizes, priority }: TitleCardProps) 
       <Link
         to={href}
         viewTransition
+        // Tells the screen transition to stand aside: the View Transition morph runs instead.
+        state={{ morph: true }}
         className="grid gap-2.5 rounded-aperture focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-edge"
       >
         <Poster

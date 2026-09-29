@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { m } from "motion/react";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/Button";
 import { Rail } from "@/components/ui/Rail";
@@ -7,6 +8,7 @@ import { TitleCardSkeleton } from "@/components/ui/Skeleton";
 import { StatePanel } from "@/components/ui/StatePanel";
 import { TitleCard } from "@/features/catalog/TitleCard";
 import { GRID_POSTER_SIZES } from "@/features/catalog/TitleGrid";
+import { RISE } from "@/lib/motion";
 import type { listQuery } from "@/services/tmdb/queries";
 import type { MediaType, MovieSummary, TvSummary } from "@/types/tmdb";
 
@@ -65,19 +67,27 @@ export const CatalogRail = <T extends MovieSummary | TvSummary>({
   }
 
   return (
-    <Rail
-      title={title}
-      action={action}
-      items={data.results}
-      getKey={(item) => item.id}
-      renderItem={(item, index) => (
-        <TitleCard
-          mediaType={mediaType}
-          item={item}
-          sizes={RAIL_POSTER_SIZES}
-          priority={eager && index < 5}
-        />
-      )}
-    />
+    // Rails further down rise into place as the page scrolls to them; the first one is painted.
+    <m.div
+      initial={eager ? false : RISE.initial}
+      whileInView={RISE.animate}
+      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+      transition={RISE.transition}
+    >
+      <Rail
+        title={title}
+        action={action}
+        items={data.results}
+        getKey={(item) => item.id}
+        renderItem={(item, index) => (
+          <TitleCard
+            mediaType={mediaType}
+            item={item}
+            sizes={RAIL_POSTER_SIZES}
+            priority={eager && index < 5}
+          />
+        )}
+      />
+    </m.div>
   );
 };

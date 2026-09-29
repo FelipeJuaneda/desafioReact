@@ -1,4 +1,6 @@
+import { m } from "motion/react";
 import { TitleCardSkeleton } from "@/components/ui/Skeleton";
+import { RISE } from "@/lib/motion";
 import { TitleCard } from "@/features/catalog/TitleCard";
 import type { MediaType, MovieSummary, TvSummary } from "@/types/tmdb";
 
@@ -15,14 +17,28 @@ interface TitleGridProps {
   items: Array<MovieSummary | TvSummary>;
 }
 
+/** First row (up to six columns): painted at once, never held back by an entrance. */
+const FIRST_ROW = 6;
+
+/**
+ * Frames below the fold settle in as they scroll into view, a few milliseconds apart, like a
+ * contact sheet being developed row by row. "Cargar más" pages arrive the same way.
+ */
 export const TitleGrid = ({ mediaType, items }: TitleGridProps) => (
   <ul className={GRID}>
     {items.map((item, index) => {
       const type = typeof mediaType === "function" ? mediaType(item) : mediaType;
+      const aboveFold = index < FIRST_ROW;
       return (
-        <li key={`${type}-${item.id}`}>
-          <TitleCard mediaType={type} item={item} sizes={GRID_POSTER_SIZES} priority={index < 6} />
-        </li>
+        <m.li
+          key={`${type}-${item.id}`}
+          initial={aboveFold ? false : RISE.initial}
+          whileInView={RISE.animate}
+          viewport={{ once: true, margin: "0px 0px -8% 0px" }}
+          transition={{ ...RISE.transition, delay: (index % FIRST_ROW) * 0.04 }}
+        >
+          <TitleCard mediaType={type} item={item} sizes={GRID_POSTER_SIZES} priority={aboveFold} />
+        </m.li>
       );
     })}
   </ul>

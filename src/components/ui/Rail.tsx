@@ -1,7 +1,9 @@
 import { RiArrowLeftSLine, RiArrowRightSLine } from "@remixicon/react";
 import { useEffect, useId, useRef, useState, type PointerEvent, type ReactNode } from "react";
 import { Button } from "@/components/ui/Button";
+import { m } from "motion/react";
 import { railColumns, type RailDensity } from "@/components/ui/railColumns";
+import { DURATION, EASE_OUT } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 
 interface RailProps<T> {
@@ -136,7 +138,17 @@ export const Rail = <T,>({
         <div className="flex items-center gap-3">
           <p className="font-code text-[0.8125rem] font-semibold tracking-[0.08em] whitespace-nowrap text-emulsion-muted [font-stretch:75%] tabular-nums">
             <span className="sr-only">Mostrando </span>
-            <span className="text-edge">{pad(first + 1)}</span>
+            {/* The frame number rolls up like a footage counter when it changes. */}
+            <span className="inline-flex overflow-hidden align-bottom text-edge">
+              <m.span
+                key={first}
+                initial={{ y: "70%", opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: DURATION.base, ease: EASE_OUT }}
+              >
+                {pad(first + 1)}
+              </m.span>
+            </span>
             <span aria-hidden> / </span>
             <span className="sr-only"> de </span>
             {pad(items.length)}

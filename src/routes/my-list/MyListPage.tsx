@@ -1,4 +1,5 @@
 import { RiCloseLine } from "@remixicon/react";
+import { AnimatePresence, m } from "motion/react";
 import { useRef } from "react";
 import { Link, useSearchParams } from "react-router";
 import { toast } from "sonner";
@@ -10,6 +11,7 @@ import { StatePanel } from "@/components/ui/StatePanel";
 import type { Favorite } from "@/features/favorites/favorite";
 import { useFavoriteContext } from "@/features/favorites/useFavoriteContext";
 import { formatRating, formatYear } from "@/lib/format";
+import { DURATION, EASE_OUT } from "@/lib/motion";
 import type { MediaType } from "@/types/tmdb";
 
 type Filter = "todo" | "peliculas" | "series";
@@ -224,12 +226,23 @@ const MyListPage = () => {
                 }
               />
             ) : (
+              // Strips are laid on and lifted off the table: removing or filtering one lets
+              // the rest slide into the gap instead of jumping.
               <ul className="mt-6 grid gap-4 lg:grid-cols-2">
-                {visible.map((favorite) => (
-                  <li key={favorite.id}>
-                    <Strip favorite={favorite} onRemove={() => void remove(favorite)} />
-                  </li>
-                ))}
+                <AnimatePresence initial={false} mode="popLayout">
+                  {visible.map((favorite) => (
+                    <m.li
+                      key={favorite.id}
+                      layout
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.97, transition: { duration: DURATION.base } }}
+                      transition={{ duration: DURATION.slow, ease: EASE_OUT }}
+                    >
+                      <Strip favorite={favorite} onRemove={() => void remove(favorite)} />
+                    </m.li>
+                  ))}
+                </AnimatePresence>
               </ul>
             )}
           </>

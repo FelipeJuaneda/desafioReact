@@ -100,7 +100,7 @@ export const FeaturedTitle = () => {
           )}
         </div>
         <div className="flex flex-wrap gap-3">
-          <ButtonLink to={href} viewTransition>
+          <ButtonLink to={href} viewTransition state={{ morph: true }}>
             Ver ficha
             <RiArrowRightLine aria-hidden />
           </ButtonLink>
