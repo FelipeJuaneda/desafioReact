@@ -70,6 +70,14 @@
 
   --spacing-gutter: clamp(1rem, 0.5rem + 2.5vw, 3rem);
   --container-reel: 90rem;
+
+  /* Skeletons: unexposed frames slowly catching light */
+  --animate-expose: expose 1.4s var(--ease-in-out) infinite alternate;
+  @keyframes expose {
+    to {
+      background-color: var(--color-frameline);
+    }
+  }
 }
 
 :root {
