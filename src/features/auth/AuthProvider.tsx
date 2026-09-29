@@ -1,39 +1,41 @@
-import {
-  createUserWithEmailAndPassword,
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  sendPasswordResetEmail,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  signOut,
-  type User,
-} from "firebase/auth";
+import type { User } from "firebase/auth";
 import { useEffect, useState, type ReactNode } from "react";
 import { AuthContext, type AuthContextValue } from "@/features/auth/useAuthContext";
-import { auth } from "@/services/firebase/app";
 
-// Stable for the app's lifetime: plain functions over the Firebase SDK.
+const loadAuth = () => import("@/services/firebase/auth");
+
+// Stable for the app's lifetime; each call loads the SDK if it is not there yet.
 const actions = {
-  signUp: (email: string, password: string) =>
-    createUserWithEmailAndPassword(auth, email, password),
-  login: (email: string, password: string) => signInWithEmailAndPassword(auth, email, password),
-  loginWithGoogle: () => signInWithPopup(auth, new GoogleAuthProvider()),
-  resetPassword: (email: string) => sendPasswordResetEmail(auth, email),
-  logout: () => signOut(auth),
+  signUp: async (email: string, password: string) => (await loadAuth()).signUp(email, password),
+  login: async (email: string, password: string) => (await loadAuth()).login(email, password),
+  loginWithGoogle: async () => (await loadAuth()).loginWithGoogle(),
+  resetPassword: async (email: string) => (await loadAuth()).resetPassword(email),
+  logout: async () => (await loadAuth()).logout(),
 };
 
 function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(
-    () =>
-      onAuthStateChanged(auth, (currentUser) => {
-        setUser(currentUser);
-        setLoading(false);
-      }),
-    [],
-  );
+  useEffect(() => {
+    let active = true;
+    let unsubscribe: (() => void) | undefined;
+    loadAuth().then(
+      ({ watchUser }) => {
+        if (!active) return;
+        unsubscribe = watchUser((currentUser) => {
+          setUser(currentUser);
+          setLoading(false);
+        });
+      },
+      // If the SDK cannot load, browse as a guest instead of waiting forever.
+      () => active && setLoading(false),
+    );
+    return () => {
+      active = false;
+      unsubscribe?.();
+    };
+  }, []);
 
   const value: AuthContextValue = { user, loading, ...actions };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

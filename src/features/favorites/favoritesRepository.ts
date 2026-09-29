@@ -1,6 +1,7 @@
 // Firestore access for users/{uid}/favorites. See firestore.rules for the enforced schema.
 import {
   collection,
+  getFirestore,
   deleteDoc,
   doc,
   onSnapshot,
@@ -12,8 +13,11 @@ import {
   type Timestamp,
 } from "firebase/firestore";
 import { favoriteId, type Favorite, type FavoriteInput } from "@/features/favorites/favorite";
-import { db } from "@/services/firebase/app";
+import { app } from "@/services/firebase/app";
 import type { MediaType } from "@/types/tmdb";
+
+// Loaded on demand (only once someone signs in), so Firestore stays out of the initial bundle.
+const db = getFirestore(app);
 
 const favoritesCollection = (uid: string) => collection(db, "users", uid, "favorites");
 

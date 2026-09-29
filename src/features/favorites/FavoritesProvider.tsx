@@ -2,7 +2,6 @@ import { useEffect, useState, type ReactNode } from "react";
 import { toast } from "sonner";
 import { useAuthContext } from "@/features/auth/useAuthContext";
 import { favoriteId, type Favorite, type FavoriteInput } from "@/features/favorites/favorite";
-import * as repository from "@/features/favorites/favoritesRepository";
 import { clearLegacyFavorites, readLegacyFavorites } from "@/features/favorites/legacyFavorites";
 import {
   FavoriteContext,
@@ -10,6 +9,9 @@ import {
   type FavoritesStatus,
 } from "@/features/favorites/useFavoriteContext";
 import type { MediaType } from "@/types/tmdb";
+
+// Firestore is only needed once someone signs in: load it then, not on every first visit.
+const loadRepository = () => import("@/features/favorites/favoritesRepository");
 
 interface Snapshot {
   uid: string;
@@ -24,6 +26,7 @@ const importDeviceFavorites = async (uid: string, current: Favorite[]) => {
   const existing = new Set(current.map((f) => f.id));
   const pending = legacy.filter((f) => !existing.has(favoriteId(f.mediaType, f.tmdbId)));
   try {
+    const repository = await loadRepository();
     await repository.importFavorites(uid, pending);
     clearLegacyFavorites();
     if (pending.length > 0) {
@@ -42,17 +45,27 @@ const FavoritesProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (!user) return;
     let imported = false;
-    return repository.subscribeToFavorites(
-      user.uid,
-      (favorites) => {
-        setSnapshot({ uid: user.uid, favorites, error: null });
-        if (!imported) {
-          imported = true;
-          void importDeviceFavorites(user.uid, favorites);
-        }
-      },
-      (error) => setSnapshot({ uid: user.uid, favorites: [], error }),
-    );
+    let active = true;
+    let unsubscribe: (() => void) | undefined;
+    const fail = (error: Error) => setSnapshot({ uid: user.uid, favorites: [], error });
+    loadRepository().then((repository) => {
+      if (!active) return;
+      unsubscribe = repository.subscribeToFavorites(
+        user.uid,
+        (favorites) => {
+          setSnapshot({ uid: user.uid, favorites, error: null });
+          if (!imported) {
+            imported = true;
+            void importDeviceFavorites(user.uid, favorites);
+          }
+        },
+        fail,
+      );
+    }, fail);
+    return () => {
+      active = false;
+      unsubscribe?.();
+    };
   }, [user]);
 
   // Ignore a snapshot that belongs to a previous session.
@@ -76,9 +89,10 @@ const FavoritesProvider = ({ children }: { children: ReactNode }) => {
     status,
     isFavorite: (mediaType: MediaType, tmdbId: number) =>
       favorites.some((f) => f.id === favoriteId(mediaType, tmdbId)),
-    addFavorite: (input: FavoriteInput) => repository.addFavorite(requireUid(), input),
-    removeFavorite: (mediaType: MediaType, tmdbId: number) =>
-      repository.removeFavorite(requireUid(), mediaType, tmdbId),
+    addFavorite: async (input: FavoriteInput) =>
+      (await loadRepository()).addFavorite(requireUid(), input),
+    removeFavorite: async (mediaType: MediaType, tmdbId: number) =>
+      (await loadRepository()).removeFavorite(requireUid(), mediaType, tmdbId),
   };
 
   return <FavoriteContext.Provider value={value}>{children}</FavoriteContext.Provider>;
