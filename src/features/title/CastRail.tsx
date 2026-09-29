@@ -22,7 +22,7 @@ const PersonFrame = ({ person }: { person: CastMember }) => (
         <img
           src={tmdbImage(person.profile_path, 185)}
           srcSet={`${tmdbImage(person.profile_path, 185)} 185w, https://image.tmdb.org/t/p/h632${person.profile_path} 421w`}
-          sizes="(min-width: 1110px) 216px, (max-width: 450px) 152px, calc(7rem + 9vw)"
+          sizes="(min-width: 1440px) 160px, (min-width: 1280px) 12vw, (min-width: 1024px) 14vw, (min-width: 768px) 16vw, (min-width: 640px) 24vw, 31vw"
           alt=""
           loading="lazy"
           className="size-full object-cover"
@@ -49,6 +49,7 @@ export const CastRail = ({ cast }: { cast: CastMember[] }) =>
   cast.length > 0 ? (
     <Rail
       title="Reparto"
+      density="people"
       items={cast.slice(0, 20)}
       getKey={(person) => person.id}
       renderItem={(person) => <PersonFrame person={person} />}

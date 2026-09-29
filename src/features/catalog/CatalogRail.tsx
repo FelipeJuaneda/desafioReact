@@ -2,15 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/Button";
 import { Rail } from "@/components/ui/Rail";
+import { railColumns } from "@/components/ui/railColumns";
 import { TitleCardSkeleton } from "@/components/ui/Skeleton";
 import { StatePanel } from "@/components/ui/StatePanel";
 import { TitleCard } from "@/features/catalog/TitleCard";
+import { GRID_POSTER_SIZES } from "@/features/catalog/TitleGrid";
 import type { listQuery } from "@/services/tmdb/queries";
 import type { MediaType, MovieSummary, TvSummary } from "@/types/tmdb";
 
-/** Rendered rail frame width (see Rail's column size): lets the browser pick w185 or w342. */
-export const RAIL_POSTER_SIZES =
-  "(min-width: 1110px) 216px, (max-width: 450px) 152px, calc(7rem + 9vw)";
+/** Rail frames use the grid's columns (2 → 6), so they take the grid's image sizes too. */
+const RAIL_POSTER_SIZES = GRID_POSTER_SIZES;
 
 interface CatalogRailProps<T extends MovieSummary | TvSummary> {
   title: string;
@@ -37,8 +38,8 @@ export const CatalogRail = <T extends MovieSummary | TvSummary>({
         <h2 className="font-display text-display-lg font-extrabold text-emulsion uppercase">
           {title}
         </h2>
-        <div className="grid auto-cols-[clamp(9.5rem,7rem+9vw,13.5rem)] grid-flow-col gap-[clamp(0.75rem,0.5rem+0.8vw,1.25rem)] overflow-hidden">
-          {Array.from({ length: 7 }, (_, i) => (
+        <div className={`${railColumns("posters")} overflow-hidden`}>
+          {Array.from({ length: 6 }, (_, i) => (
             <TitleCardSkeleton key={i} />
           ))}
         </div>

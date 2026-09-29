@@ -37,7 +37,8 @@ const SearchForm = () => {
   return (
     <form
       role="search"
-      className="relative ml-auto hidden w-[min(22rem,32vw)] md:block"
+      // Takes the free space (up to 22rem) and gives it back first when the header is tight.
+      className="relative hidden max-w-[22rem] min-w-0 flex-1 md:ml-auto md:block"
       onSubmit={(event) => {
         event.preventDefault();
         const query = new FormData(event.currentTarget).get("q")?.toString().trim();
@@ -68,9 +69,9 @@ export const SiteHeader = () => {
 
   return (
     <header className="sticky top-0 z-(--z-sticky) border-b border-frameline bg-leader">
-      <div className="mx-auto flex max-w-(--container-reel) items-center gap-4 px-(--spacing-gutter) py-2 md:gap-8">
+      <div className="mx-auto flex max-w-(--container-reel) items-center gap-4 px-(--spacing-gutter) py-2 md:gap-5 lg:gap-8">
         <Wordmark />
-        <nav aria-label="Principal" className="hidden md:block">
+        <nav aria-label="Principal" className="hidden shrink-0 md:block">
           <ul className="flex gap-1">
             {NAV.map((item) => (
               <li key={item.to}>
@@ -78,7 +79,7 @@ export const SiteHeader = () => {
                   to={item.to}
                   end={item.end}
                   className={cn(
-                    "relative inline-flex min-h-11 items-center px-3 text-[0.9375rem] font-semibold text-emulsion-muted hover:text-emulsion",
+                    "relative inline-flex min-h-11 items-center px-3 text-[0.9375rem] font-semibold whitespace-nowrap text-emulsion-muted hover:text-emulsion",
                     "rounded-perf focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-edge",
                     "after:absolute after:inset-x-3 after:bottom-1.5 after:h-0.5 after:bg-transparent",
                     "aria-[current=page]:text-emulsion aria-[current=page]:after:bg-edge",
@@ -91,7 +92,7 @@ export const SiteHeader = () => {
           </ul>
         </nav>
         <SearchForm />
-        <div className="ml-auto flex min-w-11 justify-end md:ml-0">
+        <div className="ml-auto flex min-w-11 shrink-0 justify-end">
           {loading ? (
             // Holds the width of "Ingresar" while the session is restored, so nothing shifts.
             <span
