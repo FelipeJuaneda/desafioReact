@@ -1,4 +1,6 @@
-// Vercel function: proxies read-only TMDB requests so the API token never reaches the browser.
+// TMDB proxy: read-only requests go out with the server-side token, which never reaches the
+// browser. Served by api/tmdb.ts; vercel.json rewrites /api/tmdb/<path> to /api/tmdb?path=<path>
+// (outside Next.js, Vercel does not route multi-segment catch-alls to functions).
 // GET /api/tmdb/movie/550?language=es  ->  https://api.themoviedb.org/3/movie/550?language=es
 
 const TMDB_BASE = "https://api.themoviedb.org/3/";
@@ -23,7 +25,9 @@ export async function GET(request: Request): Promise<Response> {
   if (!token) return json({ error: "TMDB_READ_TOKEN is not configured" }, 500);
 
   const url = new URL(request.url);
-  const path = url.pathname.replace(/^\/api\/tmdb\/?/, "");
+  // Rewritten form (?path=movie/550) in production; plain /api/tmdb/movie/550 otherwise.
+  const path = url.searchParams.get("path") ?? url.pathname.replace(/^\/api\/tmdb\/?/, "");
+  url.searchParams.delete("path");
   const root = path.split("/")[0] ?? "";
   if (!/^[a-z0-9_/-]+$/i.test(path) || !ALLOWED_ROOTS.has(root)) {
     return json({ error: "Endpoint not allowed" }, 400);

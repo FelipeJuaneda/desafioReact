@@ -43,7 +43,7 @@ Catálogo de películas y series para decidir qué ver: lo que está en carteler
 
 ## Decisiones que vale la pena contar
 
-**La key de TMDB nunca llega al navegador.** Todas las llamadas van a `/api/tmdb/*`, una función de Vercel ([`api/tmdb/[...path].ts`](api/tmdb/%5B...path%5D.ts)) que agrega el token del lado del servidor, solo deja pasar los endpoints que la app usa y cachea en el CDN (`s-maxage`). En desarrollo, el proxy de Vite hace lo mismo. Un build de producción no contiene ni la key ni el token.
+**La key de TMDB nunca llega al navegador.** Todas las llamadas van a `/api/tmdb/*`, una función de Vercel ([`api/tmdb.ts`](api/tmdb.ts), con la lógica y sus tests en [`server/tmdbProxy.ts`](server/tmdbProxy.ts)) que agrega el token del lado del servidor, solo deja pasar los endpoints que la app usa y cachea en el CDN (`s-maxage`). En desarrollo, el proxy de Vite hace lo mismo. Un build de producción no contiene ni la key ni el token.
 
 **Rendimiento medido y con presupuesto.** Firestore se carga recién cuando alguien inicia sesión y Firebase Auth después del primer render; el menú de cuenta solo existe para usuarios con sesión. El HTML pide los datos del destacado y precarga su imagen mientras baja el JS, y los skeletons tienen la geometría exacta del contenido.
 
@@ -64,7 +64,8 @@ Catálogo de películas y series para decidir qué ver: lo que está en carteler
 ## Estructura
 
 ```
-api/tmdb/            Proxy serverless de TMDB (allowlist, token, caché) + tests
+api/tmdb.ts          Función serverless de Vercel (el rewrite está en vercel.json)
+server/              Lógica del proxy de TMDB (allowlist, token, caché) + tests
 src/
   app/               Router, rutas, paths, QueryClient
   routes/            Una carpeta por pantalla (lazy)
