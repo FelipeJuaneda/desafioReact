@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { tmdbFetch, TmdbError } from "./client";
 
-const KEY = "/api/tmdb/trending/movie/week?language=es&page=1";
+const KEY = "/api/tmdb/trending/movie/week?language=es-MX&page=1";
 
 afterEach(() => {
   delete window.__early;

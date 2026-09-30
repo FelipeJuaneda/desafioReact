@@ -44,7 +44,13 @@ export const titleCreditsQuery = (type: MediaType, id: string) =>
 export const titleVideosQuery = (type: MediaType, id: string) =>
   queryOptions({
     queryKey: [...tmdbKeys.title(type, id), "videos"],
-    queryFn: ({ signal }) => tmdbFetch<Videos>(`${type}/${id}/videos`, {}, signal),
+    // Every Spanish variant (es-MX Latin, es-ES Spain) plus the original: videos.ts ranks them.
+    queryFn: ({ signal }) =>
+      tmdbFetch<Videos>(
+        `${type}/${id}/videos`,
+        { include_video_language: "es-MX,es,en,null" },
+        signal,
+      ),
   });
 
 export const genresQuery = (type: MediaType) =>

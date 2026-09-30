@@ -1,7 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { TmdbError } from "@/services/tmdb/client";
 import { titleCreditsQuery, titleDetailQuery, titleVideosQuery } from "@/services/tmdb/queries";
-import type { MediaType, Video } from "@/types/tmdb";
+import { rankVideos } from "@/features/title/videos";
+import type { MediaType } from "@/types/tmdb";
+
+export { pickTrailer } from "@/features/title/videos";
 
 /** Everything the title page shows. Credits and videos load in parallel and never block it. */
 export const useTitle = (type: MediaType, id: string) => {
@@ -12,13 +15,8 @@ export const useTitle = (type: MediaType, id: string) => {
   return {
     detail,
     credits: credits.data,
-    videos: (videos.data?.results ?? []).filter(isYouTube),
+    // YouTube only, Latin Spanish first (see videos.ts).
+    videos: rankVideos(videos.data?.results ?? []),
     notFound: detail.error instanceof TmdbError && detail.error.status === 404,
   };
 };
-
-const isYouTube = (video: Video) => video.site === "YouTube";
-
-/** The official trailer if there is one, otherwise the first YouTube video. */
-export const pickTrailer = (videos: Video[]) =>
-  videos.find((video) => video.type === "Trailer") ?? videos[0];

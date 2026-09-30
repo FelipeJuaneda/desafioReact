@@ -20,7 +20,7 @@
     -->
     <script>
       if (location.pathname === "/") {
-        var key = "/api/tmdb/trending/movie/week?language=es&page=1";
+        var key = "/api/tmdb/trending/movie/week?language=es-MX&page=1";
         window.__early = {};
         window.__early[key] = fetch(key)
           .then(function (r) {

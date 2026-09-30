@@ -1,4 +1,6 @@
 import { RiPlayFill } from "@remixicon/react";
+import { EdgeCode } from "@/components/ui/EdgeCode";
+import { AUDIO_LABELS, audioVersion } from "@/features/title/videos";
 import type { Video } from "@/types/tmdb";
 
 const LABELS: Record<string, string> = {
@@ -43,9 +45,13 @@ export const VideoGallery = ({
                   </span>
                 </span>
               </span>
-              <span className="font-code text-code text-edge uppercase [font-stretch:75%]">
-                {LABELS[video.type] ?? video.type}
-              </span>
+              {/* Type and audio version, so it is clear before playing: "Tráiler · Latino". */}
+              <EdgeCode
+                items={[
+                  { label: LABELS[video.type] ?? video.type, emphasis: true },
+                  { label: AUDIO_LABELS[audioVersion(video)] },
+                ]}
+              />
               <span className="text-body leading-tight font-semibold text-emulsion">
                 {video.name}
               </span>

@@ -1,7 +1,9 @@
 // Every TMDB request goes through our own /api/tmdb proxy (Vercel function in production,
 // Vite dev-server proxy locally), which adds the API token server-side.
 const API_BASE = "/api/tmdb/";
-export const TMDB_LANGUAGE = "es";
+// Latin American Spanish: titles as released in the region ("El Club de la Pelea", not Spain's
+// "El club de la lucha"). Coverage measured equal or better than plain "es" on the app's lists.
+export const TMDB_LANGUAGE = "es-MX";
 
 export class TmdbError extends Error {
   readonly status: number;

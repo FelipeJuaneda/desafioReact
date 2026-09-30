@@ -84,6 +84,10 @@ export interface Video {
   name: string;
   site: string;
   type: string;
+  /** Audio language ("es", "en"…) and the country of the upload ("MX", "ES"…). */
+  iso_639_1?: string;
+  iso_3166_1?: string;
+  official?: boolean;
 }
 
 export interface Videos {
