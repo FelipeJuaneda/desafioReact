@@ -3,7 +3,7 @@ import { useState, type ComponentProps } from "react";
 import { Button } from "@/components/ui/Button";
 import { Field } from "@/components/ui/Field";
 
-type PasswordFieldProps = Omit<ComponentProps<typeof Field>, "type" | "trailing" | "tone">;
+type PasswordFieldProps = Omit<ComponentProps<typeof Field>, "type" | "trailing">;
 
 /** Password input with a show/hide toggle (a real button: keyboard and screen readers get it). */
 export const PasswordField = (props: PasswordFieldProps) => {

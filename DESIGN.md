@@ -16,14 +16,7 @@ colors:
   danger: "#f07058"
   success: "#8cc382"
   info: "#7fb3a8"
-  lt-ground: "#f1ebdd"
-  lt-surface: "#fbf7ee"
-  lt-ink: "#1b1813"
-  lt-muted: "#5b5345"
-  lt-line: "#cfc5b0"
-  lt-control-line: "#877e69"
-  lt-edge-ink: "#87560a"
-  lt-danger: "#b3321d"
+  grease: "#e5402f"
 typography:
   display-xl:
     fontFamily: "Sofia Sans Extra Condensed Variable, Sofia Sans Variable, sans-serif"
@@ -92,22 +85,12 @@ components:
     padding: "0 20px"
   button-secondary-hover:
     backgroundColor: "{colors.acetate}"
-  button-lighttable-primary:
-    backgroundColor: "{colors.lt-ink}"
-    textColor: "{colors.lt-ground}"
-    rounded: "{rounded.aperture}"
-    height: "48px"
   input:
     backgroundColor: "{colors.leader}"
     textColor: "{colors.emulsion}"
     rounded: "{rounded.aperture}"
     height: "48px"
     padding: "12px 14px"
-  input-lighttable:
-    backgroundColor: "{colors.lt-surface}"
-    textColor: "{colors.lt-ink}"
-    rounded: "{rounded.aperture}"
-    height: "48px"
   chip:
     backgroundColor: "{colors.acetate}"
     textColor: "{colors.emulsion-muted}"
@@ -117,15 +100,18 @@ components:
   poster-frame:
     backgroundColor: "{colors.acetate-raised}"
     rounded: "{rounded.aperture}"
-  strip:
-    backgroundColor: "{colors.lt-surface}"
-    textColor: "{colors.lt-ink}"
-    rounded: "{rounded.aperture}"
-    padding: "12px"
-  sheet:
-    backgroundColor: "{colors.lt-surface}"
+  slate:
+    backgroundColor: "{colors.acetate}"
+    textColor: "{colors.emulsion}"
     rounded: "{rounded.sheet}"
-    padding: "32px"
+    padding: "28px"
+  strike-chip:
+    backgroundColor: "{colors.leader}"
+    textColor: "{colors.emulsion}"
+    rounded: "{rounded.aperture}"
+    size: "44px"
+  strike-chip-hover:
+    backgroundColor: "{colors.grease}"
 ---
 
 # Design System: PelicuLed
@@ -138,7 +124,7 @@ Fuente de verdad de los tokens: [`src/styles/tokens.css`](src/styles/tokens.css)
 
 El catálogo es un rollo de copia de 35 mm. Cada título es un cuadro; sus datos (tipo, año, duración, géneros, puntaje) se imprimen como el **código de borde** de la película: monoespaciada condensada, cifras tabulares, filetes finos entre campos. La escena de uso es de noche, con el celular en un cuarto oscuro: la interfaz es el negro de cola de proyección y la imagen del título es lo único que brilla.
 
-Hay dos suelos y cada pantalla vive en uno solo. **Proyección** (negro cálido) para explorar, ver fichas y buscar. **Mesa de luz** (crema iluminado) para Mi lista, donde "apoyás" los cuadros que guardaste. Las pantallas de cuenta son un **set de rodaje** sobre proyección: el formulario va escrito en una claqueta. El ámbar del código de borde es el único acento y siempre significa algo: foco, sección activa, contadores, acción principal.
+Todo ocurre sobre un solo suelo, la **proyección** (negro cálido). Cada zona toma una escena del oficio: explorar es el rollo en el proyector; **la cuenta es un set de rodaje** (el formulario va escrito en una claqueta); **Mi lista es la sala de montaje**, con el último título guardado proyectado como "próxima función" y el resto en una hoja de contactos donde lo descartado se tacha con lápiz graso. El ámbar del código de borde es el único acento de interfaz y siempre significa algo: foco, sección activa, contadores, acción principal.
 
 Rechazos explícitos: hero a sangre con filas neutras infinitas al estilo streaming; la tira de película como borde decorativo (las perforaciones y el código de borde aparecen solo donde llevan estado); gradientes violetas, glassmorphism, glows o neón; cards dentro de cards; emojis como íconos; texto gris sobre color; Inter por defecto.
 
@@ -156,7 +142,7 @@ Negros y cremas cálidos (nunca grises neutros), un ámbar de acento y tres colo
 
 ### Primary
 
-- **Ámbar de código de borde** (`edge` #eaa53c): foco visible, navegación activa, contadores de cuadros, puntaje y acción principal. 7,9:1 sobre `leader`. Texto sobre ámbar: `on-edge` #1a1206 (8,8:1). Sobre la mesa de luz, el ámbar como texto pasa a `lt-edge-ink` #87560a (5,3:1).
+- **Ámbar de código de borde** (`edge` #eaa53c): foco visible, navegación activa, contadores de cuadros, puntaje y acción principal. 7,9:1 sobre `leader`. Texto sobre ámbar: `on-edge` #1a1206 (8,8:1).
 
 ### Neutral (proyección)
 
@@ -165,17 +151,15 @@ Negros y cremas cálidos (nunca grises neutros), un ámbar de acento y tres colo
 - **Filete** (`frameline` #3a352d): solo líneas decorativas (no alcanza 3:1). Los bordes de controles usan `control-line` #756c5b (3,2:1).
 - **Emulsión** (`emulsion` #ede6d6, 13,4:1) para texto; `emulsion-muted` (6,3:1) secundario; `emulsion-subtle` (4,9:1) placeholders.
 
-### Neutral (mesa de luz)
-
-- `lt-ground` #f1ebdd fondo, `lt-surface` #fbf7ee superficie, `lt-ink` #1b1813 texto (14,9:1), `lt-muted` #5b5345 secundario (6,4:1), `lt-control-line` #877e69 bordes de control (3,4:1), `lt-line` solo decorativo.
-
 ### Estados
 
-- `danger` #f07058 / `lt-danger` #b3321d, `success` #8cc382, `info` #7fb3a8. Siempre acompañados de ícono o texto, nunca solo color.
+- `danger` #f07058, `success` #8cc382, `info` #7fb3a8. Siempre acompañados de ícono o texto, nunca solo color.
+
+### Marca de montaje
+
+- **Lápiz graso** (`grease` #e5402f): solo para tachar un título de Mi lista (la X dibujada y el hover del botón de tachar). Es una marca, no un acento de interfaz: nunca texto, nunca estado.
 
 **The One Accent Rule.** El ámbar no decora. Si algo es ámbar, es interactivo, está activo o es un dato clave (tipo de título, puntaje).
-
-**The One Ground Rule.** Una pantalla es de proyección o de mesa de luz, nunca las dos mezcladas en el contenido. El header y la tab bar son siempre de proyección.
 
 ## Typography
 
@@ -189,7 +173,7 @@ Las tres son variables y self-hosted con Fontsource. Las dos Sofia Sans se preca
 
 - **display-xl** (800, clamp 2,75–6 rem, 0,9, mayúsculas): h1 de página y título destacado.
 - **display-lg** (800, clamp 1,75–2,5 rem, 1): títulos de sección y de rieles.
-- **display-md** (800, 1,625 rem, 1): estados vacíos, títulos de tiras de Mi lista y de la hoja de cuenta.
+- **display-md** (800, 1,625 rem, 1): estados vacíos.
 - **title** (700, 1,125 rem, 1,2): títulos de bloque y taglines.
 - **body-lg** (400, 1,0625 rem, 1,55): sinopsis y leads, máx. 65 caracteres por línea.
 - **body** (400, 1 rem, 1,55): texto base; es el mínimo en mobile.
@@ -214,21 +198,19 @@ Las tres son variables y self-hosted con Fontsource. Las dos Sofia Sans se preca
 
 **Proyección: plana.** No hay sombras: la jerarquía se hace con pasos de superficie (`leader` → `acetate` → `acetate-raised`) y filetes de 1 px. Sin blur (el `backdrop-blur` sobre pósters trababa el pintado y además rompe la regla de "sin glass").
 
-**Mesa de luz: un solo relieve.** `shadow-strip` (`0 1px 2px rgb(27 24 19 / .10), 0 10px 24px -12px rgb(27 24 19 / .22)`) para las tiras de Mi lista y la hoja de cuenta, como papel apoyado sobre la mesa.
-
 **Capas (z-index):** raised 1 · sticky 20 · tabbar 30 · popover 40 · overlay 50 · dialog 60 · toast 70.
 
 ## Shapes
 
 - **perf** (2 px): chips, perforaciones, skeletons, subrayados de foco en texto.
-- **aperture** (4 px): botones, inputs, pósters, imágenes, tiras. Es el radio por defecto.
-- **sheet** (8 px): diálogos, menús y la hoja de cuenta.
+- **aperture** (4 px): botones, inputs, pósters, imágenes. Es el radio por defecto.
+- **sheet** (8 px): diálogos, menús y la claqueta.
 - Bordes de 1 px. Los marcos de imagen usan `outline` interno de 1 px (`-outline-offset-1`) para no sumar tamaño.
 - Nada de pills ni círculos, salvo el avatar de cuenta.
 
 ## Components
 
-- **Button** (`src/components/ui/Button.tsx`, estilos en `buttonClasses.ts`): variantes `primary` (ámbar), `secondary` (borde `control-line`), `ghost`; tamaños `md` 48 px y `sm` 44 px; `iconOnly` exige `aria-label`. Prop `tone="lighttable"` para la mesa de luz (primario en tinta, foco en tinta). `ButtonLink` es un `<a>` real con el mismo aspecto. `aria-pressed` pinta el estado activo (filtros).
+- **Button** (`src/components/ui/Button.tsx`, estilos en `buttonClasses.ts`): variantes `primary` (ámbar), `secondary` (borde `control-line`), `ghost`; tamaños `md` 48 px y `sm` 44 px; `iconOnly` exige `aria-label`. `ButtonLink` es un `<a>` real con el mismo aspecto. `aria-pressed` pinta el estado activo (filtros).
 - **Field** (`Field.tsx`): label visible siempre, hint o error debajo vinculados con `aria-describedby`, `aria-invalid` con borde de error e ícono. `PasswordField` suma un toggle "Mostrar contraseña" como botón real con `aria-pressed`.
 - **Poster** (`Poster.tsx`): marco 2:3 en `acetate-raised`, efecto de revelado, `srcset` con el ancho justo; si no hay imagen, muestra el título sobre un cuadro sin exponer.
 - **EdgeCode** (`EdgeCode.tsx`): la línea de metadatos; descarta campos vacíos.
@@ -236,15 +218,15 @@ Las tres son variables y self-hosted con Fontsource. Las dos Sofia Sans se preca
 - **TitleCard / TitleGrid**: póster + título (h3) + código de borde; la tarjeta que se abre recibe `view-transition-name: title-art`.
 - **StatePanel** (`StatePanel.tsx`): vacío, error y "no encontrado": título, una oración, una salida. Borde discontinuo. `role="alert"` solo en errores.
 - **Dialog** (`Dialog.tsx`, Headless UI): hoja `sheet` sobre scrim `leader/85`, foco atrapado, Escape y botón "Cerrar".
-- **Skeleton**: mismas cajas que el contenido real (medidas en `lh` del tipo real), pulso `expose` / `expose-light`. Un skeleton que no coincide es un bug de CLS.
-- **Strip** (Mi lista): póster chico + título display-md + código de borde + fecha de guardado + "Quitar" (con deshacer).
+- **Skeleton**: mismas cajas que el contenido real (medidas en `lh` del tipo real), pulso `expose`. Un skeleton que no coincide es un bug de CLS.
+- **Mi lista, sala de montaje** (`features/my-list/`): arriba, **Próxima función**: el último título guardado (dentro del filtro) proyectado con su backdrop, título en display-xl, código de borde completo, sinopsis y acciones "Ver ficha" / "Quitar de la lista". Abajo, **Tu selección**: la hoja de contactos con el resto, en la misma grilla que el catálogo; cada cuadro lleva impreso en el borde su número (orden en que se guardó, `07`) y la fecha. Filtro por tipo y orden (recientes, puntaje, año, A–Z) en la URL. Quitar = **tachar**: se dibuja una X de lápiz graso sobre el afiche (dos trazos, ~450 ms), el cuadro se va y el resto cierra el hueco; toast con "Deshacer". El foco vuelve al h1 sin mover el scroll.
 - **Claqueta** (`features/auth/AuthLayout.tsx`): pantallas de cuenta. Barras rayadas crema y negro (el único lugar con contraste puro), campos de tiza PROD. / ESCENA / TOMA / FECHA y el formulario adentro. Cada envío cierra la barra superior y la vuelve a abrir; un intento fallido sube la TOMA. Al lado, el muro de afiches de la semana (`PosterWall.tsx`) derivando en columnas atenuadas; en mobile, una tira.
 
 **Movimiento.** Duraciones 140 / 220 / 360 ms y 700 ms para el revelado; easing `ease-out` rápido. La firma es la **transición de ventanilla**: el póster se expande hasta el backdrop proyectado al abrir un título (View Transitions). El resto usa **Motion** (`motion/react` con `LazyMotion`, tokens en `src/lib/motion.ts`):
 
 - Las pantallas entran con una subida corta de 10 px, solo en navegación interna (nunca en la carga inicial ni encima de la transición de ventanilla).
 - Grillas y rieles se revelan al entrar en pantalla, escalonados por columna; la primera fila se pinta de una.
-- El marcador de guardado hace un pulso; el contador del riel rueda; las tiras de Mi lista se reacomodan con layout animations; la claqueta golpea en cada envío.
+- El marcador de guardado hace un pulso; el contador del riel rueda; en Mi lista el tachado dibuja la X y los cuadros se reacomodan con layout animations; la claqueta golpea en cada envío.
 
 Con `prefers-reduced-motion`, Motion deja solo fundidos y las derivas en CSS se detienen. En navegadores automatizados (e2e, auditorías) Motion salta directo al estado final.
 
@@ -255,13 +237,13 @@ Con `prefers-reduced-motion`, Motion deja solo fundidos y las derivas en CSS se 
 - Usar el ámbar solo para foco, estado activo, contadores, dato clave o la acción principal.
 - Escribir metadatos con `<EdgeCode>` y títulos en display mayúsculas.
 - Dar a cada skeleton la geometría exacta del contenido.
-- Mantener 44 px de target y foco visible de 2 px (ámbar en proyección, tinta en mesa de luz).
+- Mantener 44 px de target y foco visible ámbar de 2 px.
 - Escribir en español rioplatense, con voseo y verbos concretos ("Guardá", "Revisá tu conexión").
 
 **Don't**
 
 - No usar perforaciones ni tira de película como adorno: solo donde marcan posición o estado.
 - No agregar sombras, blur, glass, glows ni gradientes en proyección.
-- No mezclar los dos suelos dentro del contenido de una pantalla.
-- No usar `frameline` ni `lt-line` para bordes de controles (no llegan a 3:1).
+- No usar el rojo de lápiz graso fuera del tachado de Mi lista.
+- No usar `frameline` para bordes de controles (no llega a 3:1).
 - No reutilizar un mismo nombre de token en dos espacios de Tailwind (`--text-edge` chocaba con `--color-edge`; por eso el tamaño se llama `code`).

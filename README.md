@@ -24,7 +24,8 @@ Catálogo de películas y series para decidir qué ver: lo que está en carteler
 - **Películas y Series:** catálogo con filtro por género y orden (populares, mejor puntuadas, recientes), todo en la URL para poder compartirlo, con "cargar más".
 - **Ficha:** backdrop, sinopsis, reparto (cada persona tiene su página), tráileres y ficha técnica. Al abrir un título, el póster se expande hasta el backdrop (View Transitions).
 - **Búsqueda:** películas, series y personas en una sola búsqueda, con debounce y la consulta en la URL.
-- **Mi lista:** cuenta con email o Google; los títulos guardados viven en Firestore por usuario, se filtran por tipo y se pueden quitar con "deshacer". Si había favoritos guardados en el navegador (versión anterior), se migran solos a la cuenta.
+- **Mi lista, la sala de montaje:** el último título guardado se proyecta como "próxima función" y el resto forma una hoja de contactos numerada en el orden en que los guardaste. Se filtra por tipo y se ordena (recientes, puntaje, año, A–Z) desde la URL; quitar un título lo **tacha con lápiz graso** y ofrece "deshacer". Los títulos viven en Firestore por usuario (cuenta con email o Google), y los favoritos que había en el navegador (versión anterior) se migran solos a la cuenta.
+- **En español latino:** títulos y sinopsis como se estrenaron en la región ("El Club de la Pelea"), y los tráileres priorizan la versión latina, después la original y el doblaje de España solo como último recurso; cada video muestra su versión.
 - **Cuenta como set de rodaje:** ingresar, registrarse y recuperar la contraseña pasan en una claqueta: cada envío la hace golpear y un intento fallido sube la "toma", con los afiches de la semana derivando de fondo.
 - **Navegación pública:** solo Mi lista pide cuenta; quien intenta guardar sin sesión vuelve a donde estaba después de ingresar.
 
@@ -49,7 +50,7 @@ Catálogo de películas y series para decidir qué ver: lo que está en carteler
 
 |                                  | Antes de la fase 4 | Ahora                                                             |
 | -------------------------------- | ------------------ | ----------------------------------------------------------------- |
-| JS de la primera visita (gzip)   | ~247 kB            | 146 kB, con Motion incluido (presupuesto: 150 kB, lo controla CI) |
+| JS de la primera visita (gzip)   | ~247 kB            | 145 kB, con Motion incluido (presupuesto: 150 kB, lo controla CI) |
 | Descubrimiento de la imagen LCP* | 4,3 s              | 0,6 s                                                             |
 | CLS*                             | 0,09               | 0,00                                                              |
 
@@ -57,7 +58,7 @@ Catálogo de películas y series para decidir qué ver: lo que está en carteler
 
 **Accesibilidad como requisito (WCAG 2.2 AA).** Contrastes calculados por token, foco visible en todo, targets de 44 px, formularios con errores vinculados y foco en el primer campo con problema, `prefers-reduced-motion` respetado, idioma declarado. Los tests e2e corren axe en cada pantalla clave y fallan ante cualquier violación AA. Lighthouse (mobile): 100 en accesibilidad, buenas prácticas y SEO en inicio, ficha, catálogo, búsqueda e ingresar.
 
-**Una identidad propia, no un clon de streaming.** La dirección "Borde de 35 mm" trata el catálogo como un rollo de película: cada título es un cuadro y sus datos se imprimen como el código de borde de la copia. Dos suelos: proyección (negro cálido) para explorar y mesa de luz (crema) para tu lista; la cuenta es un set de rodaje con claqueta. Las animaciones son cortas y con propósito, y respetan `prefers-reduced-motion`. Está documentada en [`DESIGN.md`](DESIGN.md).
+**Una identidad propia, no un clon de streaming.** La dirección "Borde de 35 mm" trata el catálogo como un rollo de película: cada título es un cuadro y sus datos se imprimen como el código de borde de la copia. Cada zona toma una escena del oficio: explorar es el rollo en el proyector, la cuenta es un set de rodaje con claqueta y Mi lista es la sala de montaje. Las animaciones son cortas y con propósito, y respetan `prefers-reduced-motion`. Está documentada en [`DESIGN.md`](DESIGN.md).
 
 **Errores que ayudan.** Todos los mensajes de Firebase están traducidos a un español que dice qué hacer; las pantallas que fallan muestran el error dentro de la app con una salida; si un deploy deja una pestaña vieja sin sus chunks, pide recargar en vez de romperse.
 
