@@ -4,7 +4,15 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "rewrites": [
+    {
+      "source": "/__/auth/:path*",
+      "destination": "https://peliculed-43e93.firebaseapp.com/__/auth/:path*"
+    },
+    {
+      "source": "/__/firebase/:path*",
+      "destination": "https://peliculed-43e93.firebaseapp.com/__/firebase/:path*"
+    },
     { "source": "/api/tmdb/:path*", "destination": "/api/tmdb?path=:path*" },
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    { "source": "/((?!api/|__/).*)", "destination": "/index.html" }
   ]
 }
