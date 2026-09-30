@@ -87,11 +87,13 @@ export const AuthLayout = ({
   children,
   footer,
 }: AuthLayoutProps) => (
-  <div className="relative min-h-[calc(100dvh-4rem)] lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,36rem)] xl:grid-cols-[minmax(0,1fr)_minmax(0,40rem)]">
+  // The form column never drops below 36rem; its content (max 38rem) hugs the right edge of the
+  // header's container at every width, so wide screens widen the poster wall, not squeeze the slate.
+  <div className="relative min-h-[calc(100dvh-4rem)] lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(36rem,1fr)]">
     <title>{`${documentTitle} · PelicuLed`}</title>
     <PosterWall className="sticky top-16 hidden h-[calc(100dvh-4rem)] lg:block" />
 
-    <div className="grid content-start gap-7 px-(--spacing-gutter) pt-6 pb-16 lg:content-center lg:py-12 lg:pr-[max(var(--spacing-gutter),calc((100vw-90rem)/2+var(--spacing-gutter)))]">
+    <div className="grid content-start gap-7 px-(--spacing-gutter) pt-6 pb-16 lg:content-center lg:justify-items-end lg:py-12 lg:pr-[max(var(--spacing-gutter),calc((100vw-90rem)/2+var(--spacing-gutter)))] lg:*:w-full lg:*:max-w-[38rem]">
       <PosterStrip className="-mx-(--spacing-gutter) h-32 lg:hidden" />
 
       <m.header
@@ -116,11 +118,15 @@ export const AuthLayout = ({
         transition={{ duration: DURATION.slow * 1.6, delay: 0.08, ease: EASE_OUT }}
       >
         <Clapper take={take} />
-        <div className="rounded-b-sheet border border-frameline bg-acetate">
-          {/* Chalk lines: the grid's 1px gaps show the frameline color behind the cells. */}
+        <div className="@container rounded-b-sheet border border-frameline bg-acetate">
+          {/*
+            Chalk lines: the grid's 1px gaps show the frameline color behind the cells. Four cells
+            in a row only when the slate itself is wide enough for "RECUPERAR" (a container query,
+            not a viewport breakpoint: the slate's width depends on the layout, not the screen).
+          */}
           <div
             aria-hidden
-            className="grid grid-cols-2 gap-px border-b border-frameline bg-frameline sm:grid-cols-4"
+            className="grid grid-cols-2 gap-px border-b border-frameline bg-frameline @min-[36rem]:grid-cols-4"
           >
             <SlateCell label="Prod." value="PelicuLed" />
             <SlateCell label="Escena" value={scene} />
