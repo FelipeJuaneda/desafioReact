@@ -1,28 +1,27 @@
-import { RiCloseLine } from "@remixicon/react";
+import { RiArrowDownSLine } from "@remixicon/react";
 import { AnimatePresence, m } from "motion/react";
 import { useRef } from "react";
-import { Link, useSearchParams } from "react-router";
+import { useSearchParams } from "react-router";
 import { toast } from "sonner";
 import { paths } from "@/app/paths";
 import { Button, ButtonLink } from "@/components/ui/Button";
-import { EdgeCode } from "@/components/ui/EdgeCode";
-import { Poster } from "@/components/ui/Poster";
 import { StatePanel } from "@/components/ui/StatePanel";
 import type { Favorite } from "@/features/favorites/favorite";
 import { useFavoriteContext } from "@/features/favorites/useFavoriteContext";
-import { formatRating, formatYear } from "@/lib/format";
+import { ContactSheet, ContactSheetSkeleton } from "@/features/my-list/ContactSheet";
+import { NextShowing, NextShowingSkeleton } from "@/features/my-list/NextShowing";
+import {
+  applySheet,
+  frameNumbers,
+  nextShowing,
+  parseFilter,
+  parseSort,
+  SHEET_SORTS,
+  TYPE_FILTERS,
+  type SheetSort,
+  type TypeFilter,
+} from "@/features/my-list/sheet";
 import { DURATION, EASE_OUT } from "@/lib/motion";
-import type { MediaType } from "@/types/tmdb";
-
-type Filter = "todo" | "peliculas" | "series";
-
-const FILTERS: Array<{ value: Filter; label: string; mediaType?: MediaType }> = [
-  { value: "todo", label: "Todo" },
-  { value: "peliculas", label: "Películas", mediaType: "movie" },
-  { value: "series", label: "Series", mediaType: "tv" },
-];
-
-const savedOn = new Intl.DateTimeFormat("es-AR", { day: "numeric", month: "long" });
 
 const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
 
@@ -31,61 +30,34 @@ const summary = (movies: number, series: number) => {
     movies > 0 && plural(movies, "película", "películas"),
     series > 0 && plural(series, "serie", "series"),
   ].filter(Boolean);
-  return `En tu cuenta: ${parts.join(" y ")}, a mano en cualquier dispositivo.`;
+  return `${parts.join(" y ")} esperando función.`;
 };
 
-const Strip = ({ favorite, onRemove }: { favorite: Favorite; onRemove: () => void }) => {
-  const href = paths.title(favorite.mediaType, favorite.tmdbId, favorite.title);
-  return (
-    <article className="grid grid-cols-[4.5rem_minmax(0,1fr)_auto] items-center gap-x-3 rounded-aperture bg-lt-surface p-3 shadow-strip sm:grid-cols-[5.5rem_minmax(0,1fr)_auto] sm:gap-x-5">
-      <Link to={href} tabIndex={-1} aria-hidden className="block">
-        <Poster path={favorite.posterPath} title={favorite.title} sizes="88px" />
-      </Link>
-      <div className="grid min-w-0 gap-2">
-        <h2 className="font-display text-display-md font-extrabold text-balance uppercase">
-          <Link
-            to={href}
-            className="rounded-perf hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lt-ink"
-          >
-            {favorite.title}
-          </Link>
-        </h2>
-        <EdgeCode
-          tone="lighttable"
-          items={[
-            { label: favorite.mediaType === "movie" ? "Película" : "Serie", emphasis: true },
-            { label: formatYear(favorite.releaseDate) },
-            { label: formatRating(favorite.voteAverage), emphasis: true },
-          ]}
-        />
-        {favorite.addedAt && (
-          <p className="text-small text-lt-muted">Guardada el {savedOn.format(favorite.addedAt)}</p>
-        )}
+/** Three unexposed frames: the contact sheet before anything has been shot. */
+const EmptySheet = () => (
+  <div className="grid gap-8 border-t border-frameline pt-10 md:grid-cols-[minmax(0,26rem)_minmax(0,1fr)] md:items-center md:gap-14">
+    <div aria-hidden className="grid grid-cols-3 gap-3">
+      {[1, 2, 3].map((n) => (
+        <div key={n} className="grid gap-2">
+          <span className="font-code text-code text-edge [font-stretch:75%]">0{n}</span>
+          <div className="aspect-2/3 rounded-aperture border border-dashed border-control-line bg-acetate" />
+        </div>
+      ))}
+    </div>
+    <div className="grid justify-items-start gap-4">
+      <h2 className="font-display text-display-lg font-extrabold text-balance uppercase">
+        Todavía no hay nada en cartel
+      </h2>
+      <p className="max-w-[46ch] text-body-lg text-emulsion-muted">
+        Tocá “Guardar” en cualquier película o serie: la última que guardes queda como tu próxima
+        función y el resto arma tu selección.
+      </p>
+      <div className="flex flex-wrap gap-3 pt-1">
+        <ButtonLink to={paths.movies}>Explorar películas</ButtonLink>
+        <ButtonLink variant="secondary" to={paths.series}>
+          Explorar series
+        </ButtonLink>
       </div>
-      <Button
-        variant="secondary"
-        size="sm"
-        tone="lighttable"
-        onClick={onRemove}
-        aria-label={`Quitar "${favorite.title}" de Mi lista`}
-        className="self-start max-sm:w-11 max-sm:px-0 sm:self-center"
-      >
-        <RiCloseLine aria-hidden />
-        <span className="max-sm:hidden">Quitar</span>
-      </Button>
-    </article>
-  );
-};
-
-const StripSkeleton = () => (
-  <div
-    aria-hidden
-    className="grid grid-cols-[4.5rem_minmax(0,1fr)] items-center gap-4 rounded-aperture bg-lt-surface p-3 shadow-strip sm:grid-cols-[5.5rem_minmax(0,1fr)]"
-  >
-    <div className="aspect-2/3 rounded-aperture bg-lt-line motion-safe:animate-expose-light" />
-    <div className="grid gap-2.5">
-      <div className="h-6 w-3/4 rounded-perf bg-lt-line motion-safe:animate-expose-light" />
-      <div className="h-3 w-40 rounded-perf bg-lt-line motion-safe:animate-expose-light" />
     </div>
   </div>
 );
@@ -95,22 +67,37 @@ const MyListPage = () => {
   const [params, setParams] = useSearchParams();
   const headingRef = useRef<HTMLHeadingElement>(null);
 
-  const filter = FILTERS.find((f) => f.value === params.get("tipo")) ?? FILTERS[0]!;
+  const filter = parseFilter(params.get("tipo"));
+  const sort = parseSort(params.get("orden"));
+  const frames = frameNumbers(favorites);
   const movies = favorites.filter((f) => f.mediaType === "movie").length;
   const series = favorites.length - movies;
-  const counts: Record<Filter, number> = { todo: favorites.length, peliculas: movies, series };
-  const visible = filter.mediaType
-    ? favorites.filter((f) => f.mediaType === filter.mediaType)
-    : favorites;
+  const counts: Record<TypeFilter, number> = { todo: favorites.length, peliculas: movies, series };
+
+  const shown = applySheet(favorites, filter, sort);
+  const featured = nextShowing(shown);
+  const rest = shown.filter((favorite) => favorite !== featured);
+
+  const setParam = (name: "tipo" | "orden", value: TypeFilter | SheetSort, fallback: string) =>
+    setParams(
+      (current) => {
+        const next = new URLSearchParams(current);
+        if (value === fallback) next.delete(name);
+        else next.set(name, value);
+        return next;
+      },
+      { replace: true, preventScrollReset: true },
+    );
 
   const remove = async (favorite: Favorite) => {
     const { mediaType, tmdbId, title, posterPath, releaseDate, voteAverage } = favorite;
     const input = { mediaType, tmdbId, title, posterPath, releaseDate, voteAverage };
     try {
       await removeFavorite(input.mediaType, input.tmdbId);
-      // The strip (and its button) is gone: keep keyboard users anchored on the list.
-      headingRef.current?.focus();
-      toast(`Quitaste "${input.title}" de tu lista`, {
+      // The frame (and its button) is gone: keep keyboard users anchored on the page, without
+      // scrolling everyone back to the top (they would miss the strike and lose their place).
+      headingRef.current?.focus({ preventScroll: true });
+      toast(`Tachaste "${input.title}" de tu lista`, {
         action: { label: "Deshacer", onClick: () => void addFavorite(input) },
       });
     } catch {
@@ -118,134 +105,143 @@ const MyListPage = () => {
     }
   };
 
-  return (
-    <div className="min-h-[calc(100dvh-4rem)] bg-lt-ground text-lt-ink [color-scheme:light] selection:bg-lt-ink selection:text-lt-ground">
-      <title>Mi lista · PelicuLed</title>
-      <div className="mx-auto max-w-(--container-reel) px-(--spacing-gutter) pt-8 pb-16 lg:pt-12">
-        <h1
-          ref={headingRef}
-          tabIndex={-1}
-          className="font-display text-display-xl font-extrabold uppercase outline-none"
-        >
-          Mi lista
-        </h1>
-        <p className="mt-2 max-w-[60ch] text-body-lg text-lt-muted">
-          {status === "ready" && favorites.length > 0
-            ? summary(movies, series)
-            : "La mesa de luz: los títulos que guardás quedan en tu cuenta."}
-        </p>
+  const ready = status === "ready" && favorites.length > 0;
 
-        {status === "loading" && (
-          <div
-            aria-busy="true"
-            aria-label="Cargando tu lista"
-            className="mt-8 grid gap-4 lg:grid-cols-2"
+  return (
+    <div className="mx-auto max-w-(--container-reel) px-(--spacing-gutter) pt-8 pb-16 lg:pt-12">
+      <title>Mi lista · PelicuLed</title>
+
+      <header className="flex flex-wrap items-end justify-between gap-x-10 gap-y-6">
+        <div className="grid gap-3">
+          <h1
+            ref={headingRef}
+            tabIndex={-1}
+            className="font-display text-display-xl font-extrabold uppercase outline-none"
           >
-            <StripSkeleton />
-            <StripSkeleton />
-            <StripSkeleton />
+            Mi lista
+          </h1>
+          <p className="text-body-lg text-emulsion-muted">
+            {ready
+              ? summary(movies, series)
+              : "Lo que guardás queda en tu cuenta, en cualquier dispositivo."}
+          </p>
+        </div>
+
+        {ready && (
+          <div className="flex flex-wrap items-end gap-3">
+            <div role="group" aria-label="Filtrar por tipo" className="flex gap-2">
+              {TYPE_FILTERS.map((option) => (
+                <Button
+                  key={option.value}
+                  variant="secondary"
+                  size="sm"
+                  aria-pressed={option.value === filter}
+                  onClick={() => setParam("tipo", option.value, "todo")}
+                >
+                  {option.label}
+                  <span className="font-code text-code tabular-nums opacity-75">
+                    {counts[option.value]}
+                  </span>
+                </Button>
+              ))}
+            </div>
+            <label className="grid gap-1.5 text-small font-semibold text-emulsion-muted">
+              Ordenar por
+              <span className="relative grid">
+                <select
+                  value={sort}
+                  onChange={(event) =>
+                    setParam("orden", event.target.value as SheetSort, "recientes")
+                  }
+                  className="min-h-11 appearance-none rounded-aperture border border-control-line bg-acetate py-2 pr-10 pl-3 text-body font-normal text-emulsion hover:border-emulsion-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-edge"
+                >
+                  {SHEET_SORTS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+                <RiArrowDownSLine
+                  aria-hidden
+                  className="pointer-events-none absolute top-1/2 right-2.5 size-5 -translate-y-1/2 text-emulsion-muted"
+                />
+              </span>
+            </label>
+          </div>
+        )}
+      </header>
+
+      <div className="mt-10 grid gap-16 lg:mt-12">
+        {status === "loading" && (
+          <div aria-busy="true" aria-label="Cargando tu lista" className="grid gap-16">
+            <NextShowingSkeleton />
+            <ContactSheetSkeleton />
           </div>
         )}
 
         {status === "error" && (
           <StatePanel
             role="alert"
-            tone="lighttable"
             title="No pudimos traer tu lista"
-            className="mt-8"
-            action={
-              <Button tone="lighttable" onClick={() => window.location.reload()}>
-                Recargar
-              </Button>
-            }
+            action={<Button onClick={() => window.location.reload()}>Recargar</Button>}
           >
             Revisá tu conexión. Lo que guardaste sigue en tu cuenta.
           </StatePanel>
         )}
 
-        {status === "ready" && favorites.length === 0 && (
+        {status === "ready" && favorites.length === 0 && <EmptySheet />}
+
+        {ready && shown.length === 0 && (
           <StatePanel
-            tone="lighttable"
-            title="Tu mesa de luz está vacía"
-            className="mt-8"
+            title={
+              filter === "series" ? "Todavía no guardaste series" : "Todavía no guardaste películas"
+            }
             action={
-              <ButtonLink tone="lighttable" to={paths.movies}>
-                Explorar películas
+              <ButtonLink
+                variant="secondary"
+                to={filter === "series" ? paths.series : paths.movies}
+              >
+                {filter === "series" ? "Explorar series" : "Explorar películas"}
               </ButtonLink>
             }
-          >
-            Tocá “Guardar” en cualquier película o serie y va a aparecer acá.
-          </StatePanel>
+          />
         )}
 
-        {status === "ready" && favorites.length > 0 && (
-          <>
-            <div role="group" aria-label="Filtrar por tipo" className="mt-7 flex flex-wrap gap-2">
-              {FILTERS.map((option) => {
-                const active = option.value === filter.value;
-                return (
-                  <Button
-                    key={option.value}
-                    variant="secondary"
-                    size="sm"
-                    tone="lighttable"
-                    aria-pressed={active}
-                    onClick={() =>
-                      setParams(option.value === "todo" ? {} : { tipo: option.value }, {
-                        replace: true,
-                        preventScrollReset: true,
-                      })
-                    }
-                  >
-                    {option.label}
-                    <span className="font-code text-code tabular-nums opacity-75">
-                      {counts[option.value]}
-                    </span>
-                  </Button>
-                );
-              })}
-            </div>
-
-            {visible.length === 0 ? (
-              <StatePanel
-                tone="lighttable"
-                title={
-                  filter.mediaType === "tv"
-                    ? "Todavía no guardaste series"
-                    : "Todavía no guardaste películas"
-                }
-                className="mt-6"
-                action={
-                  <ButtonLink
-                    tone="lighttable"
-                    variant="secondary"
-                    to={paths.catalog(filter.mediaType ?? "movie")}
-                  >
-                    {filter.mediaType === "tv" ? "Explorar series" : "Explorar películas"}
-                  </ButtonLink>
-                }
+        {featured && (
+          <AnimatePresence mode="wait" initial={false}>
+            <m.div
+              key={featured.id}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, transition: { duration: DURATION.base } }}
+              transition={{ duration: DURATION.slow, ease: EASE_OUT }}
+            >
+              <NextShowing
+                favorite={featured}
+                frame={frames.get(featured.id) ?? 1}
+                onRemove={() => void remove(featured)}
               />
-            ) : (
-              // Strips are laid on and lifted off the table: removing or filtering one lets
-              // the rest slide into the gap instead of jumping.
-              <ul className="mt-6 grid gap-4 lg:grid-cols-2">
-                <AnimatePresence initial={false} mode="popLayout">
-                  {visible.map((favorite) => (
-                    <m.li
-                      key={favorite.id}
-                      layout
-                      initial={{ opacity: 0, y: 12 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.97, transition: { duration: DURATION.base } }}
-                      transition={{ duration: DURATION.slow, ease: EASE_OUT }}
-                    >
-                      <Strip favorite={favorite} onRemove={() => void remove(favorite)} />
-                    </m.li>
-                  ))}
-                </AnimatePresence>
-              </ul>
-            )}
-          </>
+            </m.div>
+          </AnimatePresence>
+        )}
+
+        {rest.length > 0 && (
+          <section aria-labelledby="selection" className="grid gap-6">
+            <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-frameline pb-3">
+              <h2 id="selection" className="font-display text-display-lg font-extrabold uppercase">
+                Tu selección
+              </h2>
+              <p className="font-code text-code font-medium text-emulsion-subtle uppercase [font-stretch:75%]">
+                {plural(rest.length, "cuadro", "cuadros")} · numerados en el orden en que los
+                guardaste
+              </p>
+            </div>
+            <ContactSheet
+              favorites={rest}
+              frames={frames}
+              onRemove={(favorite) => void remove(favorite)}
+            />
+          </section>
         )}
       </div>
     </div>

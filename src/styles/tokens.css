@@ -20,18 +20,10 @@
   --color-on-edge: #1a1206; /* text on amber: 8.8:1 */
 
   --color-danger: #f07058; /* 5.7:1 */
+  /* Editor's grease pencil: only for striking a title off Mi lista (decorative mark) */
+  --color-grease: #e5402f;
   --color-success: #8cc382; /* 8.1:1 */
   --color-info: #7fb3a8; /* 7.1:1 */
-
-  /* Light table ground (my list, auth) */
-  --color-lt-ground: #f1ebdd;
-  --color-lt-surface: #fbf7ee;
-  --color-lt-ink: #1b1813; /* 14.9:1 */
-  --color-lt-muted: #5b5345; /* 6.4:1 */
-  --color-lt-line: #cfc5b0; /* decorative lines only */
-  --color-lt-control-line: #877e69; /* 3.4:1 */
-  --color-lt-edge-ink: #87560a; /* accent as text on light: 5.3:1 */
-  --color-lt-danger: #b3321d; /* 5.2:1 */
 
   /* Type: can labels, reading, edge code */
   --font-display: "Sofia Sans Extra Condensed Variable", "Sofia Sans Variable", sans-serif;
@@ -61,9 +53,6 @@
   --radius-aperture: 4px;
   --radius-sheet: 8px;
 
-  /* Depth: none on the projection ground; soft lift on the light table */
-  --shadow-strip: 0 1px 2px rgb(27 24 19 / 0.1), 0 10px 24px -12px rgb(27 24 19 / 0.22);
-
   /* Motion */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
@@ -73,7 +62,6 @@
 
   /* Skeletons: unexposed frames slowly catching light */
   --animate-expose: expose 1.4s var(--ease-in-out) infinite alternate;
-  --animate-expose-light: expose-light 1.4s var(--ease-in-out) infinite alternate;
   @keyframes expose {
     to {
       background-color: var(--color-frameline);
@@ -91,11 +79,6 @@
   @keyframes drift-left {
     to {
       transform: translateX(-50%);
-    }
-  }
-  @keyframes expose-light {
-    to {
-      background-color: var(--color-lt-ground);
     }
   }
 }
