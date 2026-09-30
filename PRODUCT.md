@@ -33,7 +33,7 @@ A catalog explorer with its own cinematic identity, not a streaming-service clon
 - Detail: title, poster, backdrop, year, runtime or seasons, genres, rating, synopsis, cast, trailers.
 - Personal list ("favoritos"): stored per user in Firestore, replacing the current device-only localStorage list; favorites already saved on a device migrate on first sign-in (confirmed 2026-09-28).
 - Auth: Firebase Authentication; Firebase error messages shown in clear Spanish.
-- Hosting: Vercel (current deploy at desafio-react-pi.vercel.app).
+- Hosting: Vercel (current deploy at peliculed-pi.vercel.app).
 - Undecided: whether the old public git history gets rewritten after rotating the leaked keys (user action).
 
 ## Brand Commitments

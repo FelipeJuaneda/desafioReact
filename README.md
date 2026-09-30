@@ -2,7 +2,7 @@
 
 Catálogo de películas y series para decidir qué ver: lo que está en cartelera, lo más visto de la semana, fichas completas con reparto y tráiler, búsqueda, y una lista propia sincronizada entre dispositivos.
 
-**Demo:** https://desafio-react-pi.vercel.app
+**Demo:** https://peliculed-pi.vercel.app
 
 <p>
   <img src="docs/screenshots/home-desktop.jpeg" alt="Inicio en desktop: el título destacado de la semana proyectado en formato scope, con su código de borde y las acciones Ver ficha y Guardar." width="100%">
