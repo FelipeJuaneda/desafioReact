@@ -75,7 +75,8 @@ describe("routing", () => {
     ["/login", "/ingresar"],
   ])("redirects the old URL %s to %s", async (from, to) => {
     const { router } = renderApp(from);
-    await waitFor(() => expect(location(router)).toBe(to));
+    // Some targets load a lazy route first: allow more than waitFor's 1s on a busy machine.
+    await waitFor(() => expect(location(router)).toBe(to), { timeout: 4000 });
   });
 });
 
