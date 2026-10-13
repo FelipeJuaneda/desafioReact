@@ -56,7 +56,17 @@ export async function GET(request: Request): Promise<Response> {
   const id = parseId(params.get("id"));
   if (!token || !kind || !id) return fallback(request);
 
+  // Phase timings go out as Server-Timing: link previews give up on slow images.
+  const timings: string[] = [];
+  let mark = performance.now();
+  const lap = (name: string) => {
+    const now = performance.now();
+    timings.push(`${name};dur=${Math.round(now - mark)}`);
+    mark = now;
+  };
+
   const title = await fetchShareTitle(kind, id, token);
+  lap("tmdb");
   if (!title) return fallback(request);
 
   try {
@@ -66,6 +76,7 @@ export async function GET(request: Request): Promise<Response> {
       fonts,
       loadResvg(),
     ]);
+    lap("assets");
 
     const svg = await satori(titleCard(title, { poster, backdrop }) as unknown as ReactNode, {
       ...CARD,
@@ -76,15 +87,19 @@ export async function GET(request: Request): Promise<Response> {
         { name: "Martian Mono", data: code, weight: 500, style: "normal" },
       ],
     });
+    lap("layout");
     const raster = new Resvg(svg, { fitTo: { mode: "width", value: CARD.width } }).render();
+    lap("raster");
     const card = jpeg.encode(
       { data: raster.pixels, width: raster.width, height: raster.height },
       84,
     );
+    lap("jpeg");
 
     return new Response(new Uint8Array(card.data), {
       headers: {
         "content-type": "image/jpeg",
+        "server-timing": timings.join(", "),
         // The card only changes with TMDB data; CARD_VERSION in the URL handles redesigns.
         "cache-control": "public, max-age=86400, s-maxage=604800, stale-while-revalidate=604800",
       },
