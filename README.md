@@ -24,6 +24,10 @@ Catálogo de películas y series para decidir qué ver: lo que está en carteler
 - **Películas y Series:** catálogo con filtro por género y orden (populares, mejor puntuadas, recientes), todo en la URL para poder compartirlo, con "cargar más".
 - **Ficha:** backdrop, sinopsis, reparto (cada persona tiene su página), tráileres y ficha técnica. Al abrir un título, el póster se expande hasta el backdrop (View Transitions).
 - **Compartir con vista previa propia:** cada ficha tiene "Compartir" (la hoja nativa del celular, o un menú con copiar enlace, WhatsApp, Telegram, X, Facebook y email en desktop). El enlace llega a WhatsApp, X o Telegram con una tarjeta generada para ese título: un fotograma de 35 mm con backdrop, afiche, título y código de borde.
+- **Dónde verla:** cada ficha dice en qué plataformas de Argentina está (incluida en una suscripción, alquiler o compra), con datos de JustWatch vía TMDB.
+- **Temporadas y episodios:** las series muestran cada temporada con sus episodios (fotograma, fecha, duración, puntaje y sinopsis), la que está en emisión marcada, y la temporada elegida en la URL.
+- **Próximos estrenos:** la cartelera de lo que llega a los cines de Argentina, día por día, con "Avisame", que agenda el estreno en Google Calendar o en cualquier calendario (.ics). Una película por estrenar muestra su fecha local y el mismo botón en la ficha.
+- **Para vos y "Si te gustó":** recomendaciones armadas con los últimos títulos que guardaste (en Mi lista y en el inicio), y en cada ficha, títulos parecidos.
 - **Búsqueda:** películas, series y personas en una sola búsqueda, con debounce y la consulta en la URL.
 - **Mi lista, la sala de montaje:** el último título guardado se proyecta como "próxima función" y el resto forma una hoja de contactos numerada en el orden en que los guardaste. Se filtra por tipo y se ordena (recientes, puntaje, año, A–Z) desde la URL; quitar un título lo **tacha con lápiz graso** y ofrece "deshacer". Los títulos viven en Firestore por usuario (cuenta con email o Google), y los favoritos que había en el navegador (versión anterior) se migran solos a la cuenta.
 - **En español latino:** títulos y sinopsis como se estrenaron en la región ("El Club de la Pelea"), y los tráileres priorizan la versión latina, después la original y el doblaje de España solo como último recurso; cada video muestra su versión.
@@ -53,7 +57,7 @@ Catálogo de películas y series para decidir qué ver: lo que está en carteler
 
 |                                  | Antes de la fase 4 | Ahora                                                             |
 | -------------------------------- | ------------------ | ----------------------------------------------------------------- |
-| JS de la primera visita (gzip)   | ~247 kB            | 147 kB, con Motion incluido (presupuesto: 150 kB, lo controla CI) |
+| JS de la primera visita (gzip)   | ~247 kB            | 150 kB, con Motion incluido (presupuesto: 150 kB, lo controla CI) |
 | Descubrimiento de la imagen LCP* | 4,3 s              | 0,6 s                                                             |
 | CLS*                             | 0,09               | 0,00                                                              |
 

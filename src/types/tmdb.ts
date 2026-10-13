@@ -25,6 +25,7 @@ interface MediaBase {
 export interface MovieSummary extends MediaBase {
   title: string;
   release_date: string;
+  genre_ids?: number[];
 }
 
 export interface TvSummary extends MediaBase {
@@ -50,11 +51,79 @@ export interface MovieDetail extends MovieSummary, DetailExtras {
   original_title: string;
 }
 
+export interface SeasonSummary {
+  id: number;
+  name: string;
+  season_number: number;
+  episode_count: number;
+  air_date: string | null;
+  overview: string;
+  poster_path: string | null;
+  vote_average: number;
+}
+
+export interface EpisodeSummary {
+  id: number;
+  name: string;
+  season_number: number;
+  episode_number: number;
+  air_date: string | null;
+}
+
 export interface TvDetail extends TvSummary, DetailExtras {
   number_of_seasons: number;
   number_of_episodes: number;
   original_name: string;
   created_by?: Array<{ id: number; name: string }>;
+  seasons?: SeasonSummary[];
+  next_episode_to_air?: EpisodeSummary | null;
+  last_episode_to_air?: EpisodeSummary | null;
+}
+
+export interface Episode extends EpisodeSummary {
+  overview: string;
+  runtime: number | null;
+  still_path: string | null;
+  vote_average: number;
+}
+
+export interface SeasonDetail {
+  id: number;
+  name: string;
+  season_number: number;
+  air_date: string | null;
+  overview: string;
+  episodes: Episode[];
+}
+
+export interface WatchProvider {
+  provider_id: number;
+  provider_name: string;
+  logo_path: string | null;
+  display_priority: number;
+}
+
+/** One country's offer: TMDB's data comes from JustWatch. */
+export interface WatchOffer {
+  link?: string;
+  flatrate?: WatchProvider[];
+  free?: WatchProvider[];
+  ads?: WatchProvider[];
+  rent?: WatchProvider[];
+  buy?: WatchProvider[];
+}
+
+export interface WatchProviders {
+  id: number;
+  results?: Record<string, WatchOffer>;
+}
+
+export interface ReleaseDates {
+  id: number;
+  results: Array<{
+    iso_3166_1: string;
+    release_dates: Array<{ release_date: string; type: number }>;
+  }>;
 }
 
 export type TitleDetail = MovieDetail | TvDetail;

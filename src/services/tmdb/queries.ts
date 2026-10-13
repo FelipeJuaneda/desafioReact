@@ -1,5 +1,6 @@
 // Query definitions for every TMDB resource: one place for cache keys and fetchers.
 import { infiniteQueryOptions, queryOptions } from "@tanstack/react-query";
+import { todayIso } from "@/lib/dates";
 import { tmdbFetch } from "@/services/tmdb/client";
 import type {
   Credits,
@@ -7,11 +8,17 @@ import type {
   MediaType,
   MovieSummary,
   MultiSearchResult,
+  ReleaseDates,
+  SeasonDetail,
   TitleDetail,
   TmdbPage,
   TvSummary,
   Videos,
+  WatchProviders,
 } from "@/types/tmdb";
+
+/** The audience's country: watch providers and release dates are per country. */
+export const REGION = "AR";
 
 export const tmdbKeys = {
   all: ["tmdb"] as const,
@@ -53,6 +60,46 @@ export const titleVideosQuery = (type: MediaType, id: string) =>
       ),
   });
 
+/** Where to watch it, per country (TMDB gets it from JustWatch). Changes daily at most. */
+export const watchProvidersQuery = (type: MediaType, id: string) =>
+  queryOptions({
+    queryKey: [...tmdbKeys.title(type, id), "providers"],
+    queryFn: ({ signal }) => tmdbFetch<WatchProviders>(`${type}/${id}/watch/providers`, {}, signal),
+    select: (data) => data.results?.[REGION] ?? null,
+    staleTime: 60 * 60 * 1000,
+  });
+
+/** "If you liked this": TMDB's recommendations, or similar titles when there are none. */
+export const recommendationsQuery = <T extends MovieSummary | TvSummary>(
+  type: MediaType,
+  id: string | number,
+) =>
+  queryOptions({
+    queryKey: [...tmdbKeys.title(type, String(id)), "recommendations"],
+    queryFn: async ({ signal }) => {
+      const recommended = await tmdbFetch<TmdbPage<T>>(
+        `${type}/${id}/recommendations`,
+        { page: 1 },
+        signal,
+      );
+      if (recommended.results.length > 0) return recommended;
+      return tmdbFetch<TmdbPage<T>>(`${type}/${id}/similar`, { page: 1 }, signal);
+    },
+  });
+
+export const seasonQuery = (id: string, season: number) =>
+  queryOptions({
+    queryKey: [...tmdbKeys.title("tv", id), "season", season],
+    queryFn: ({ signal }) => tmdbFetch<SeasonDetail>(`tv/${id}/season/${season}`, {}, signal),
+  });
+
+/** A film's release dates by country (the detail only carries the worldwide premiere). */
+export const releaseDatesQuery = (id: string) =>
+  queryOptions({
+    queryKey: [...tmdbKeys.title("movie", id), "release-dates"],
+    queryFn: ({ signal }) => tmdbFetch<ReleaseDates>(`movie/${id}/release_dates`, {}, signal),
+  });
+
 export const genresQuery = (type: MediaType) =>
   queryOptions({
     queryKey: tmdbKeys.genres(type),
@@ -70,7 +117,7 @@ export const trendingQuery = <T extends MovieSummary | TvSummary>(type: MediaTyp
   listQuery<T>(`trending/${type}/week`, { page: 1 });
 
 export const nowPlayingQuery = () =>
-  listQuery<MovieSummary>("movie/now_playing", { page: 1, region: "AR" });
+  listQuery<MovieSummary>("movie/now_playing", { page: 1, region: REGION });
 
 /** Best rated with enough votes to mean something (TMDB's top_rated lets 20-vote titles in). */
 export const topRatedQuery = <T extends MovieSummary | TvSummary>(type: MediaType) =>
@@ -79,6 +126,57 @@ export const topRatedQuery = <T extends MovieSummary | TvSummary>(type: MediaTyp
     sort_by: "vote_average.desc",
     "vote_count.gte": 1500,
   });
+
+/**
+ * Films opening in Argentine cinemas in the next four months. With `region`, TMDB answers with
+ * the local release date. Popularity picks the 60 worth listing; the page orders them by date.
+ */
+export const upcomingReleasesQuery = () =>
+  queryOptions({
+    queryKey: [...tmdbKeys.all, "releases", REGION],
+    queryFn: async ({ signal }) => {
+      const today = todayIso();
+      const params = {
+        region: REGION,
+        with_release_type: "2|3",
+        "release_date.gte": today,
+        "release_date.lte": todayIso(new Date(Date.now() + 120 * 24 * 60 * 60 * 1000)),
+        sort_by: "popularity.desc",
+      };
+      const pages = await Promise.all(
+        [1, 2, 3].map((page) =>
+          tmdbFetch<TmdbPage<MovieSummary>>("discover/movie", { ...params, page }, signal),
+        ),
+      );
+      const seen = new Set<number>();
+      return (
+        pages
+          .flatMap((p) => p.results)
+          // Re-releases come back with their original date: those aren't openings.
+          .filter(
+            (movie) => movie.release_date >= today && !seen.has(movie.id) && seen.add(movie.id),
+          )
+      );
+    },
+  });
+
+/** The next openings, most anticipated first: the home rail. */
+export const comingSoonQuery = () => {
+  const today = todayIso();
+  return queryOptions({
+    ...listQuery<MovieSummary>("discover/movie", {
+      page: 1,
+      region: REGION,
+      with_release_type: "2|3",
+      "release_date.gte": today,
+      sort_by: "popularity.desc",
+    }),
+    select: (data: TmdbPage<MovieSummary>) => ({
+      ...data,
+      results: data.results.filter((movie) => movie.release_date >= today),
+    }),
+  });
+};
 
 export type CatalogSort = "populares" | "puntuadas" | "recientes";
 

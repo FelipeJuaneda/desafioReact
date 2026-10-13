@@ -62,7 +62,7 @@ const SearchPage = () => {
 
       <div className="pt-10">
         {!query ? (
-          <CatalogRail<MovieSummary>
+          <CatalogRail
             title="Lo más visto esta semana"
             mediaType="movie"
             query={trendingQuery<MovieSummary>("movie")}

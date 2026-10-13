@@ -136,6 +136,47 @@ test("sharing a title copies its canonical link", async ({ page, context, browse
   );
 });
 
+test("title page says where to watch it in Argentina", async ({ page }) => {
+  await page.goto("/pelicula/550");
+  const where = page.getByRole("region", { name: "Dónde verla" });
+  await expect(where.getByText("Netflix")).toBeVisible();
+  await expect(where.getByRole("link", { name: /Ver precios y enlaces/ })).toHaveAttribute(
+    "href",
+    /themoviedb\.org\/movie\/550\/watch/,
+  );
+});
+
+test("series: seasons switch through the URL and list their episodes", async ({ page }) => {
+  await page.goto("/serie/1399?temporada=2");
+  await expect(page).toHaveURL(/\/serie\/1399-el-juego-de-tronos\?temporada=2$/);
+  const seasons = page.getByRole("region", { name: "Temporadas" });
+  await expect(seasons.getByRole("heading", { name: "Temporada 2", level: 3 })).toBeVisible();
+  await expect(seasons.getByRole("heading", { name: "Capítulo 2.1" })).toBeVisible();
+  await expectNoA11yViolations(page);
+
+  await seasons.getByRole("button", { name: /^Temporada 1/ }).click();
+  await expect(page).toHaveURL(/\/serie\/1399-el-juego-de-tronos$/);
+  await expect(seasons.getByRole("heading", { name: "Capítulo 1.2" })).toBeVisible();
+});
+
+test("upcoming releases: a schedule by day with a calendar reminder", async ({ page }) => {
+  await page.goto("/estrenos");
+  await expect(page.getByRole("heading", { name: "Próximos estrenos", level: 1 })).toBeVisible();
+  const days = page.getByRole("list", { name: "Estrenos por fecha" }).locator("> li");
+  await expect(days).toHaveCount(2);
+  await expect(days.first().getByText("En 3 días")).toBeVisible();
+  await expectNoA11yViolations(page);
+
+  await page.getByRole("button", { name: "Avisame cuando se estrene Estreno del jueves" }).click();
+  await expect(page.getByRole("menuitem", { name: "Google Calendar" })).toHaveAttribute(
+    "href",
+    /calendar\.google\.com\/calendar\/render\?action=TEMPLATE/,
+  );
+  const download = page.waitForEvent("download");
+  await page.getByRole("menuitem", { name: /\.ics/ }).click();
+  expect((await download).suggestedFilename()).toBe("estreno-estreno-del-jueves.ics");
+});
+
 test("unknown URLs end the reel with a way back", async ({ page }) => {
   await page.goto("/esto-no-existe");
   await expect(

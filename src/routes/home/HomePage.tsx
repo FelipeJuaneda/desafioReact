@@ -1,8 +1,16 @@
+import { lazy, Suspense } from "react";
 import { Link } from "react-router";
 import { paths } from "@/app/paths";
 import { CatalogRail } from "@/features/catalog/CatalogRail";
 import { FeaturedTitle } from "@/features/catalog/FeaturedTitle";
-import { nowPlayingQuery, topRatedQuery, trendingQuery } from "@/services/tmdb/queries";
+import { useFavoriteContext } from "@/features/favorites/useFavoriteContext";
+import { daysUntil, formatCountdown, formatShortDate } from "@/lib/dates";
+import {
+  comingSoonQuery,
+  nowPlayingQuery,
+  topRatedQuery,
+  trendingQuery,
+} from "@/services/tmdb/queries";
 import type { MovieSummary, TvSummary } from "@/types/tmdb";
 
 const SeeAll = ({ to, label }: { to: string; label: string }) => (
@@ -14,6 +22,19 @@ const SeeAll = ({ to, label }: { to: string; label: string }) => (
   </Link>
 );
 
+// Only people with saved titles get "Para vos": guests never download it.
+const ForYouRail = lazy(() => import("@/features/for-you/ForYouRail"));
+
+const ForYou = () => {
+  const { favorites } = useFavoriteContext();
+  if (favorites.length === 0) return null;
+  return (
+    <Suspense fallback={null}>
+      <ForYouRail />
+    </Suspense>
+  );
+};
+
 const HomePage = () => (
   <>
     <title>PelicuLed · Qué ver esta semana</title>
@@ -24,20 +45,31 @@ const HomePage = () => (
     <h1 className="sr-only">Qué ver esta semana</h1>
     <FeaturedTitle />
     <div className="mx-auto grid max-w-(--container-reel) gap-14 px-(--spacing-gutter) pt-12">
-      <CatalogRail<MovieSummary>
+      <CatalogRail
         title="En cartel"
         mediaType="movie"
         query={nowPlayingQuery()}
         action={<SeeAll to={paths.movies} label="Ver películas" />}
         eager
       />
-      <CatalogRail<TvSummary>
+      <ForYou />
+      <CatalogRail
+        title="Próximamente"
+        mediaType="movie"
+        query={comingSoonQuery()}
+        action={<SeeAll to={paths.releases} label="Ver estrenos" />}
+        edge={(movie) => [
+          { label: formatShortDate(movie.release_date), emphasis: true },
+          { label: formatCountdown(daysUntil(movie.release_date) ?? 0) },
+        ]}
+      />
+      <CatalogRail
         title="Series de la semana"
         mediaType="tv"
         query={trendingQuery<TvSummary>("tv")}
         action={<SeeAll to={paths.series} label="Ver series" />}
       />
-      <CatalogRail<MovieSummary>
+      <CatalogRail
         title="Mejor puntuadas"
         mediaType="movie"
         query={topRatedQuery<MovieSummary>("movie")}

@@ -5,8 +5,12 @@ import { Button } from "@/components/ui/Button";
 import { EdgeCode } from "@/components/ui/EdgeCode";
 import { Poster } from "@/components/ui/Poster";
 import { SaveButton } from "@/features/favorites/SaveButton";
+import { ReminderButton } from "@/features/releases/ReminderButton";
 import { ShareButton } from "@/features/title/ShareButton";
-import { formatRating, formatRuntime, formatSeasons, formatYear } from "@/lib/format";
+import { useLocalRelease } from "@/features/title/useLocalRelease";
+import { WatchProviders } from "@/features/title/WatchProviders";
+import { formatShortDate } from "@/lib/dates";
+import { formatDate, formatRating, formatRuntime, formatSeasons, formatYear } from "@/lib/format";
 import { BACKDROP_WIDTHS, tmdbImage, tmdbSrcSet } from "@/services/tmdb/images";
 import { getTitle, type MediaType, type TitleDetail } from "@/types/tmdb";
 
@@ -25,6 +29,8 @@ export const TitleHero = ({ mediaType, title, onPlayTrailer }: TitleHeroProps) =
   const year = formatYear("release_date" in title ? title.release_date : title.first_air_date);
   const length =
     "runtime" in title ? formatRuntime(title.runtime) : formatSeasons(title.number_of_seasons);
+  // A film still to open in Argentina: its date replaces the year and "Avisame" joins the actions.
+  const release = useLocalRelease(title, mediaType === "movie");
 
   return (
     <section aria-labelledby="title-name">
@@ -63,7 +69,9 @@ export const TitleHero = ({ mediaType, title, onPlayTrailer }: TitleHeroProps) =
           <EdgeCode
             items={[
               { label: mediaType === "movie" ? "Película" : "Serie", emphasis: true },
-              year && { label: year },
+              release
+                ? { label: `Estreno ${formatShortDate(release.date)}`, emphasis: true }
+                : year && { label: year },
               length && { label: length },
               { label: formatRating(title.vote_average), emphasis: true },
             ]}
@@ -97,9 +105,26 @@ export const TitleHero = ({ mediaType, title, onPlayTrailer }: TitleHeroProps) =
                 Ver tráiler
               </Button>
             )}
+            {release && (
+              <ReminderButton
+                event={{
+                  id: title.id,
+                  title: name,
+                  date: release.date,
+                  url: `${window.location.origin}${paths.title(mediaType, title.id, name)}`,
+                }}
+              />
+            )}
             <SaveButton mediaType={mediaType} item={title} />
             <ShareButton mediaType={mediaType} title={title} name={name} />
           </div>
+          <WatchProviders
+            mediaType={mediaType}
+            id={title.id}
+            upcomingNote={
+              release ? `Se estrena en cines el ${formatDate(release.date)}.` : undefined
+            }
+          />
         </div>
       </div>
     </section>

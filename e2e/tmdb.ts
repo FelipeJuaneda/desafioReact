@@ -76,6 +76,69 @@ const genres = {
   ],
 };
 
+// Upcoming openings: dates relative to today so the schedule never runs out.
+const inDays = (days: number) => {
+  const date = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
+  return [date.getFullYear(), date.getMonth() + 1, date.getDate()]
+    .map((part) => String(part).padStart(2, "0"))
+    .join("-");
+};
+const UPCOMING = [
+  movie(9001, "Estreno del jueves", inDays(3), 0),
+  movie(9002, "Otro estreno", inDays(3), 0),
+  movie(9003, "Estreno de noviembre", inDays(24), 0),
+];
+
+const seriesDetail = {
+  ...SERIES[0]!,
+  number_of_seasons: 2,
+  number_of_episodes: 4,
+  original_language: "en",
+  genres: [{ id: 18, name: "Drama" }],
+  next_episode_to_air: null,
+  seasons: [1, 2].map((n) => ({
+    id: 100 + n,
+    name: `Temporada ${n}`,
+    season_number: n,
+    episode_count: 2,
+    air_date: `201${n}-04-17`,
+    overview: "",
+    poster_path: null,
+    vote_average: 8,
+  })),
+};
+
+const season = (n: number) => ({
+  id: 100 + n,
+  name: `Temporada ${n}`,
+  season_number: n,
+  air_date: `201${n}-04-17`,
+  overview: `Resumen de la temporada ${n}.`,
+  episodes: [1, 2].map((e) => ({
+    id: n * 10 + e,
+    name: `Capítulo ${n}.${e}`,
+    season_number: n,
+    episode_number: e,
+    air_date: `201${n}-04-${10 + e}`,
+    overview: `Sinopsis del capítulo ${e}.`,
+    runtime: 55,
+    still_path: null,
+    vote_average: 8.1,
+  })),
+});
+
+const providers = {
+  id: 550,
+  results: {
+    AR: {
+      link: "https://www.themoviedb.org/movie/550/watch?locale=AR",
+      flatrate: [
+        { provider_id: 8, provider_name: "Netflix", logo_path: null, display_priority: 0 },
+      ],
+    },
+  },
+};
+
 const respond = (route: Route, body: unknown, status = 200) =>
   route.fulfill({ status, contentType: "application/json", body: JSON.stringify(body) });
 
@@ -94,6 +157,14 @@ export const mockTmdb = async (page_: Page) => {
     if (/^genre\/(movie|tv)\/list$/.test(path)) return respond(route, genres);
     if (/^(movie|tv)\/\d+\/credits$/.test(path)) return respond(route, credits);
     if (/^(movie|tv)\/\d+\/videos$/.test(path)) return respond(route, videos);
+    if (/^(movie|tv)\/\d+\/watch\/providers$/.test(path)) return respond(route, providers);
+    if (/^movie\/\d+\/release_dates$/.test(path)) return respond(route, { id: 1, results: [] });
+    if (path === "tv/1399") return respond(route, seriesDetail);
+    const seasonMatch = path.match(/^tv\/1399\/season\/(\d+)$/);
+    if (seasonMatch) return respond(route, season(Number(seasonMatch[1])));
+    if (path === "discover/movie" && url.searchParams.has("release_date.gte")) {
+      return respond(route, page(UPCOMING));
+    }
 
     const detail = path.match(/^movie\/(\d+)$/);
     if (detail) {

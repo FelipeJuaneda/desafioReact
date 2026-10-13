@@ -1,6 +1,6 @@
 import { Link, useViewTransitionState } from "react-router";
 import { paths } from "@/app/paths";
-import { EdgeCode } from "@/components/ui/EdgeCode";
+import { EdgeCode, type EdgeCodeItem } from "@/components/ui/EdgeCode";
 import { Poster } from "@/components/ui/Poster";
 import { SaveButton } from "@/features/favorites/SaveButton";
 import { formatRating, formatYear } from "@/lib/format";
@@ -12,10 +12,14 @@ interface TitleCardProps {
   /** Rendered poster width per breakpoint (see Poster). */
   sizes: string;
   priority?: boolean;
+  /** Replaces the default edge code (year · rating), e.g. with a release date. */
+  edge?: EdgeCodeItem[];
+  /** One line under the edge code: why this title is here. */
+  note?: string;
 }
 
 /** A frame of the reel: poster, title and the edge-code line (year · rating). */
-export const TitleCard = ({ mediaType, item, sizes, priority }: TitleCardProps) => {
+export const TitleCard = ({ mediaType, item, sizes, priority, edge, note }: TitleCardProps) => {
   const title = getTitle(item);
   const year = formatYear("release_date" in item ? item.release_date : item.first_air_date);
   const rating = formatRating(item.vote_average);
@@ -43,7 +47,10 @@ export const TitleCard = ({ mediaType, item, sizes, priority }: TitleCardProps) 
         <h3 className="text-body leading-tight font-semibold text-balance text-emulsion decoration-edge decoration-2 underline-offset-4 group-hover:underline">
           {title}
         </h3>
-        <EdgeCode items={[year && { label: year }, rating && { label: rating, emphasis: true }]} />
+        <EdgeCode
+          items={edge ?? [year && { label: year }, rating && { label: rating, emphasis: true }]}
+        />
+        {note && <p className="-mt-1 truncate text-small text-emulsion-muted">{note}</p>}
       </Link>
       <SaveButton
         mediaType={mediaType}

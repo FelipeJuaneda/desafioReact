@@ -12,9 +12,11 @@ const AccountMenu = lazy(() =>
 );
 
 const NAV = [
-  { to: paths.home, label: "Inicio", end: true },
+  // The wordmark already goes home: tablets drop "Inicio" to keep room for search.
+  { to: paths.home, label: "Inicio", end: true, wide: true },
   { to: paths.movies, label: "Películas" },
   { to: paths.series, label: "Series" },
+  { to: paths.releases, label: "Estrenos" },
   { to: paths.myList, label: "Mi lista" },
 ];
 
@@ -74,7 +76,7 @@ export const SiteHeader = () => {
         <nav aria-label="Principal" className="hidden shrink-0 md:block">
           <ul className="flex gap-1">
             {NAV.map((item) => (
-              <li key={item.to}>
+              <li key={item.to} className={cn(item.wide && "hidden lg:block")}>
                 <NavLink
                   to={item.to}
                   end={item.end}

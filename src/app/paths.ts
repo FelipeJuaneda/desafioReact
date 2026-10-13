@@ -19,6 +19,7 @@ export const paths = {
   person: (id: number, name?: string) => `/persona/${id}${slugSuffix(name)}`,
   genre: (type: MediaType, genreId: number) =>
     `${type === "movie" ? "/peliculas" : "/series"}?genero=${genreId}`,
+  releases: "/estrenos",
   myList: "/mi-lista",
   signIn: "/ingresar",
   signUp: "/registro",

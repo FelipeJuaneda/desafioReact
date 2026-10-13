@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { paths } from "@/app/paths";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { StatePanel } from "@/components/ui/StatePanel";
+import { CatalogRail } from "@/features/catalog/CatalogRail";
 import { CastRail } from "@/features/title/CastRail";
+import { Seasons } from "@/features/title/Seasons";
 import { TitleFacts } from "@/features/title/TitleFacts";
 import { TitleHero } from "@/features/title/TitleHero";
 import { TrailerDialog } from "@/features/title/TrailerDialog";
@@ -12,7 +14,8 @@ import { pickTrailer, useTitle } from "@/features/title/useTitle";
 import { VideoGallery } from "@/features/title/VideoGallery";
 import { formatYear } from "@/lib/format";
 import { idFromSlug } from "@/lib/slug";
-import { getTitle, type MediaType, type Video } from "@/types/tmdb";
+import { recommendationsQuery } from "@/services/tmdb/queries";
+import { getTitle, type MediaType, type TvDetail, type Video } from "@/types/tmdb";
 
 const TitleSkeleton = () => (
   <div
@@ -50,15 +53,17 @@ const TitleView = ({ mediaType, id, slug }: { mediaType: MediaType; id: string; 
   const { detail, credits, videos, notFound } = useTitle(mediaType, id);
   const [playing, setPlaying] = useState<Video | null>(null);
   const navigate = useNavigate();
+  const { search } = useLocation();
   const title = detail.data;
 
   // Canonical URL: /pelicula/550 -> /pelicula/550-el-club-de-la-lucha, without a history entry.
+  // The query (?temporada=3) survives.
   useEffect(() => {
     if (!title) return;
     const canonical = paths.title(mediaType, title.id, getTitle(title));
     if (!canonical.endsWith(`/${slug}`))
-      navigate(canonical, { replace: true, preventScrollReset: true });
-  }, [title, mediaType, slug, navigate]);
+      navigate({ pathname: canonical, search }, { replace: true, preventScrollReset: true });
+  }, [title, mediaType, slug, search, navigate]);
 
   if (detail.isPending) return <TitleSkeleton />;
   if (notFound) return <Missing mediaType={mediaType} />;
@@ -91,8 +96,14 @@ const TitleView = ({ mediaType, id, slug }: { mediaType: MediaType; id: string; 
       />
       <div className="mx-auto grid max-w-(--container-reel) gap-14 px-(--spacing-gutter) pt-14">
         <CastRail cast={credits?.cast ?? []} />
+        {"number_of_seasons" in title && <Seasons series={title as TvDetail} />}
         <VideoGallery videos={videos} onPlay={setPlaying} />
         <TitleFacts title={title} credits={credits} />
+        <CatalogRail
+          title={mediaType === "movie" ? "Si te gustó esta película" : "Si te gustó esta serie"}
+          mediaType={mediaType}
+          query={recommendationsQuery(mediaType, title.id)}
+        />
       </div>
       <TrailerDialog video={playing} onClose={() => setPlaying(null)} />
     </>

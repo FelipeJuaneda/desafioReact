@@ -8,6 +8,7 @@ import { Button, ButtonLink } from "@/components/ui/Button";
 import { StatePanel } from "@/components/ui/StatePanel";
 import type { Favorite } from "@/features/favorites/favorite";
 import { useFavoriteContext } from "@/features/favorites/useFavoriteContext";
+import { ForYouRail } from "@/features/for-you/ForYouRail";
 import { ContactSheet, ContactSheetSkeleton } from "@/features/my-list/ContactSheet";
 import { NextShowing, NextShowingSkeleton } from "@/features/my-list/NextShowing";
 import {
@@ -243,6 +244,9 @@ const MyListPage = () => {
             />
           </section>
         )}
+
+        {/* What to save next: picks from the titles saved last, ignoring the filter above. */}
+        <ForYouRail />
       </div>
     </div>
   );
