@@ -23,13 +23,14 @@ const FILM_GRID =
 
 /**
  * The day stamp, printed like the date on a release sheet: weekday and month in edge code, the
- * day in can-label figures. Sticky, so a long day keeps its date in view. Phones get one line.
+ * day in can-label figures. Sticky, so a long day keeps its date in view; on phones it is one
+ * band, flush under the header.
  */
 const DayStamp = ({ date }: { date: string }) => {
   const { weekday, day, month } = dateStamp(date);
   const days = daysUntil(date) ?? 0;
   return (
-    <div className="sticky top-[calc(var(--header-height,3.75rem)+0.5rem)] z-(--z-raised) -mx-(--spacing-gutter) flex items-baseline gap-3 self-start border-b border-frameline bg-leader px-(--spacing-gutter) py-2 md:mx-0 md:grid md:justify-items-start md:gap-1 md:border-0 md:p-0">
+    <div className="sticky top-(--header-height) z-(--z-raised) -mx-(--spacing-gutter) flex items-baseline gap-3 self-start border-b border-frameline bg-leader px-(--spacing-gutter) py-2 md:top-[calc(var(--header-height)+1.5rem)] md:mx-0 md:grid md:justify-items-start md:gap-1 md:border-0 md:p-0">
       <h2 className="flex items-baseline gap-2 md:grid md:gap-0">
         <span className="sr-only">{formatDate(date)}</span>
         <span

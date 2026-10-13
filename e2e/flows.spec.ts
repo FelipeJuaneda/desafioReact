@@ -177,6 +177,39 @@ test("upcoming releases: a schedule by day with a calendar reminder", async ({ p
   expect((await download).suggestedFilename()).toBe("estreno-estreno-del-jueves.ics");
 });
 
+test("¿Qué vemos?: six questions, then a ranked and explained list", async ({ page }) => {
+  await page.goto("/que-vemos");
+  await expect(page.getByRole("heading", { name: "¿Qué vemos hoy?", level: 1 })).toBeVisible();
+  await expectNoA11yViolations(page);
+
+  await page.getByRole("button", { name: /^En pareja/ }).click();
+  await page.getByRole("button", { name: /^Una película/ }).click();
+  await page.getByRole("button", { name: /^Lo normal/ }).click();
+  await expect(page.getByRole("heading", { name: "¿Qué tenés ganas de sentir?" })).toBeFocused();
+  await page.getByRole("button", { name: /^Emocionarme/ }).click();
+  await page.getByRole("button", { name: "Seguir" }).click();
+  await page.getByRole("button", { name: /^De este siglo/ }).click();
+  await page.getByRole("button", { name: /^Netflix/ }).click();
+  await page.getByRole("button", { name: "Buscar en esa plataforma" }).click();
+
+  await expect(page).toHaveURL(
+    /\/que-vemos\?con=pareja&tipo=pelicula&tiempo=normal&animo=emocion&epoca=siglo&donde=8$/,
+  );
+  await expect(page.getByRole("heading", { name: "Tu función de hoy", level: 1 })).toBeVisible();
+  const best = page.getByRole("article");
+  await expect(best.getByRole("heading", { level: 2 })).toContainText("La mejor opción");
+  await expect(best.getByText("Coincidencia")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "También te van a gustar" })).toBeVisible();
+  await expectNoA11yViolations(page);
+
+  // Back walks the questions with the earlier answers still marked.
+  await page.getByRole("button", { name: "Cambiar respuestas" }).click();
+  await expect(page.getByRole("button", { name: /^En pareja/ })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+});
+
 test("unknown URLs end the reel with a way back", async ({ page }) => {
   await page.goto("/esto-no-existe");
   await expect(

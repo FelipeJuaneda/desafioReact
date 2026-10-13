@@ -15,6 +15,7 @@ const ALLOWED_ROOTS = new Set([
   "search",
   "trending",
   "tv",
+  "watch",
 ]);
 
 const json = (body: unknown, status: number) =>

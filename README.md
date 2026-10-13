@@ -24,6 +24,7 @@ Catálogo de películas y series para decidir qué ver: lo que está en carteler
 - **Películas y Series:** catálogo con filtro por género y orden (populares, mejor puntuadas, recientes), todo en la URL para poder compartirlo, con "cargar más".
 - **Ficha:** backdrop, sinopsis, reparto (cada persona tiene su página), tráileres y ficha técnica. Al abrir un título, el póster se expande hasta el backdrop (View Transitions).
 - **Compartir con vista previa propia:** cada ficha tiene "Compartir" (la hoja nativa del celular, o un menú con copiar enlace, WhatsApp, Telegram, X, Facebook y email en desktop). El enlace llega a WhatsApp, X o Telegram con una tarjeta generada para ese título: un fotograma de 35 mm con backdrop, afiche, título y código de borde.
+- **¿Qué vemos? (recomendador):** seis preguntas (con quién la ves, película o serie, cuánto tiempo tenés, qué ganas, época y en qué plataformas) y diez títulos ordenados de la mejor opción para abajo, cada uno con su porcentaje de coincidencia y el porqué. Las respuestas viven en la URL, así que un resultado se puede compartir.
 - **Dónde verla:** cada ficha dice en qué plataformas de Argentina está (incluida en una suscripción, alquiler o compra), con datos de JustWatch vía TMDB.
 - **Temporadas y episodios:** las series muestran cada temporada con sus episodios (fotograma, fecha, duración, puntaje y sinopsis), la que está en emisión marcada, y la temporada elegida en la URL.
 - **Próximos estrenos:** la cartelera de lo que llega a los cines de Argentina, día por día, con "Avisame", que agenda el estreno en Google Calendar o en cualquier calendario (.ics). Una película por estrenar muestra su fecha local y el mismo botón en la ficha.
@@ -53,11 +54,13 @@ Catálogo de películas y series para decidir qué ver: lo que está en carteler
 
 **Vistas previas por título sin renderizar en el servidor.** Los bots de WhatsApp, X o Telegram no ejecutan JavaScript, así que en una SPA todo enlace mostraría la tarjeta genérica del sitio. Una regla de `vercel.json` deriva solo a esos bots (por user agent) a una función ([`server/share/titlePage.ts`](server/share/titlePage.ts)) que devuelve el mismo `index.html` con los meta tags del título; las personas siguen recibiendo el sitio estático. La imagen la dibuja otra función ([`server/share/ogImage.ts`](server/share/ogImage.ts)) con satori y resvg (WebAssembly) usando las fuentes de la app, y se entrega como JPEG de ~130 kB en vez de un PNG de hasta 1,1 MB (WhatsApp descarta las previews pesadas), cacheada una semana en el CDN.
 
+**Un recomendador explicable, no una caja negra.** [`features/recommender/engine.ts`](src/features/recommender/engine.ts) traduce las respuestas a búsquedas de TMDB (géneros por ánimo, duración, época, plataformas de Argentina y, en familia, calificación apta para todo público) y puntúa cada candidato: 38 % calidad (puntaje ponderado por cantidad de votos, para que 9,5 con 20 votos no le gane a 8,2 con 20.000), 30 % ánimo (el género principal pesa más que uno secundario), 17 % con quién la ves, 8 % época y 7 % qué tan conocida es, más un empujón si ya estaba en tu lista. Si los filtros dejan muy pocos títulos, afloja duración y época antes que lo demás. Al final, un paso de diversidad (maximal marginal relevance) evita diez títulos del mismo género o la misma saga. Todas las reglas tienen tests.
+
 **Rendimiento medido y con presupuesto.** Firestore se carga recién cuando alguien inicia sesión y Firebase Auth después del primer render; el menú de cuenta solo existe para usuarios con sesión. El HTML pide los datos del destacado y precarga su imagen mientras baja el JS, y los skeletons tienen la geometría exacta del contenido.
 
 |                                  | Antes de la fase 4 | Ahora                                                             |
 | -------------------------------- | ------------------ | ----------------------------------------------------------------- |
-| JS de la primera visita (gzip)   | ~247 kB            | 150 kB, con Motion incluido (presupuesto: 150 kB, lo controla CI) |
+| JS de la primera visita (gzip)   | ~247 kB            | 146 kB, con Motion incluido (presupuesto: 150 kB, lo controla CI) |
 | Descubrimiento de la imagen LCP* | 4,3 s              | 0,6 s                                                             |
 | CLS*                             | 0,09               | 0,00                                                              |
 

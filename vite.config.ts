@@ -1,8 +1,70 @@
+import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { loadEnv, type Plugin, type ProxyOptions } from "vite";
+import type { ComponentType } from "react";
 import { configDefaults, defineConfig } from "vitest/config";
+
+/**
+ * @remixicon/react ships every icon in one module, so whichever chunk holds that module keeps
+ * every icon any screen imports: icons used only by lazy screens ended up in the first visit.
+ * This turns `import { RiX } from "@remixicon/react"` into one tiny module per icon, built from
+ * the library's own SVG paths, so each icon travels with the chunk that uses it.
+ */
+const remixIconsPerModule = (): Plugin => {
+  const PREFIX = "\0remixicon:";
+  const require = createRequire(import.meta.url);
+  const pathsOf = (name: string) => {
+    const { createElement } = require("react") as typeof import("react");
+    const { renderToStaticMarkup } =
+      require("react-dom/server") as typeof import("react-dom/server");
+    const icons = require("@remixicon/react") as Record<string, ComponentType>;
+    const Icon = icons[name];
+    if (!Icon) throw new Error(`@remixicon/react has no icon named ${name}`);
+    return [...renderToStaticMarkup(createElement(Icon)).matchAll(/ d="([^"]+)"/g)].map(
+      (match) => match[1]!,
+    );
+  };
+  return {
+    name: "remixicon-per-module",
+    enforce: "pre",
+    transform(code, id) {
+      if (id.includes("node_modules") || !code.includes("@remixicon/react")) return null;
+      return code.replace(
+        /import\s*\{([^}]*)\}\s*from\s*["']@remixicon\/react["'];?/g,
+        (_statement, names: string) => {
+          const specifiers = names
+            .split(",")
+            .map((name) => name.trim())
+            .filter(Boolean);
+          const types = specifiers.filter((name) => name.startsWith("type "));
+          const icons = specifiers.filter((name) => !name.startsWith("type "));
+          return [
+            types.length > 0 &&
+              `import type { ${types.map((t) => t.slice(5)).join(", ")} } from "@remixicon/react";`,
+            ...icons.map((name) => `import ${name} from "${PREFIX}${name}";`),
+          ]
+            .filter(Boolean)
+            .join("\n");
+        },
+      );
+    },
+    resolveId: (id) => (id.startsWith(PREFIX) ? id : null),
+    load(id) {
+      if (!id.startsWith(PREFIX)) return null;
+      const name = id.slice(PREFIX.length);
+      const paths = pathsOf(name)
+        .map((d) => `createElement("path", { d: ${JSON.stringify(d)} })`)
+        .join(", ");
+      // Same props and markup as the library's components.
+      return `import { createElement } from "react";
+const ${name} = ({ color = "currentColor", size = 24, className, ...props }) =>
+  createElement("svg", { viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg", width: size, height: size, fill: color, ...props, className: "remixicon " + (className || "") }, ${paths});
+export default ${name};`;
+    },
+  };
+};
 
 /**
  * Both Sofia Sans families set the first viewport, but the browser only finds them after parsing
@@ -76,7 +138,7 @@ export default defineConfig(({ mode }) => {
   };
 
   return {
-    plugins: [react(), tailwindcss(), preloadFonts(), preloadHome()],
+    plugins: [remixIconsPerModule(), react(), tailwindcss(), preloadFonts(), preloadHome()],
     resolve: {
       alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) },
     },

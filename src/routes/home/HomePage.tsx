@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { Link } from "react-router";
 import { paths } from "@/app/paths";
+import { ButtonLink } from "@/components/ui/Button";
 import { CatalogRail } from "@/features/catalog/CatalogRail";
 import { FeaturedTitle } from "@/features/catalog/FeaturedTitle";
 import { useFavoriteContext } from "@/features/favorites/useFavoriteContext";
@@ -45,6 +46,24 @@ const HomePage = () => (
     <h1 className="sr-only">Qué ver esta semana</h1>
     <FeaturedTitle />
     <div className="mx-auto grid max-w-(--container-reel) gap-14 px-(--spacing-gutter) pt-12">
+      <section
+        aria-labelledby="what-to-watch"
+        className="flex flex-wrap items-center justify-between gap-x-10 gap-y-5 border-b border-frameline pb-10"
+      >
+        <div className="grid max-w-[46rem] gap-2">
+          <h2
+            id="what-to-watch"
+            className="font-display text-display-lg font-extrabold text-balance text-emulsion uppercase"
+          >
+            ¿No sabés qué ver?
+          </h2>
+          <p className="text-body-lg text-emulsion-muted">
+            Contestá seis preguntas (con quién, cuánto tiempo, qué ganas, dónde) y te armamos la
+            función: diez títulos ordenados para vos, con el porqué de cada uno.
+          </p>
+        </div>
+        <ButtonLink to={paths.recommender}>Armar mi función</ButtonLink>
+      </section>
       <CatalogRail
         title="En cartel"
         mediaType="movie"

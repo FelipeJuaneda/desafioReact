@@ -84,6 +84,8 @@
 }
 
 :root {
+  /* Height of the sticky site header; SiteHeader keeps it exact (font loading, zoom). */
+  --header-height: 3.8125rem;
   --duration-fast: 140ms;
   --duration-base: 220ms;
   --duration-slow: 360ms;

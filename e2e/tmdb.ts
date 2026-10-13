@@ -158,6 +158,14 @@ export const mockTmdb = async (page_: Page) => {
     if (/^(movie|tv)\/\d+\/credits$/.test(path)) return respond(route, credits);
     if (/^(movie|tv)\/\d+\/videos$/.test(path)) return respond(route, videos);
     if (/^(movie|tv)\/\d+\/watch\/providers$/.test(path)) return respond(route, providers);
+    if (path === "watch/providers/movie") {
+      return respond(route, {
+        results: [
+          { provider_id: 8, provider_name: "Netflix", logo_path: null },
+          { provider_id: 1899, provider_name: "HBO Max", logo_path: null },
+        ],
+      });
+    }
     if (/^movie\/\d+\/release_dates$/.test(path)) return respond(route, { id: 1, results: [] });
     if (path === "tv/1399") return respond(route, seriesDetail);
     const seasonMatch = path.match(/^tv\/1399\/season\/(\d+)$/);

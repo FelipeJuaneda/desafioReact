@@ -125,8 +125,13 @@ export const Rail = <T,>({
 
   return (
     <section aria-labelledby={titleId} className={cn("grid gap-3", className)}>
-      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
-        <div className="flex items-baseline gap-4">
+      {/*
+        The title takes all spare room first (grow 9999), so on one line the controls sit
+        together at the right. When they wrap to their own line they are the only item there,
+        grow to the full width, and spread: counter left, arrows right.
+      */}
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+        <div className="flex grow-[9999] items-baseline gap-4">
           <h2
             id={titleId}
             className="font-display text-display-lg font-extrabold text-emulsion uppercase"
@@ -135,7 +140,7 @@ export const Rail = <T,>({
           </h2>
           {action}
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex grow items-center justify-between gap-3">
           <p className="font-code text-[0.8125rem] font-semibold tracking-[0.08em] whitespace-nowrap text-emulsion-muted [font-stretch:75%] tabular-nums">
             {/* The visible range, "01–06 / 20"; it rolls up like a footage counter when it moves. */}
             <span className="sr-only">

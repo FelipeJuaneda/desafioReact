@@ -40,6 +40,10 @@ export const routes: RouteObject[] = [
           },
           { path: "persona/:slug", lazy: defaultPage(() => import("@/routes/person/PersonPage")) },
           { path: "estrenos", lazy: defaultPage(() => import("@/routes/releases/ReleasesPage")) },
+          {
+            path: "que-vemos",
+            lazy: defaultPage(() => import("@/routes/recommender/RecommenderPage")),
+          },
           { path: "buscar", lazy: defaultPage(() => import("@/routes/search/SearchPage")) },
           {
             path: "mi-lista",

@@ -20,6 +20,7 @@ export const paths = {
   genre: (type: MediaType, genreId: number) =>
     `${type === "movie" ? "/peliculas" : "/series"}?genero=${genreId}`,
   releases: "/estrenos",
+  recommender: "/que-vemos",
   myList: "/mi-lista",
   signIn: "/ingresar",
   signUp: "/registro",
