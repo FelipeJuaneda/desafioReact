@@ -23,6 +23,7 @@ Catálogo de películas y series para decidir qué ver: lo que está en carteler
 - **Inicio:** el título más visto de la semana "proyectado", y rieles de cartelera, series de la semana y mejor puntuadas.
 - **Películas y Series:** catálogo con filtro por género y orden (populares, mejor puntuadas, recientes), todo en la URL para poder compartirlo, con "cargar más".
 - **Ficha:** backdrop, sinopsis, reparto (cada persona tiene su página), tráileres y ficha técnica. Al abrir un título, el póster se expande hasta el backdrop (View Transitions).
+- **Compartir con vista previa propia:** cada ficha tiene "Compartir" (la hoja nativa del celular, o un menú con copiar enlace, WhatsApp, Telegram, X, Facebook y email en desktop). El enlace llega a WhatsApp, X o Telegram con una tarjeta generada para ese título: un fotograma de 35 mm con backdrop, afiche, título y código de borde.
 - **Búsqueda:** películas, series y personas en una sola búsqueda, con debounce y la consulta en la URL.
 - **Mi lista, la sala de montaje:** el último título guardado se proyecta como "próxima función" y el resto forma una hoja de contactos numerada en el orden en que los guardaste. Se filtra por tipo y se ordena (recientes, puntaje, año, A–Z) desde la URL; quitar un título lo **tacha con lápiz graso** y ofrece "deshacer". Los títulos viven en Firestore por usuario (cuenta con email o Google), y los favoritos que había en el navegador (versión anterior) se migran solos a la cuenta.
 - **En español latino:** títulos y sinopsis como se estrenaron en la región ("El Club de la Pelea"), y los tráileres priorizan la versión latina, después la original y el doblaje de España solo como último recurso; cada video muestra su versión.
@@ -40,17 +41,19 @@ Catálogo de películas y series para decidir qué ver: lo que está en carteler
 | Animación      | Motion (`LazyMotion`, features diferidas) y View Transitions para la transición de ventanilla |
 | Cuenta y datos | Firebase Auth (email y Google) y Firestore con reglas por usuario                             |
 | Calidad        | Vitest + Testing Library, Playwright + axe, ESLint (jsx-a11y), Prettier, GitHub Actions       |
-| Deploy         | Vercel: sitio estático + una función serverless para el proxy                                 |
+| Deploy         | Vercel: sitio estático + funciones para el proxy de TMDB y las vistas previas al compartir    |
 
 ## Decisiones que vale la pena contar
 
 **La key de TMDB nunca llega al navegador.** Todas las llamadas van a `/api/tmdb/*`, una función de Vercel ([`api/tmdb.ts`](api/tmdb.ts), con la lógica y sus tests en [`server/tmdbProxy.ts`](server/tmdbProxy.ts)) que agrega el token del lado del servidor, solo deja pasar los endpoints que la app usa y cachea en el CDN (`s-maxage`). En desarrollo, el proxy de Vite hace lo mismo. Un build de producción no contiene ni la key ni el token.
 
+**Vistas previas por título sin renderizar en el servidor.** Los bots de WhatsApp, X o Telegram no ejecutan JavaScript, así que en una SPA todo enlace mostraría la tarjeta genérica del sitio. Una regla de `vercel.json` deriva solo a esos bots (por user agent) a una función ([`server/share/titlePage.ts`](server/share/titlePage.ts)) que devuelve el mismo `index.html` con los meta tags del título; las personas siguen recibiendo el sitio estático. La imagen la dibuja otra función ([`server/share/ogImage.ts`](server/share/ogImage.ts)) con satori y resvg (WebAssembly) usando las fuentes de la app, y se entrega como JPEG de ~130 kB en vez de un PNG de hasta 1,1 MB (WhatsApp descarta las previews pesadas), cacheada una semana en el CDN.
+
 **Rendimiento medido y con presupuesto.** Firestore se carga recién cuando alguien inicia sesión y Firebase Auth después del primer render; el menú de cuenta solo existe para usuarios con sesión. El HTML pide los datos del destacado y precarga su imagen mientras baja el JS, y los skeletons tienen la geometría exacta del contenido.
 
 |                                  | Antes de la fase 4 | Ahora                                                             |
 | -------------------------------- | ------------------ | ----------------------------------------------------------------- |
-| JS de la primera visita (gzip)   | ~247 kB            | 145 kB, con Motion incluido (presupuesto: 150 kB, lo controla CI) |
+| JS de la primera visita (gzip)   | ~247 kB            | 147 kB, con Motion incluido (presupuesto: 150 kB, lo controla CI) |
 | Descubrimiento de la imagen LCP* | 4,3 s              | 0,6 s                                                             |
 | CLS*                             | 0,09               | 0,00                                                              |
 
@@ -65,8 +68,8 @@ Catálogo de películas y series para decidir qué ver: lo que está en carteler
 ## Estructura
 
 ```
-api/tmdb.ts          Función serverless de Vercel (el rewrite está en vercel.json)
-server/              Lógica del proxy de TMDB (allowlist, token, caché) + tests
+api/                 Funciones de Vercel: proxy de TMDB, tarjeta para compartir y meta tags por título
+server/              Su lógica + tests: proxy (allowlist, token, caché) y share/ (tarjeta, meta tags)
 src/
   app/               Router, rutas, paths, QueryClient
   routes/            Una carpeta por pantalla (lazy)

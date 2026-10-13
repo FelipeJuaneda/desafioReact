@@ -3,6 +3,11 @@
   "framework": "vite",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "functions": {
+    "api/og.ts": {
+      "includeFiles": "{server/share/fonts/**,node_modules/@resvg/resvg-wasm/index_bg.wasm}"
+    }
+  },
   "rewrites": [
     {
       "source": "/__/auth/:path*",
@@ -12,7 +17,24 @@
       "source": "/__/firebase/:path*",
       "destination": "https://peliculed-43e93.firebaseapp.com/__/firebase/:path*"
     },
-    { "source": "/api/tmdb/:path*", "destination": "/api/tmdb?path=:path*" },
-    { "source": "/((?!api/|__/).*)", "destination": "/index.html" }
+    {
+      "source": "/api/tmdb/:path*",
+      "destination": "/api/tmdb?path=:path*"
+    },
+    {
+      "source": "/:kind(pelicula|serie)/:slug",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(bot|Bot|facebookexternalhit|WhatsApp|Slack|Embedly|Iframely|vkShare|SkypeUriPreview|Mastodon|Bluesky|Preview|preview).*"
+        }
+      ],
+      "destination": "/api/title-page?kind=:kind&slug=:slug"
+    },
+    {
+      "source": "/((?!api/|__/).*)",
+      "destination": "/index.html"
+    }
   ]
 }

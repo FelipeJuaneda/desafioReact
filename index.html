@@ -3,11 +3,6 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>PelicuLed</title>
-    <meta
-      name="description"
-      content="Catálogo de películas y series para decidir qué ver: lo que está en cartelera, lo más visto de la semana y tu propia lista, con datos de TMDB."
-    />
     <meta name="theme-color" content="#0e0d0b" />
     <meta name="color-scheme" content="dark" />
 
@@ -59,8 +54,16 @@
 
     <!--
       Link previews (WhatsApp, Slack, X…) read these without running JavaScript, so they
-      describe the site as a whole. Each screen sets its own <title> and description in React.
+      describe the site as a whole. Each screen sets its own <title> and description in React,
+      and for a shared title the server swaps this whole block for the title's own tags
+      (server/share/titlePage.ts): keep the share:start / share:end markers.
     -->
+    <!-- share:start -->
+    <title>PelicuLed</title>
+    <meta
+      name="description"
+      content="Catálogo de películas y series para decidir qué ver: lo que está en cartelera, lo más visto de la semana y tu propia lista, con datos de TMDB."
+    />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="PelicuLed" />
     <meta property="og:locale" content="es_AR" />
@@ -79,6 +82,7 @@
       content="Logo de PelicuLed: un cuadro de película con perforaciones ámbar."
     />
     <meta name="twitter:card" content="summary_large_image" />
+    <!-- share:end -->
   </head>
   <body>
     <noscript>PelicuLed necesita JavaScript activado para funcionar.</noscript>

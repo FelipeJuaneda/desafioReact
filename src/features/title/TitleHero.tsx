@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { EdgeCode } from "@/components/ui/EdgeCode";
 import { Poster } from "@/components/ui/Poster";
 import { SaveButton } from "@/features/favorites/SaveButton";
+import { ShareButton } from "@/features/title/ShareButton";
 import { formatRating, formatRuntime, formatSeasons, formatYear } from "@/lib/format";
 import { BACKDROP_WIDTHS, tmdbImage, tmdbSrcSet } from "@/services/tmdb/images";
 import { getTitle, type MediaType, type TitleDetail } from "@/types/tmdb";
@@ -97,6 +98,7 @@ export const TitleHero = ({ mediaType, title, onPlayTrailer }: TitleHeroProps) =
               </Button>
             )}
             <SaveButton mediaType={mediaType} item={title} />
+            <ShareButton mediaType={mediaType} title={title} name={name} />
           </div>
         </div>
       </div>

@@ -111,6 +111,31 @@ test("sign in explains wrong credentials in Spanish", async ({ page }) => {
   await expect(page.getByRole("alert")).toContainText("El email o la contraseña no coinciden");
 });
 
+test("sharing a title copies its canonical link", async ({ page, context, browserName }) => {
+  test.skip(browserName !== "chromium", "Clipboard permissions are Chromium-only in Playwright");
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.goto("/pelicula/550");
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+
+  const share = page.getByRole("button", { name: "Compartir" });
+  // Touch devices get the system share sheet instead of the menu.
+  test.skip(
+    await page.evaluate(() => matchMedia("(pointer: coarse)").matches),
+    "Native share sheet on touch devices",
+  );
+  await share.click();
+  await expect(page.getByRole("menuitem", { name: "WhatsApp" })).toHaveAttribute(
+    "href",
+    /^https:\/\/wa\.me\/\?text=.*%2Fpelicula%2F550-el-club-de-la-lucha$/,
+  );
+  await expectNoA11yViolations(page);
+
+  await page.getByRole("menuitem", { name: "Copiar enlace" }).click();
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toMatch(
+    /\/pelicula\/550-el-club-de-la-lucha$/,
+  );
+});
+
 test("unknown URLs end the reel with a way back", async ({ page }) => {
   await page.goto("/esto-no-existe");
   await expect(
