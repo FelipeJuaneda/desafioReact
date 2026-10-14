@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { isRouteErrorResponse, useRouteError } from "react-router";
+import { reportError } from "@/app/monitoring";
 import { paths } from "@/app/paths";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { EndOfReel } from "@/routes/errors/EndOfReel";
@@ -14,11 +16,16 @@ const isStaleChunk = (error: unknown) =>
 /** Anything a screen throws lands here, inside the shell, instead of a blank page. */
 export const RouteError = () => {
   const error = useRouteError();
-  if (isRouteErrorResponse(error) && error.status === 404) return <NotFoundPage />;
 
   const stale = isStaleChunk(error);
-  if (import.meta.env.DEV) console.error(error);
+  const notFound = isRouteErrorResponse(error) && error.status === 404;
+  useEffect(() => {
+    if (import.meta.env.DEV) console.error(error);
+    // A stale chunk after a deploy is expected, not a bug.
+    if (!notFound && !stale) reportError(error);
+  }, [error, notFound, stale]);
 
+  if (notFound) return <NotFoundPage />;
   return (
     <>
       <title>Se cortó la proyección · PelicuLed</title>

@@ -1,7 +1,16 @@
 // @vitest-environment node
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { GET } from "./titlePage";
-import { clip, injectHead, parseId, parseKind, titleHead, titlePath, toShareTitle } from "./title";
+import {
+  clip,
+  injectHead,
+  parseId,
+  parseKind,
+  structuredData,
+  titleHead,
+  titlePath,
+  toShareTitle,
+} from "./title";
 
 const fightClub = {
   id: 550,
@@ -62,6 +71,28 @@ describe("share metadata", () => {
     expect(head).toContain('<meta property="og:type" content="video.movie" />');
   });
 
+  it("describes the title as schema.org structured data", () => {
+    const title = toShareTitle("movie", {
+      ...fightClub,
+      vote_count: 30000,
+      original_title: "Fight Club",
+      overview: "Un club </script><script>alert(1)</script>",
+    });
+    const json = structuredData(title, "https://peliculed.test/pelicula/550");
+    expect(json).not.toContain("</script>");
+    expect(JSON.parse(json)).toMatchObject({
+      "@type": "Movie",
+      name: "El Club de la Pelea",
+      alternateName: "Fight Club",
+      datePublished: "1999-10-15",
+      duration: "PT2H19M",
+      aggregateRating: { ratingValue: 8.4, ratingCount: 30000, bestRating: 10 },
+    });
+    expect(titleHead(title, "https://peliculed.test")).toContain(
+      '<script type="application/ld+json">',
+    );
+  });
+
   it("swaps only the site-wide block of the shell", () => {
     const html = injectHead(shell, "<title>Nuevo</title>");
     expect(html).toContain("<title>Nuevo</title>");
@@ -112,5 +143,19 @@ describe("GET /api/title-page", () => {
 
     expect(await response.text()).toBe(shell);
     expect(response.headers.get("cache-control")).toBe("public, s-maxage=300");
+  });
+});
+
+describe("sitemap", () => {
+  it("lists the public pages and each title once, at its canonical URL", async () => {
+    const { sitemapXml } = await import("../seo/sitemap");
+    const xml = sitemapXml("https://peliculed.test", [
+      { kind: "movie", item: { id: 550, title: "El Club de la Pelea" } },
+      { kind: "movie", item: { id: 550, title: "El Club de la Pelea" } },
+      { kind: "tv", item: { id: 1399, name: "Game of Thrones" } },
+    ]);
+    expect(xml).toContain("<loc>https://peliculed.test/que-vemos</loc>");
+    expect(xml.match(/pelicula\/550-el-club-de-la-pelea/g)).toHaveLength(1);
+    expect(xml).toContain("<loc>https://peliculed.test/serie/1399-game-of-thrones</loc>");
   });
 });

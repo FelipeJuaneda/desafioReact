@@ -5,6 +5,8 @@ interface ImportMetaEnv {
   readonly VITE_FIREBASE_STORAGE_BUCKET: string;
   readonly VITE_FIREBASE_MESSAGING_SENDER_ID: string;
   readonly VITE_FIREBASE_APP_ID: string;
+  /** Optional: Sentry project DSN; without it, errors are not reported anywhere. */
+  readonly VITE_SENTRY_DSN?: string;
 }
 
 interface ImportMeta {

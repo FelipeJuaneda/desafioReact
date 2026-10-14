@@ -51,6 +51,21 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
+    <!-- The site for search engines: its name and how to search it (sitelinks search box). -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "PelicuLed",
+        "url": "https://peliculed-pi.vercel.app/",
+        "inLanguage": "es",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://peliculed-pi.vercel.app/buscar?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
 
     <!--
       Link previews (WhatsApp, Slack, X…) read these without running JavaScript, so they

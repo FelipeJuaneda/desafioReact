@@ -22,6 +22,10 @@
       "destination": "/api/tmdb?path=:path*"
     },
     {
+      "source": "/sitemap.xml",
+      "destination": "/api/sitemap"
+    },
+    {
       "source": "/:kind(pelicula|serie)/:slug",
       "has": [
         {

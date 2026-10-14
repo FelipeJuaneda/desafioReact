@@ -8,6 +8,7 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import { Toaster } from "sonner";
+import { startMonitoring } from "@/app/monitoring";
 import { MotionProvider } from "@/app/MotionProvider";
 import { queryClient } from "@/app/queryClient";
 import { routes } from "@/app/routes";
@@ -18,6 +19,7 @@ const container = document.getElementById("root");
 if (!container) throw new Error("Missing #root element in index.html");
 
 const router = createBrowserRouter(routes);
+startMonitoring();
 
 createRoot(container).render(
   <StrictMode>

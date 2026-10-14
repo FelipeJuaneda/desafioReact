@@ -1,3 +1,6 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+# The TMDB proxy is data for the app, not pages.
+Disallow: /api/tmdb
+
+Sitemap: https://peliculed-pi.vercel.app/sitemap.xml
