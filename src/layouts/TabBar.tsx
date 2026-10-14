@@ -1,5 +1,6 @@
 import {
   RiBookmarkLine,
+  RiCalendarEventLine,
   RiFilmLine,
   RiMovie2Line,
   RiSearchLine,
@@ -13,6 +14,7 @@ const TABS: Array<{ to: string; label: string; icon: RemixiconComponentType; end
   { to: paths.home, label: "Inicio", icon: RiFilmLine, end: true },
   { to: paths.movies, label: "Películas", icon: RiMovie2Line },
   { to: paths.series, label: "Series", icon: RiTv2Line },
+  { to: paths.releases, label: "Estrenos", icon: RiCalendarEventLine },
   { to: paths.search(), label: "Buscar", icon: RiSearchLine },
   { to: paths.myList, label: "Mi lista", icon: RiBookmarkLine },
 ];
@@ -23,7 +25,7 @@ export const TabBar = () => (
     aria-label="Principal"
     className="fixed inset-x-0 bottom-0 z-(--z-tabbar) border-t border-frameline bg-acetate pb-[env(safe-area-inset-bottom)] md:hidden"
   >
-    <ul className="grid grid-cols-5">
+    <ul className="grid grid-cols-6">
       {TABS.map(({ to, label, icon: Icon, end }) => (
         <li key={to}>
           <NavLink

@@ -1,10 +1,11 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { RiBookmarkLine, RiLogoutBoxRLine } from "@remixicon/react";
+import { RiBookmarkLine, RiDownload2Line, RiLogoutBoxRLine } from "@remixicon/react";
 import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 import { paths } from "@/app/paths";
 import { authErrorMessage } from "@/features/auth/authErrors";
 import { useAuthContext } from "@/features/auth/useAuthContext";
+import { openInstallSheet, useInstallMethod } from "@/features/install/installState";
 
 const itemClasses =
   "flex min-h-11 w-full items-center gap-3 rounded-perf px-3 text-left text-body text-emulsion " +
@@ -13,6 +14,7 @@ const itemClasses =
 export const AccountMenu = () => {
   const { user, logout } = useAuthContext();
   const navigate = useNavigate();
+  const installMethod = useInstallMethod();
   if (!user) return null;
 
   const name = user.displayName || user.email || "Tu cuenta";
@@ -48,6 +50,14 @@ export const AccountMenu = () => {
             Mi lista
           </Link>
         </MenuItem>
+        {installMethod && (
+          <MenuItem>
+            <button type="button" onClick={openInstallSheet} className={itemClasses}>
+              <RiDownload2Line aria-hidden />
+              Descargar app
+            </button>
+          </MenuItem>
+        )}
         <MenuItem>
           <button type="button" onClick={handleLogout} className={itemClasses}>
             <RiLogoutBoxRLine aria-hidden />

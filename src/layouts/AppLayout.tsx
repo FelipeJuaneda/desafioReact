@@ -1,6 +1,7 @@
 import { m } from "motion/react";
 import { Link, Outlet, ScrollRestoration, useLocation } from "react-router";
 import { paths } from "@/app/paths";
+import { InstallOffer } from "@/features/install/InstallOffer";
 import { InstallButton } from "@/layouts/InstallButton";
 import { SiteHeader } from "@/layouts/SiteHeader";
 import { TabBar } from "@/layouts/TabBar";
@@ -82,6 +83,7 @@ export const AppLayout = () => (
     </main>
     <SiteFooter />
     <TabBar />
+    <InstallOffer />
     <ScrollRestoration />
   </div>
 );

@@ -11,6 +11,7 @@ import { Toaster } from "sonner";
 import { startMonitoring } from "@/app/monitoring";
 import { MotionProvider } from "@/app/MotionProvider";
 import { startPwa } from "@/app/pwa";
+import { captureInstallPrompt } from "@/features/install/installState";
 import { queryClient } from "@/app/queryClient";
 import { routes } from "@/app/routes";
 import AuthProvider from "@/features/auth/AuthProvider";
@@ -20,6 +21,7 @@ const container = document.getElementById("root");
 if (!container) throw new Error("Missing #root element in index.html");
 
 const router = createBrowserRouter(routes);
+captureInstallPrompt();
 startMonitoring();
 startPwa();
 
