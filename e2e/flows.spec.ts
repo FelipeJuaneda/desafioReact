@@ -231,6 +231,14 @@ test("Mis plataformas: chosen once, filters the catalog and marks title pages", 
   await expect(where.getByText("Lo tenés")).toBeVisible();
 });
 
+test("the case study is reachable from the footer and accessible", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("contentinfo").getByRole("link", { name: "Cómo está hecha" }).click();
+  await expect(page.getByRole("heading", { name: "Cómo está hecha", level: 1 })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "El recomendador" })).toBeVisible();
+  await expectNoA11yViolations(page);
+});
+
 test("unknown URLs end the reel with a way back", async ({ page }) => {
   await page.goto("/esto-no-existe");
   await expect(

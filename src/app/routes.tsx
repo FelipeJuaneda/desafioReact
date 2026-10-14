@@ -44,6 +44,10 @@ export const routes: RouteObject[] = [
             path: "que-vemos",
             lazy: defaultPage(() => import("@/routes/recommender/RecommenderPage")),
           },
+          {
+            path: "como-esta-hecha",
+            lazy: defaultPage(() => import("@/routes/about/HowItsMadePage")),
+          },
           { path: "buscar", lazy: defaultPage(() => import("@/routes/search/SearchPage")) },
           {
             path: "mi-lista",

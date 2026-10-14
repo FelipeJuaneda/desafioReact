@@ -10,6 +10,7 @@ import { RouterProvider } from "react-router/dom";
 import { Toaster } from "sonner";
 import { startMonitoring } from "@/app/monitoring";
 import { MotionProvider } from "@/app/MotionProvider";
+import { startPwa } from "@/app/pwa";
 import { queryClient } from "@/app/queryClient";
 import { routes } from "@/app/routes";
 import AuthProvider from "@/features/auth/AuthProvider";
@@ -20,6 +21,7 @@ if (!container) throw new Error("Missing #root element in index.html");
 
 const router = createBrowserRouter(routes);
 startMonitoring();
+startPwa();
 
 createRoot(container).render(
   <StrictMode>

@@ -1,5 +1,7 @@
 import { m } from "motion/react";
-import { Outlet, ScrollRestoration, useLocation } from "react-router";
+import { Link, Outlet, ScrollRestoration, useLocation } from "react-router";
+import { paths } from "@/app/paths";
+import { InstallButton } from "@/layouts/InstallButton";
 import { SiteHeader } from "@/layouts/SiteHeader";
 import { TabBar } from "@/layouts/TabBar";
 import { RISE } from "@/lib/motion";
@@ -39,6 +41,15 @@ const SiteFooter = () => (
       >
         Felipe Juaneda
       </a>
+      <span aria-hidden className="mx-2 text-frameline">
+        ·
+      </span>
+      <Link
+        to={paths.howItsMade}
+        className="rounded-perf text-emulsion underline decoration-frameline underline-offset-4 hover:decoration-edge focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-edge"
+      >
+        Cómo está hecha
+      </Link>
     </p>
     <p className="md:text-right">
       Datos e imágenes de{" "}
@@ -50,7 +61,8 @@ const SiteFooter = () => (
       >
         TMDB
       </a>
-      . Este producto usa la API de TMDB pero no está avalado ni certificado por TMDB.
+      . Este producto usa la API de TMDB pero no está avalado ni certificado por TMDB.{" "}
+      <InstallButton />
     </p>
   </footer>
 );

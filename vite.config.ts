@@ -3,6 +3,7 @@ import { fileURLToPath } from "node:url";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { loadEnv, type Plugin, type ProxyOptions } from "vite";
+import { VitePWA } from "vite-plugin-pwa";
 import type { ComponentType } from "react";
 import { configDefaults, defineConfig } from "vitest/config";
 
@@ -138,7 +139,51 @@ export default defineConfig(({ mode }) => {
   };
 
   return {
-    plugins: [remixIconsPerModule(), react(), tailwindcss(), preloadFonts(), preloadHome()],
+    plugins: [
+      remixIconsPerModule(),
+      react(),
+      tailwindcss(),
+      preloadFonts(),
+      preloadHome(),
+      // Installable app with an offline shell. public/manifest.json is the manifest; the service
+      // worker is registered from src/app/pwa.ts once the page is idle.
+      VitePWA({
+        registerType: "prompt",
+        injectRegister: false,
+        manifest: false,
+        workbox: {
+          // The whole app (every screen's chunk, CSS, fonts, icons): it opens offline.
+          globPatterns: ["**/*.{js,css,html,woff2,svg,png}"],
+          globIgnores: ["og.png"],
+          navigateFallback: "/index.html",
+          // Server routes are never the app shell.
+          navigateFallbackDenylist: [/^\/api\//, /^\/__\//, /^\/sitemap\.xml$/, /^\/robots\.txt$/],
+          runtimeCaching: [
+            {
+              // Posters and backdrops: immutable per URL.
+              urlPattern: ({ url }) => url.origin === "https://image.tmdb.org",
+              handler: "CacheFirst",
+              options: {
+                cacheName: "tmdb-images",
+                expiration: { maxEntries: 400, maxAgeSeconds: 30 * 24 * 60 * 60 },
+                cacheableResponse: { statuses: [0, 200] },
+              },
+            },
+            {
+              // Catalog data: fresh when online, the last copy when not.
+              urlPattern: ({ url }) => url.pathname.startsWith("/api/tmdb/"),
+              handler: "NetworkFirst",
+              options: {
+                cacheName: "tmdb-data",
+                networkTimeoutSeconds: 4,
+                expiration: { maxEntries: 300, maxAgeSeconds: 7 * 24 * 60 * 60 },
+                cacheableResponse: { statuses: [200] },
+              },
+            },
+          ],
+        },
+      }),
+    ],
     resolve: {
       alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) },
     },

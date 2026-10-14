@@ -21,6 +21,7 @@ export const paths = {
     `${type === "movie" ? "/peliculas" : "/series"}?genero=${genreId}`,
   releases: "/estrenos",
   recommender: "/que-vemos",
+  howItsMade: "/como-esta-hecha",
   myList: "/mi-lista",
   signIn: "/ingresar",
   signUp: "/registro",

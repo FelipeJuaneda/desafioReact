@@ -1,10 +1,12 @@
 // Firestore access for users/{uid}/favorites. See firestore.rules for the enforced schema.
 import {
   collection,
-  getFirestore,
   deleteDoc,
   doc,
+  initializeFirestore,
   onSnapshot,
+  persistentLocalCache,
+  persistentMultipleTabManager,
   orderBy,
   query,
   serverTimestamp,
@@ -17,7 +19,11 @@ import { app } from "@/services/firebase/app";
 import type { MediaType } from "@/types/tmdb";
 
 // Loaded on demand (only once someone signs in), so Firestore stays out of the initial bundle.
-const db = getFirestore(app);
+// The list is cached in IndexedDB: offline (the installed app on a train) it still opens, and
+// saves or removals made offline sync when the connection comes back. Shared across tabs.
+const db = initializeFirestore(app, {
+  localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }),
+});
 
 const favoritesCollection = (uid: string) => collection(db, "users", uid, "favorites");
 

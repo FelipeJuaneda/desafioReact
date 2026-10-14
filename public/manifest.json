@@ -1,15 +1,80 @@
 {
+  "id": "/",
   "name": "PelicuLed",
   "short_name": "PelicuLed",
-  "description": "Películas y series para decidir qué ver, con tu propia lista.",
+  "description": "Películas y series para decidir qué ver: dónde verlas, estrenos, recomendaciones y tu propia lista.",
   "lang": "es-AR",
-  "icons": [
-    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" },
-    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
-    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
-  ],
+  "dir": "ltr",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "any",
   "theme_color": "#0e0d0b",
-  "background_color": "#0e0d0b"
+  "background_color": "#0e0d0b",
+  "categories": [
+    "entertainment",
+    "lifestyle"
+  ],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "¿Qué vemos?",
+      "short_name": "Qué vemos",
+      "description": "Diez títulos para hoy, según tus respuestas",
+      "url": "/que-vemos",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Próximos estrenos",
+      "short_name": "Estrenos",
+      "url": "/estrenos",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Mi lista",
+      "short_name": "Mi lista",
+      "url": "/mi-lista",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
 }
