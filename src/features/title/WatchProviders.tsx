@@ -1,9 +1,12 @@
 import { RiExternalLinkLine } from "@remixicon/react";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { tmdbImage } from "@/services/tmdb/images";
 import { watchProvidersQuery } from "@/services/tmdb/queries";
 import type { MediaType } from "@/types/tmdb";
+import { useMyServices } from "@/features/services/myServices";
+import { ServicesDialog } from "@/features/services/ServicesDialog";
 import { groupOffer } from "./providers";
 
 const codeClasses =
@@ -22,7 +25,15 @@ interface WatchProvidersProps {
  */
 export const WatchProviders = ({ mediaType, id, upcomingNote }: WatchProvidersProps) => {
   const { data: offer, isPending, isError } = useQuery(watchProvidersQuery(mediaType, String(id)));
-  const groups = groupOffer(offer);
+  const mine = useMyServices();
+  const [picking, setPicking] = useState(false);
+  // Your services first: that is the answer to "can I watch it tonight?".
+  const groups = groupOffer(offer).map((group) => ({
+    ...group,
+    providers: [...group.providers].sort(
+      (a, b) => Number(mine.includes(b.provider_id)) - Number(mine.includes(a.provider_id)),
+    ),
+  }));
 
   return (
     <section aria-labelledby="where-to-watch" className="grid gap-3 border-t border-frameline pt-5">
@@ -75,6 +86,11 @@ export const WatchProviders = ({ mediaType, id, upcomingNote }: WatchProvidersPr
                           <span aria-hidden className="size-9 rounded-aperture bg-acetate-raised" />
                         )}
                         {provider.provider_name}
+                        {mine.includes(provider.provider_id) && (
+                          <span className="rounded-perf bg-edge px-1.5 py-0.5 font-code text-code font-medium text-on-edge uppercase [font-stretch:75%]">
+                            Lo tenés
+                          </span>
+                        )}
                       </li>
                     ))}
                   </ul>
@@ -82,20 +98,30 @@ export const WatchProviders = ({ mediaType, id, upcomingNote }: WatchProvidersPr
               </div>
             ))}
           </dl>
-          {offer?.link && (
-            <a
-              href={offer.link}
-              target="_blank"
-              rel="noopener noreferrer"
+          <div className="flex flex-wrap gap-x-6">
+            {offer?.link && (
+              <a
+                href={offer.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center gap-1.5 justify-self-start rounded-perf text-small font-semibold text-emulsion underline decoration-frameline underline-offset-4 hover:decoration-edge focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-edge [&_svg]:size-4"
+              >
+                Ver precios y enlaces
+                <RiExternalLinkLine aria-hidden />
+                <span className="sr-only">(se abre en TMDB, en otra pestaña)</span>
+              </a>
+            )}
+            <button
+              type="button"
+              onClick={() => setPicking(true)}
               className="inline-flex min-h-11 items-center gap-1.5 justify-self-start rounded-perf text-small font-semibold text-emulsion underline decoration-frameline underline-offset-4 hover:decoration-edge focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-edge [&_svg]:size-4"
             >
-              Ver precios y enlaces
-              <RiExternalLinkLine aria-hidden />
-              <span className="sr-only">(se abre en TMDB, en otra pestaña)</span>
-            </a>
-          )}
+              {mine.length ? "Cambiar mis plataformas" : "Marcar las plataformas que tengo"}
+            </button>
+          </div>
         </>
       )}
+      <ServicesDialog open={picking} onClose={() => setPicking(false)} />
     </section>
   );
 };

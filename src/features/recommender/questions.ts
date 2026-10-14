@@ -1,6 +1,8 @@
 // "¿Qué vemos?": the questions, their answers, and how they live in the URL
 // (/que-vemos?con=pareja&tipo=pelicula&tiempo=normal&animo=reir,tension&epoca=igual&donde=8,1899).
 
+import { SERVICES } from "@/features/services/myServices";
+
 export type Company = "solo" | "pareja" | "amigos" | "familia";
 export type Kind = "pelicula" | "serie" | "igual";
 export type Time = "corto" | "normal" | "largo";
@@ -64,9 +66,6 @@ export const ERA: Option<Era>[] = [
 ];
 
 export const MAX_MOODS = 2;
-
-/** Subscription and free services that matter in Argentina, in TMDB's AR order. */
-export const SERVICES = [8, 119, 337, 1899, 350, 531, 2302, 11] as const;
 
 export type QuestionKey = keyof Answers;
 

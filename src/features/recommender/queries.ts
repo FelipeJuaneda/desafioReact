@@ -1,7 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
 import { todayIso } from "@/lib/dates";
 import { tmdbFetch } from "@/services/tmdb/client";
-import { REGION, tmdbKeys } from "@/services/tmdb/queries";
+import { tmdbKeys } from "@/services/tmdb/queries";
 import type { MovieSummary, TmdbPage, TvSummary } from "@/types/tmdb";
 import {
   cleanCandidates,
@@ -10,7 +10,7 @@ import {
   type Candidate,
   type DiscoverRequest,
 } from "./engine";
-import { SERVICES, writeAnswers, type Complete } from "./questions";
+import { writeAnswers, type Complete } from "./questions";
 
 type Result = (MovieSummary | TvSummary) & { genre_ids?: number[]; popularity?: number };
 
@@ -64,27 +64,4 @@ export const candidatesQuery = (answers: Complete) =>
       return [...strict, ...relaxed];
     },
     staleTime: 10 * 60 * 1000,
-  });
-
-export interface Service {
-  id: number;
-  name: string;
-  logoPath: string | null;
-}
-
-/** The services the questionnaire offers, with TMDB's current names and logos. */
-export const servicesQuery = () =>
-  queryOptions({
-    queryKey: [...tmdbKeys.all, "services", REGION],
-    queryFn: async ({ signal }) => {
-      const data = await tmdbFetch<{
-        results: Array<{ provider_id: number; provider_name: string; logo_path: string | null }>;
-      }>("watch/providers/movie", { watch_region: REGION }, signal);
-      const byId = new Map(data.results.map((p) => [p.provider_id, p]));
-      return SERVICES.flatMap((id): Service[] => {
-        const provider = byId.get(id);
-        return provider ? [{ id, name: provider.provider_name, logoPath: provider.logo_path }] : [];
-      });
-    },
-    staleTime: Infinity,
   });

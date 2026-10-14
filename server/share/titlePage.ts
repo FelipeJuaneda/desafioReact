@@ -1,7 +1,23 @@
 // Link previews for /pelicula/:slug and /serie/:slug. Chat apps and crawlers don't run
 // JavaScript, so vercel.json sends only them here (matched by user agent); people keep getting
 // the static app. The response is the app's own index.html with the title's <head> tags.
-import { fetchShareTitle, injectHead, parseId, parseKind, titleHead } from "./title.js";
+import { waitUntil } from "@vercel/functions";
+import { cardUrl, fetchShareTitle, injectHead, parseId, parseKind, titleHead } from "./title.js";
+
+/**
+ * The chat app asks for the image right after reading this page, and a card that is not cached
+ * yet takes a moment to draw. Starting it now, after the response is sent, means it is usually
+ * ready (or half done) by then. The user agent matches the firewall rule for link previews.
+ */
+const warmCard = (url: string) =>
+  waitUntil(
+    fetch(url, {
+      headers: { "user-agent": "facebookexternalhit/1.1 (PelicuLed card warm-up)" },
+      signal: AbortSignal.timeout(10_000),
+    })
+      .then((response) => response.arrayBuffer())
+      .catch(() => undefined),
+  );
 
 const siteOrigin = (request: Request) => {
   const host = request.headers.get("x-forwarded-host");
@@ -48,6 +64,7 @@ export async function GET(request: Request): Promise<Response> {
   // Unknown title: the site-wide preview, briefly cached in case TMDB was only down.
   if (!title) return html(shell ?? minimalShell, "public, s-maxage=300");
 
+  warmCard(cardUrl(origin, title));
   return html(
     injectHead(shell ?? minimalShell, titleHead(title, origin)),
     "public, s-maxage=86400, stale-while-revalidate=604800",

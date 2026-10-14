@@ -30,7 +30,8 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 import { tmdbImage } from "@/services/tmdb/images";
-import { servicesQuery } from "./queries";
+import { servicesQuery } from "@/features/services/catalog";
+import { setMyServices, useMyServices } from "@/features/services/myServices";
 import {
   COMPANY,
   ERA,
@@ -197,7 +198,9 @@ const ServiceChoice = ({
   onDone: (services: number[]) => void;
 }) => {
   const { data: services = [], isPending } = useQuery(servicesQuery());
-  const [chosen, setChosen] = useState<number[]>(answers.donde ?? []);
+  // Starts from "Mis plataformas" when this is the first time through.
+  const mine = useMyServices();
+  const [chosen, setChosen] = useState<number[]>(answers.donde ?? mine);
   const toggle = (id: number) =>
     setChosen((current) =>
       current.includes(id) ? current.filter((c) => c !== id) : [...current, id],
@@ -232,7 +235,14 @@ const ServiceChoice = ({
             ))}
       </div>
       <div className={CONTINUE_BAR}>
-        <Button disabled={chosen.length === 0} onClick={() => onDone(chosen)}>
+        <Button
+          disabled={chosen.length === 0}
+          onClick={() => {
+            // What you pick here becomes "Mis plataformas" for the rest of the app.
+            setMyServices(chosen);
+            onDone(chosen);
+          }}
+        >
           {chosen.length === 0
             ? "Elegí tus plataformas"
             : `Buscar en ${chosen.length === 1 ? "esa plataforma" : `esas ${chosen.length}`}`}

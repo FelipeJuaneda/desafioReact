@@ -1,11 +1,9 @@
 // GET /api/og?type=movie&id=550 -> the 1200×630 JPEG chat apps show for a shared title.
 // Served by api/og.ts. Any failure falls back to the site-wide card so a preview never breaks.
-// Pipeline: satori lays the card out as SVG, resvg (WebAssembly) rasterizes it and jpeg-js
-// encodes it. As PNG a photo backdrop weighs 0.7–1.1 MB and WhatsApp drops previews that
+// Pipeline: satori lays the card out as SVG, resvg rasterizes it and jpeg-js encodes it. As PNG a photo backdrop weighs 0.7–1.1 MB and WhatsApp drops previews that
 // heavy; as JPEG it is ~130 kB.
 import { readFile } from "node:fs/promises";
 import { createRequire } from "node:module";
-import { initWasm, Resvg } from "@resvg/resvg-wasm";
 import jpeg from "jpeg-js";
 import type { ReactNode } from "react";
 import satori from "satori";
@@ -23,12 +21,30 @@ const fonts = Promise.all([
   readFile(new URL("./fonts/martian-mono-latin-500-normal.woff", import.meta.url)),
 ]);
 
-// Once per instance: warm invocations reuse the compiled module.
-let resvgReady: Promise<void> | undefined;
-const loadResvg = () =>
-  (resvgReady ??= readFile(
-    createRequire(import.meta.url).resolve("@resvg/resvg-wasm/index_bg.wasm"),
-  ).then((wasm) => initWasm(wasm)));
+type Rasterize = (svg: string) => { pixels: Uint8Array; width: number; height: number };
+
+/**
+ * resvg's native build (Rust, multi-threaded) renders the card in ~0.3 s; its WebAssembly
+ * build took 2–3 s on Vercel, long enough for WhatsApp to give up on the image. The WebAssembly
+ * build stays as a fallback in case the native binary can't load. Once per instance.
+ */
+let rasterizer: Promise<Rasterize> | undefined;
+const loadRasterizer = () =>
+  (rasterizer ??= import("@resvg/resvg-js")
+    .then(({ Resvg }): Rasterize => (svg) => {
+      const image = new Resvg(svg, { fitTo: { mode: "width", value: CARD.width } }).render();
+      return { pixels: image.pixels, width: image.width, height: image.height };
+    })
+    .catch(async (error) => {
+      console.warn("Native resvg unavailable, using WebAssembly", error);
+      const { initWasm, Resvg } = await import("@resvg/resvg-wasm");
+      const require = createRequire(import.meta.url);
+      await initWasm(await readFile(require.resolve("@resvg/resvg-wasm/index_bg.wasm")));
+      return (svg) => {
+        const image = new Resvg(svg, { fitTo: { mode: "width", value: CARD.width } }).render();
+        return { pixels: image.pixels, width: image.width, height: image.height };
+      };
+    }));
 
 const TMDB_IMAGES = "https://image.tmdb.org/t/p/";
 
@@ -70,11 +86,11 @@ export async function GET(request: Request): Promise<Response> {
   if (!title) return fallback(request);
 
   try {
-    const [poster, backdrop, [display, displayExt, body, code]] = await Promise.all([
+    const [poster, backdrop, [display, displayExt, body, code], rasterize] = await Promise.all([
       image(title.posterPath, "w342") /* drawn 292 px wide */,
       image(title.backdropPath, "w1280"),
       fonts,
-      loadResvg(),
+      loadRasterizer(),
     ]);
     lap("assets");
 
@@ -88,7 +104,7 @@ export async function GET(request: Request): Promise<Response> {
       ],
     });
     lap("layout");
-    const raster = new Resvg(svg, { fitTo: { mode: "width", value: CARD.width } }).render();
+    const raster = rasterize(svg);
     lap("raster");
     const card = jpeg.encode(
       { data: raster.pixels, width: raster.width, height: raster.height },

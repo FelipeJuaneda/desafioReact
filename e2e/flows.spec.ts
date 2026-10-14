@@ -210,6 +210,27 @@ test("¿Qué vemos?: six questions, then a ranked and explained list", async ({ 
   );
 });
 
+test("Mis plataformas: chosen once, filters the catalog and marks title pages", async ({
+  page,
+}) => {
+  await page.goto("/peliculas");
+  await page.getByRole("button", { name: "Ver solo lo de mis plataformas" }).click();
+  const dialog = page.getByRole("dialog", { name: "Mis plataformas" });
+  await dialog.getByRole("button", { name: "Netflix" }).click();
+  await expectNoA11yViolations(page);
+  await dialog.getByRole("button", { name: "Guardar mis plataformas" }).click();
+
+  await expect(page).toHaveURL(/\/peliculas\?plataformas=mias$/);
+  await expect(page.getByRole("button", { name: "Solo en mis plataformas" })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+
+  await page.goto("/pelicula/550");
+  const where = page.getByRole("region", { name: "Dónde verla" });
+  await expect(where.getByText("Lo tenés")).toBeVisible();
+});
+
 test("unknown URLs end the reel with a way back", async ({ page }) => {
   await page.goto("/esto-no-existe");
   await expect(

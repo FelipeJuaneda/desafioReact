@@ -6,7 +6,7 @@ import { StatePanel } from "@/components/ui/StatePanel";
 import { useFavoriteContext } from "@/features/favorites/useFavoriteContext";
 import { recommend } from "@/features/recommender/engine";
 import { LeaderCountdown } from "@/features/recommender/LeaderCountdown";
-import { candidatesQuery, servicesQuery } from "@/features/recommender/queries";
+import { candidatesQuery } from "@/features/recommender/queries";
 import { QuestionStep } from "@/features/recommender/QuestionStep";
 import {
   currentStep,
@@ -22,6 +22,7 @@ import {
 import { Results } from "@/features/recommender/Results";
 import { todayIso } from "@/lib/dates";
 import { DURATION, EASE_OUT } from "@/lib/motion";
+import { servicesQuery } from "@/features/services/catalog";
 import { genresQuery } from "@/services/tmdb/queries";
 
 const ResultsView = ({

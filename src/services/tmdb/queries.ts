@@ -200,14 +200,24 @@ const TMDB_MAX_PAGE = 500;
 /** Browsable catalog with "load more": pages accumulate in one cache entry. */
 export const catalogQuery = <T extends MovieSummary | TvSummary>(
   type: MediaType,
-  { genre, sort }: { genre?: string; sort: CatalogSort },
+  { genre, sort, providers = [] }: { genre?: string; sort: CatalogSort; providers?: number[] },
 ) =>
   infiniteQueryOptions({
-    queryKey: [...tmdbKeys.all, "catalog", type, { genre, sort }],
+    queryKey: [...tmdbKeys.all, "catalog", type, { genre, sort, providers }],
     queryFn: ({ pageParam, signal }) =>
       tmdbFetch<TmdbPage<T>>(
         `discover/${type}`,
-        { ...sortParams(type, sort), with_genres: genre, page: pageParam },
+        {
+          ...sortParams(type, sort),
+          with_genres: genre,
+          // Only what streams (or plays free) on the viewer's services in Argentina.
+          ...(providers.length > 0 && {
+            watch_region: REGION,
+            with_watch_providers: providers.join("|"),
+            with_watch_monetization_types: "flatrate|free|ads",
+          }),
+          page: pageParam,
+        },
         signal,
       ),
     initialPageParam: 1,

@@ -7,6 +7,8 @@ import { EdgeCode } from "@/components/ui/EdgeCode";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { StatePanel } from "@/components/ui/StatePanel";
 import { TitleGrid, TitleGridSkeleton } from "@/features/catalog/TitleGrid";
+import { useMyServices } from "@/features/services/myServices";
+import { MyServicesFilter } from "@/features/services/MyServicesFilter";
 import { cn } from "@/lib/cn";
 import { formatCount } from "@/lib/format";
 import { DURATION } from "@/lib/motion";
@@ -51,10 +53,17 @@ export const CatalogPage = ({ mediaType }: { mediaType: MediaType }) => {
     ? (sortParam as CatalogSort)
     : "populares";
   const copy = COPY[mediaType];
+  const mine = useMyServices();
+  // ?plataformas=mias: only what streams on "Mis plataformas" (ignored until there are some).
+  const onMine = params.get("plataformas") === "mias" && mine.length > 0;
 
   const { data: genres = [] } = useQuery(genresQuery(mediaType));
   const catalog = useInfiniteQuery(
-    catalogQuery<MovieSummary | TvSummary>(mediaType, { genre, sort }),
+    catalogQuery<MovieSummary | TvSummary>(mediaType, {
+      genre,
+      sort,
+      providers: onMine ? mine : [],
+    }),
   );
 
   const items = catalog.data?.pages.flatMap((page) => page.results) ?? [];
@@ -89,7 +98,7 @@ export const CatalogPage = ({ mediaType }: { mediaType: MediaType }) => {
             ) : (
               total > 0 && (
                 <m.div
-                  key={`${genre}-${sort}`}
+                  key={`${genre}-${sort}-${onMine}`}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: DURATION.base }}
@@ -141,6 +150,23 @@ export const CatalogPage = ({ mediaType }: { mediaType: MediaType }) => {
             />
           </span>
         </label>
+      </div>
+
+      <div className="mt-5">
+        <MyServicesFilter
+          active={onMine}
+          onChange={(active) =>
+            setParams(
+              (current) => {
+                const next = new URLSearchParams(current);
+                if (active) next.set("plataformas", "mias");
+                else next.delete("plataformas");
+                return next;
+              },
+              { preventScrollReset: true },
+            )
+          }
+        />
       </div>
 
       {genres.length > 0 && (
@@ -197,7 +223,9 @@ export const CatalogPage = ({ mediaType }: { mediaType: MediaType }) => {
               </ButtonLink>
             }
           >
-            No hay {copy.noun} para este filtro todavía.
+            {onMine
+              ? `No hay ${copy.noun} de este género en tus plataformas.`
+              : `No hay ${copy.noun} para este filtro todavía.`}
           </StatePanel>
         ) : (
           <>

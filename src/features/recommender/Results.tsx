@@ -16,7 +16,7 @@ import { BACKDROP_WIDTHS, tmdbImage, tmdbSrcSet } from "@/services/tmdb/images";
 import { titleDetailQuery, watchProvidersQuery } from "@/services/tmdb/queries";
 import type { MovieSummary, TvSummary } from "@/types/tmdb";
 import type { Recommendation } from "./engine";
-import type { Service } from "./queries";
+import type { Service } from "@/features/services/catalog";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
