@@ -148,13 +148,19 @@ export default defineConfig(({ mode }) => {
       // Installable app with an offline shell. public/manifest.json is the manifest; the service
       // worker is registered from src/app/pwa.ts once the page is idle.
       VitePWA({
-        registerType: "prompt",
+        // A new deploy takes over on its own (no "Actualizar" button to miss): the new worker
+        // activates right away and the page reloads into it.
+        registerType: "autoUpdate",
         injectRegister: false,
         manifest: false,
         workbox: {
           // The whole app (every screen's chunk, CSS, fonts, icons): it opens offline.
           globPatterns: ["**/*.{js,css,html,woff2,svg,png}"],
           globIgnores: ["og.png"],
+          skipWaiting: true,
+          clientsClaim: true,
+          // Drop caches left by older versions of the worker.
+          cleanupOutdatedCaches: true,
           navigateFallback: "/index.html",
           // Server routes are never the app shell.
           navigateFallbackDenylist: [/^\/api\//, /^\/__\//, /^\/sitemap\.xml$/, /^\/robots\.txt$/],
