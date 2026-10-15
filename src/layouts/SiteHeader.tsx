@@ -1,7 +1,8 @@
 import { RiSearchLine } from "@remixicon/react";
-import { lazy, Suspense, useEffect, useRef } from "react";
+import { lazy, Suspense, useEffect, useRef, type CSSProperties } from "react";
 import { Link, NavLink, useLocation, useNavigate, useSearchParams } from "react-router";
 import { paths } from "@/app/paths";
+import logoUrl from "@/assets/brand/peliculed-logo-color-fondo-oscuro.svg";
 import { buttonClasses } from "@/components/ui/buttonClasses";
 import { useAuthContext } from "@/features/auth/useAuthContext";
 import { cn } from "@/lib/cn";
@@ -31,12 +32,24 @@ const WhatToWatch = () => (
   </NavLink>
 );
 
-export const Wordmark = () => (
+/** The "Línea de cuadro" wordmark is 523 × 100 (docs/brand/linea-de-cuadro). */
+const LOGO_RATIO = 523 / 100;
+
+/** The PelicuLed logo, linking home. `height` in px; the width follows the drawing. */
+export const Wordmark = ({ height = 28 }: { height?: number }) => (
   <Link
     to={paths.home}
-    className="rounded-perf font-display text-[1.75rem] leading-none font-extrabold tracking-[0.01em] whitespace-nowrap text-emulsion focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-edge"
+    className="shrink-0 rounded-perf focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-edge"
   >
-    Pelicu<span className="text-edge">Led</span>
+    <img
+      src={logoUrl}
+      alt="PelicuLed"
+      width={Math.round(height * LOGO_RATIO)}
+      height={height}
+      style={{ "--logo-h": `${height}px` } as CSSProperties}
+      // Phones under 390 px get 6/7 of the size (28 -> 24 px) so the header never overflows.
+      className="block h-(--logo-h) w-auto max-[389px]:h-[calc(var(--logo-h)*6/7)]"
+    />
     <span className="sr-only">, inicio</span>
   </Link>
 );

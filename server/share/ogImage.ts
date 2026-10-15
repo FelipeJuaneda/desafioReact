@@ -21,6 +21,11 @@ const fonts = Promise.all([
   readFile(new URL("./fonts/martian-mono-latin-500-normal.woff", import.meta.url)),
 ]);
 
+// The brand on every card: same file as the site header (one source for the logo).
+const logo = readFile(
+  new URL("../../src/assets/brand/peliculed-logo-color-fondo-oscuro.svg", import.meta.url),
+).then((svg) => `data:image/svg+xml;base64,${svg.toString("base64")}`);
+
 type Rasterize = (svg: string) => { pixels: Uint8Array; width: number; height: number };
 
 /**
@@ -86,23 +91,28 @@ export async function GET(request: Request): Promise<Response> {
   if (!title) return fallback(request);
 
   try {
-    const [poster, backdrop, [display, displayExt, body, code], rasterize] = await Promise.all([
-      image(title.posterPath, "w342") /* drawn 292 px wide */,
-      image(title.backdropPath, "w1280"),
-      fonts,
-      loadRasterizer(),
-    ]);
+    const [poster, backdrop, [display, displayExt, body, code], rasterize, logoUri] =
+      await Promise.all([
+        image(title.posterPath, "w342") /* drawn 292 px wide */,
+        image(title.backdropPath, "w1280"),
+        fonts,
+        loadRasterizer(),
+        logo.catch(() => null),
+      ]);
     lap("assets");
 
-    const svg = await satori(titleCard(title, { poster, backdrop }) as unknown as ReactNode, {
-      ...CARD,
-      fonts: [
-        { name: "Sofia Sans Extra Condensed", data: display, weight: 800, style: "normal" },
-        { name: "Sofia Sans Extra Condensed", data: displayExt, weight: 800, style: "normal" },
-        { name: "Sofia Sans", data: body, weight: 600, style: "normal" },
-        { name: "Martian Mono", data: code, weight: 500, style: "normal" },
-      ],
-    });
+    const svg = await satori(
+      titleCard(title, { poster, backdrop, logo: logoUri }) as unknown as ReactNode,
+      {
+        ...CARD,
+        fonts: [
+          { name: "Sofia Sans Extra Condensed", data: display, weight: 800, style: "normal" },
+          { name: "Sofia Sans Extra Condensed", data: displayExt, weight: 800, style: "normal" },
+          { name: "Sofia Sans", data: body, weight: 600, style: "normal" },
+          { name: "Martian Mono", data: code, weight: 500, style: "normal" },
+        ],
+      },
+    );
     lap("layout");
     const raster = rasterize(svg);
     lap("raster");

@@ -208,6 +208,15 @@ Las tres son variables y self-hosted con Fontsource. Las dos Sofia Sans se preca
 - Bordes de 1 px. Los marcos de imagen usan `outline` interno de 1 px (`-outline-offset-1`) para no sumar tamaño.
 - Nada de pills ni círculos, salvo el avatar de cuenta.
 
+## Logo: "Línea de cuadro"
+
+Wordmark dibujado a medida (no es una tipografía): letras cuadradas cortadas por la línea de cuadro, crema arriba y ámbar abajo. El ícono es la P sola. El kit completo (logo e ícono en color para fondo oscuro y claro, y en un solo color crema o negro) está en [`docs/brand/linea-de-cuadro/`](docs/brand/linea-de-cuadro/README.md).
+
+- **Header:** `src/assets/brand/peliculed-logo-color-fondo-oscuro.svg` a 28 px de alto (24 px en pantallas de menos de 390 px), dentro del componente `Wordmark` (`SiteHeader.tsx`).
+- **Tarjetas para compartir:** el mismo archivo arriba a la derecha de cada tarjeta por título (`server/share/card.ts`); `public/og.png` es la tarjeta del sitio.
+- **Favicon e íconos de app:** `public/favicon.svg`, `favicon-16/32/48.png`, `apple-touch-icon.png`, `icon-192.png`, `icon-512.png` e `icon-maskable-512.png` (lo importante en el 80 % central).
+- Sobre fondo claro, la versión `-fondo-claro` (ámbar profundo #9a5a0a); en un solo color, las `mono`.
+
 ## Components
 
 - **Button** (`src/components/ui/Button.tsx`, estilos en `buttonClasses.ts`): variantes `primary` (ámbar), `secondary` (borde `control-line`), `ghost`; tamaños `md` 48 px y `sm` 44 px; `iconOnly` exige `aria-label`. `ButtonLink` es un `<a>` real con el mismo aspecto. `aria-pressed` pinta el estado activo (filtros).

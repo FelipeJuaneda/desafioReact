@@ -155,7 +155,7 @@ const escape = (value: string) =>
     .replaceAll(">", "&gt;");
 
 /** Bump when the card design changes: chat apps cache previews by image URL. */
-export const CARD_VERSION = "1";
+export const CARD_VERSION = "2";
 
 export const cardUrl = (origin: string, title: Pick<ShareTitle, "kind" | "id">) =>
   `${origin}/api/og?type=${title.kind}&id=${title.id}&v=${CARD_VERSION}`;

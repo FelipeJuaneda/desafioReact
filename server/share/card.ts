@@ -67,14 +67,14 @@ const titleSize = (name: string) => {
   return 62;
 };
 
-const LOGO = `data:image/svg+xml;base64,${Buffer.from(
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect x="18" y="13" width="28" height="38" rx="3" fill="none" stroke="${COLOR.emulsion}" stroke-width="5"/><g fill="${COLOR.edge}"><rect x="6" y="13" width="6" height="8" rx="1.5"/><rect x="6" y="28" width="6" height="8" rx="1.5"/><rect x="6" y="43" width="6" height="8" rx="1.5"/><rect x="52" y="13" width="6" height="8" rx="1.5"/><rect x="52" y="28" width="6" height="8" rx="1.5"/><rect x="52" y="43" width="6" height="8" rx="1.5"/></g></svg>`,
-).toString("base64")}`;
-
 export interface CardImages {
   poster: string | null;
   backdrop: string | null;
+  /** The "Línea de cuadro" wordmark (SVG data URI), 523 × 100. */
+  logo: string | null;
 }
+
+const LOGO_HEIGHT = 34;
 
 export const titleCard = (title: ShareTitle, images: CardImages): CardNode => {
   const frameHeight = CARD.height - BAND * 2;
@@ -143,19 +143,23 @@ export const titleCard = (title: ShareTitle, images: CardImages): CardNode => {
             gap: 12,
           },
         },
-        el("img", { src: LOGO, width: 44, height: 44 }),
-        el(
-          "div",
-          {
-            style: {
-              fontFamily: "Sofia Sans Extra Condensed",
-              fontSize: 38,
-              color: COLOR.emulsion,
-              letterSpacing: 0.5,
-            },
-          },
-          "PelicuLed",
-        ),
+        images.logo
+          ? el("img", {
+              src: images.logo,
+              width: Math.round((LOGO_HEIGHT * 523) / 100),
+              height: LOGO_HEIGHT,
+            })
+          : el(
+              "div",
+              {
+                style: {
+                  fontFamily: "Sofia Sans Extra Condensed",
+                  fontSize: 38,
+                  color: COLOR.emulsion,
+                },
+              },
+              "PelicuLed",
+            ),
       ),
       el(
         "div",
